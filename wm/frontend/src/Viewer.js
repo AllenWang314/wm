@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+const API_LINK = "http://localhost:8000/api/"
+
 class Viewer extends Component {
 	constructor(props) {
 		super(props);
@@ -9,7 +11,7 @@ class Viewer extends Component {
 	async componentDidMount() {
 		try {
 			const slug = this.props.match.params.slug
-			const fetching = await fetch("http://localhost:8000/api/" + slug);
+			const fetching = await fetch(API_LINK + slug);
 			const fetched_json = await fetching.json();
 			this.setState({
 				data: fetched_json[0]

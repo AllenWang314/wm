@@ -1,14 +1,54 @@
 from django.shortcuts import render
 from .models import event
+from rest_framework import status
+from rest_framework.decorators import api_view, parser_classes
+from rest_framework.response import Response
 from .serializers import DatabaseSerializer
-from rest_framework import generics
+from rest_framework.parsers import JSONParser
+from django.utils.crypto import get_random_string
 
-class DatabaseListView(generics.ListAPIView):
-	serializer_class = DatabaseSerializer
-	def get_queryset(self):
-		page_slug = self.kwargs['slug']
-		return event.objects.filter(slug = page_slug)
+def unique_slug_gen():
+	found_unique = False
+	current_slugs = event.objects.values_list('slug', flat=True)
+	while found_unique == False:
+		slug_guess = get_random_string(8,'0123456789ABCDEFGHIJKLMNOPQRSTUVWSYZ')
+		if slug_guess not in current_slugs:	
+			return(slug_guess) 
+			
+@api_view(['GET', 'POST'])
+def all_events(request, format = None):
+	items = event.objects.all()
+	if request.method == "GET":
+		serializer = DatabaseSerializer(items, many=True)
+		return Response(serializer.data)
+	return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class DatabaseListViewAll(generics.ListCreateAPIView):
-    queryset = event.objects.all()
-    serializer_class = DatabaseSerializer
+@api_view(['GET', 'POST'])
+def event_info(request,page_slug, format = None):
+	try:
+		items = event.objects.filter(slug = page_slug)
+	except event.DoesNotExist:
+		return Response(status=status.HTTP_404_NOT_FOUND)
+	if request.method == "GET":
+		serializer = DatabaseSerializer(items, many=True)
+		return Response(serializer.data)
+
+	elif request.method == 'POST':
+		serializer = DatabaseSerializer(items, data=request.data)
+		if serializer.is_valid():
+			serializer.save()
+			return Response(serializer.data, status=status.HTTP_201_CREATED)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+	return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def post_event(request, format = None):
+	if request.method == 'POST':
+		request.data.update({"slug": unique_slug_gen()})
+		serializer = DatabaseSerializer(event(), data=request.data)
+		if serializer.is_valid():
+			serializer.save()
+			return Response(serializer.data, status=status.HTTP_201_CREATED)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
