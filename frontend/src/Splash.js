@@ -15,6 +15,7 @@ class Splash extends Component {
     console.log(API_LINK + "get_slug")
     Axios.get(API_LINK + "get_slug").then(response => {
       this.setState({future_slug: response.data[0].slug})
+      console.log(response.data[0])
     });
   }
 

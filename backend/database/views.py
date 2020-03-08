@@ -38,8 +38,6 @@ def event_info(request,page_slug, format = None):
 			serializer.save()
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
 	return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
@@ -58,3 +56,4 @@ def get_slug(request, format = None):
 		field = [{'slug': unique_slug_gen()}]
 		serializer = SlugSerializer(field)
 		return Response(field)
+	return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
