@@ -3,7 +3,7 @@ from .models import event
 from rest_framework import status
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.response import Response
-from .serializers import DatabaseSerializer
+from .serializers import DatabaseSerializer, SlugSerializer
 from rest_framework.parsers import JSONParser
 from django.utils.crypto import get_random_string
 
@@ -32,7 +32,6 @@ def event_info(request,page_slug, format = None):
 	if request.method == "GET":
 		serializer = DatabaseSerializer(items, many=True)
 		return Response(serializer.data)
-
 	elif request.method == 'POST':
 		serializer = DatabaseSerializer(items, data=request.data)
 		if serializer.is_valid():
@@ -46,9 +45,16 @@ def event_info(request,page_slug, format = None):
 @api_view(['POST'])
 def post_event(request, format = None):
 	if request.method == 'POST':
-		request.data.update({"slug": unique_slug_gen()})
 		serializer = DatabaseSerializer(event(), data=request.data)
 		if serializer.is_valid():
 			serializer.save()
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
+		print(serializer.errors)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def get_slug(request, format = None):
+	if request.method == 'GET':
+		field = [{'slug': unique_slug_gen()}]
+		serializer = SlugSerializer(field)
+		return Response(field)

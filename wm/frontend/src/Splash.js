@@ -2,37 +2,56 @@ import React, { Component } from "react";
 import { Checkbox} from "@material-ui/core";
 import { Field, Formik } from "formik";
 import Axios from "axios";
+import { withRouter } from 'react-router-dom'
 
 const API_LINK = "http://localhost:8000/api/"
 
 class Splash extends Component {
+  constructor(props) {
+      super(props);
+      this.state = { future_slug: ''};
+    }
+  async componentDidMount() {
+    console.log(API_LINK + "get_slug")
+    Axios.get(API_LINK + "get_slug").then(response => {
+      this.setState({future_slug: response.data[0].slug})
+    });
+  }
 
   render() {
     return (
       <Formik
+        enableReinitialize={true}
         initialValues={{
           event_name: "",
           timezone: "",
           earliest: "",
           latest: "",
           repeating: false,
+          slug: this.state.future_slug
         }}
         onSubmit={(values) => {
-          alert(JSON.stringify(values, null, 2));
-          Axios.post(API_LINK + "post", values, {
+          Axios.post(API_LINK + "post/", values, {
           headers: {
             'Content-Type': 'application/json'
           },
+          }) 
+          .then(response => {
+            alert(JSON.stringify(values, null, 2));
+            this.props.history.push(values.slug)
           })
+          .catch(error => {
+            alert('ERROR')
+          }) 
         }}>
         { (props) => (
           <div className="App">
             <div className="App-header">
               <form onSubmit = {props.handleSubmit}>
-                <label>Event Name</label>
                 <input
                   id="event_name"
                   name="event_name"
+                  placeholder="Event Name"
                   type="event_name"
                   className="form-control"
                   value={props.values.event_name}
@@ -95,4 +114,4 @@ class Splash extends Component {
   }
 }
 
-export default Splash;
+export default withRouter(Splash);
