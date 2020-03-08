@@ -11,7 +11,7 @@ def unique_slug_gen():
 	found_unique = False
 	current_slugs = event.objects.values_list('slug', flat=True)
 	while found_unique == False:
-		slug_guess = get_random_string(8,'0123456789ABCDEFGHIJKLMNOPQRSTUVWSYZ')
+		slug_guess = get_random_string(8,'0123456789ABCDEFGHIJKLMNOPQRSTUVWSYZabcdefghijklmnopqstuvwxyz')
 		if slug_guess not in current_slugs:	
 			return(slug_guess) 
 			
@@ -33,10 +33,11 @@ def event_info(request,page_slug, format = None):
 		serializer = DatabaseSerializer(items, many=True)
 		return Response(serializer.data)
 	elif request.method == 'POST':
-		serializer = DatabaseSerializer(items, data=request.data)
+		serializer = DatabaseSerializer(items.first(), data=request.data)
 		if serializer.is_valid():
 			serializer.save()
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
+		print(serializer.errors)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 	return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

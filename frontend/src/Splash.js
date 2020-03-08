@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Checkbox} from "@material-ui/core";
+import { Checkbox } from "@material-ui/core";
 import { Field, Formik } from "formik";
 import Axios from "axios";
 import { withRouter } from 'react-router-dom'
@@ -55,6 +55,7 @@ class Splash extends Component {
                   placeholder="Event Name"
                   type="event_name"
                   className="form-control"
+                  required="true"
                   value={props.values.event_name}
                   onChange={props.handleChange}
                 />
