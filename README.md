@@ -19,7 +19,7 @@ The `corsheaders` were very important to add to the settings files, as well as m
 # Frontend
 To get the dependencies, run `npm install package.json`. Odds are you'll still get errors when you first start things, so you'll have to play around with things a bit to make sure you have all the proper packages. 
 
-##### `src/App.js`
+##### App.js
 Contains the main app. Note the use of Router with Switch to deal with the routing.
 
 ##### Splash.js
