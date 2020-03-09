@@ -3,6 +3,7 @@ import { Checkbox } from "@material-ui/core";
 import { Field, Formik } from "formik";
 import Axios from "axios";
 import { withRouter } from 'react-router-dom'
+import Calendar from './DatePicker.js'
 
 const API_LINK = "http://localhost:8000/api/"
 
@@ -59,6 +60,7 @@ class Splash extends Component {
                   value={props.values.event_name}
                   onChange={props.handleChange}
                 />
+                <Calendar/>
                 <Field
                   name="earliest"
                   as="select"

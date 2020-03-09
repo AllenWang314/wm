@@ -17,7 +17,9 @@
     "package.json": "^2.0.1",
     "prettier": "^1.19.1",
     "react": "^16.13.0",
+    "react-day-picker": "^7.4.0",
     "react-dom": "^16.13.0",
+    "react-helmet": "^5.2.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
     "reactstrap": "^6.5.0"

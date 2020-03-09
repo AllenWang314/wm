@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { Checkbox} from "@material-ui/core";
+import { Checkbox } from "@material-ui/core";
 import { Field, Formik } from "formik";
 import Axios from "axios";
-
 
 const API_LINK = "http://localhost:8000/api/";
 
@@ -19,7 +18,7 @@ class Viewer extends Component {
     });
   }
 
-render() {
+  render() {
     return (
       <Formik
         enableReinitialize={true}
@@ -33,24 +32,25 @@ render() {
           creator: this.state.data.creator,
           location: this.state.data.location
         }}
-        onSubmit={(values) => {
+        onSubmit={values => {
           Axios.post(API_LINK + this.state.data.slug, values, {
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          }) 
-          .then(response => {
-            alert(JSON.stringify(values, null, 2));
+            headers: {
+              "Content-Type": "application/json"
+            }
           })
-          .catch(error => {
-            console.log(error)
-            alert('ERROR')
-          }) 
-        }}>
-        { (props) => (
+            .then(response => {
+              alert(JSON.stringify(values, null, 2));
+            })
+            .catch(error => {
+              console.log(error);
+              alert("ERROR");
+            });
+        }}
+      >
+        {props => (
           <div className="App">
             <div className="App-header">
-              <form onSubmit = {props.handleSubmit}>
+              <form onSubmit={props.handleSubmit}>
                 <label>Stuff you've submitted</label>
                 <input
                   id="event_name"
@@ -65,7 +65,7 @@ render() {
                   name="creator"
                   type="creator"
                   className="form-control"
-                  placeholder='Name (Optional)'
+                  placeholder="Name (Optional)"
                   value={props.values.creator || ""}
                   onChange={props.handleChange}
                 />
@@ -74,7 +74,7 @@ render() {
                   name="location"
                   type="location"
                   className="form-control"
-                  placeholder='Location (Optional)'
+                  placeholder="Location (Optional)"
                   value={props.values.location || ""}
                   onChange={props.handleChange}
                 />
@@ -114,7 +114,9 @@ render() {
                   <option value="EST">EST</option>
                   <option value="PST">PST</option>
                 </Field>
-                <label><small>Repeating</small></label>
+                <label>
+                  <small>Repeating</small>
+                </label>
                 <Checkbox
                   name="repeating"
                   type="checkbox"
@@ -132,7 +134,7 @@ render() {
         )}
       </Formik>
     );
-  }   
+  }
 }
 
 export default Viewer;
