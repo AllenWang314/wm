@@ -4,8 +4,11 @@ import { Field, Formik } from "formik";
 import Axios from "axios";
 import { withRouter } from 'react-router-dom'
 import Calendar from './DatePicker.js'
+import Timezone from './Timezone.js'
+
 
 const API_LINK = "http://localhost:8000/api/"
+const current_timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
 class Splash extends Component {
   constructor(props) {
@@ -13,10 +16,8 @@ class Splash extends Component {
       this.state = { future_slug: ''};
     }
   async componentDidMount() {
-    console.log(API_LINK + "get_slug")
     Axios.get(API_LINK + "get_slug").then(response => {
       this.setState({future_slug: response.data[0].slug})
-      console.log(response.data[0])
     });
   }
 
@@ -26,7 +27,7 @@ class Splash extends Component {
         enableReinitialize={true}
         initialValues={{
           event_name: "",
-          timezone: "",
+          timezone: current_timezone,
           earliest: "",
           latest: "",
           repeating: false,
@@ -56,7 +57,6 @@ class Splash extends Component {
                   placeholder="Event Name"
                   type="event_name"
                   className="form-control"
-                  required="true"
                   value={props.values.event_name}
                   onChange={props.handleChange}
                 />
@@ -85,18 +85,9 @@ class Splash extends Component {
                   <option value="12">12</option>
                   <option value="2">2</option>
                 </Field>
-                <Field
-                  name="timezone"
-                  as="select"
-                  placeholder="Timezone"
-                  className="form-control"
-                  value={props.values.timezone}
-                  onChange={props.handleChange}
-                >
-                  <option defaultValue>Timezone</option>
-                  <option value="EST">EST</option>
-                  <option value="PST">PST</option>
-                </Field>
+                <Timezone 
+                  handleChange={props.handleChange} 
+                  curr_zone={props.values.timezone}/>
                 <label><small>Repeating</small></label>
                 <Checkbox
                   name="repeating"

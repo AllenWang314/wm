@@ -1,11 +1,8 @@
-import React from 'react';
-
-import Helmet from 'react-helmet';
-
+import React, { Component }from 'react';
 import DayPicker, { DateUtils } from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 
-export default class Calendar extends React.Component {
+export default class Calendar extends Component {
   constructor(props) {
     super(props);
     this.handleDayClick = this.handleDayClick.bind(this);
@@ -19,6 +16,7 @@ export default class Calendar extends React.Component {
       from: null,
       to: null,
       enteredTo: null, // Keep track of the last day for mouseEnter.
+      selected: [],
     };
   }
 
@@ -65,7 +63,8 @@ export default class Calendar extends React.Component {
     const { from, to, enteredTo } = this.state;
     const modifiers = { start: from, end: enteredTo };
     const disabledDays = { before: this.state.from };
-    const selectedDays = [from, { from, to: enteredTo }];
+    const selectedDays = [{ from, to: enteredTo }];
+
     return (
       <div>
         <DayPicker
@@ -91,18 +90,8 @@ export default class Calendar extends React.Component {
             </button>
           )}
         </div>
-        <Helmet>
-          <style>{`
-  .Range .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
-    background-color: #f0f8ff !important;
-    color: #4a90e2;
-  }
-  .Range .DayPicker-Day {
-    border-radius: 0 !important;
-  }
-`}</style>
-        </Helmet>
       </div>
     );
   }
 }
+
