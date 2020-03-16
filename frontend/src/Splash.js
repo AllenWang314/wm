@@ -3,7 +3,7 @@ import { Checkbox } from "@material-ui/core";
 import { Field, Formik } from "formik";
 import Axios from "axios";
 import { withRouter } from 'react-router-dom'
-import Calendar from './DatePicker.js'
+import Calendar from './ReactTableDrag.js'
 import Timezone from './Timezone.js'
 
 
@@ -50,6 +50,7 @@ class Splash extends Component {
         { (props) => (
           <div className="App">
             <div className="App-header">
+              <div className="Splash">
               <form onSubmit = {props.handleSubmit}>
                 <input
                   id="event_name"
@@ -102,6 +103,7 @@ class Splash extends Component {
                 </div>
               </form>
             </div>
+          </div>
           </div>
         )}
       </Formik>

@@ -2,7 +2,7 @@ import React from "react";
 import { Field } from "formik";
 
 const Timezone = ({curr_zone, handleChange}) => {
-	var currentTime = new Date();
+	// var currentTime = new Date();
 	var offset = Intl.DateTimeFormat().resolvedOptions().timeZone
 	var current_timezone = offset
 	return(

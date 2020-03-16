@@ -1,0 +1,93 @@
+/***************************/
+/*******Portrait Mode*******/
+/***************************/
+
+@media only screen and (max-aspect-ratio: 1/1){
+  .table-drag-select {
+    width: 100%;  
+    table-layout: fixed;
+    user-select: none;
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;
+  }
+
+  .table-drag-select td {
+    text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    border: 0.1rem solid transparent;
+    border-radius: 10px;
+    background-clip: padding-box;
+    line-height: 2rem;
+    padding-left: 0rem;
+    padding-right: 0rem;
+    font-size: 3.5vmin;
+  }
+
+  .table-drag-select td.cell-enabled {
+    background-color: #DDD;
+    color: black;
+    cursor: cell;
+  }
+
+  .table-drag-select td.cell-disabled {
+  }
+
+  .table-drag-select td.cell-selected {
+    background-color: #00796b;
+  }
+
+  .table-drag-select td.cell-being-selected {
+    background-color: #3F83D5;
+  }
+}
+
+/****************************/
+/*******Landscape Mode*******/
+/****************************/
+
+@media only screen and (min-aspect-ratio: 1/1){
+  .table-drag-select {
+    width: 80%;  
+    table-layout: fixed;
+    user-select: none;
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;
+  }
+  
+  .table-drag-select td {
+    text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    border: 0.1rem solid transparent;
+    border-radius: 10px;
+    background-clip: padding-box;
+
+    line-height: 2rem;
+    padding-left: 0rem;
+    padding-right: 0rem;
+    font-size: 1.5vmin;
+  }
+
+  .table-drag-select td.cell-enabled {
+    background-color: #DDD;
+    color: black;
+    cursor: cell;
+  }
+
+  .table-drag-select td.cell-disabled {
+  }
+
+  .table-drag-select td.cell-selected {
+    background-color: #00796b;
+  }
+
+  .table-drag-select td.cell-being-selected {
+    background-color: #3F83D5;
+  }
+}
+
+
+
