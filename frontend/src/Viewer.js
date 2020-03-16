@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import MasterSelector from "./MasterSelector.js";
+import { withRouter } from 'react-router-dom'
+import './index.css';
 
 const API_LINK = "http://localhost:8000/api/";
 
@@ -32,14 +34,15 @@ class Viewer extends Component {
   render() {
     const testDates = [0,1,2,3];
     return (
-    <div>
-      <h1>Testing ... event name is {this.state.data.event_name}</h1>
-      <MasterSelector 
-          // pass dates as an array
-         dates = {testDates} />
+    <div className = "App">
+      <div className = "App-header"> Event info, such as name: {this.state.data.event_name}
+        <div className = "Splash">
+          <MasterSelector dates = {testDates} />
+        </div>
+      </div>
     </div>
     );
   }
 }
 
-export default Viewer;
+export default withRouter(Viewer);

@@ -8,7 +8,7 @@ class TimeSelector extends Component {
     render() {
         return (
             <div>
-                <h1> Yet another test! {this.props.date}</h1>
+                <h2> TimeSelector for date {this.props.date}</h2>
             </div>
         );
     }
