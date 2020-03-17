@@ -11,3 +11,4 @@ class event(models.Model):
     location = models.CharField(max_length=300)
     created_at = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(max_length=15)
+    date_list = models.CharField(max_length=400)

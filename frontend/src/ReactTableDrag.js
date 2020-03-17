@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { Button } from "@material-ui/core";
 import TableDragSelect from "react-table-drag-select";
 import "./DragTable.css";
@@ -32,7 +32,7 @@ function initial_rows() {
   return rows;
 }
 
-class Calendar extends React.Component {
+class Calendar extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -74,14 +74,12 @@ class Calendar extends React.Component {
 
         if (selected.includes(date.getTime())) {
           current_month_cells[i+1][j] = true;
-          console.log(date)
         }
         column.push(<td key={year + month + day}>{day}</td>);
       }
       var row_key = this.state.current_month.getMonth()*100+7*(i+1) 
       rows.push(<tr key={row_key}>{column}</tr>);
     }
-    console.log(current_month_cells)
     this.setState({
       first_month_cells: current_month_cells,
       displayed_array: rows,
@@ -100,7 +98,7 @@ class Calendar extends React.Component {
           current_cell === true &&
           selected.includes(current_day.getTime()) === false
         ) {
-          selected.push(current_day);
+          selected.push(current_day.getTime());
         }
         else if (current_cell === false &&
            selected.includes(current_day.getTime()) === true
@@ -109,6 +107,7 @@ class Calendar extends React.Component {
         }
       }
     }
+    this.props.onDrag(selected)
     selected = selected.map(x => new Date(x))
     this.setState({ selected_cells: selected });
   };
@@ -167,7 +166,6 @@ class Calendar extends React.Component {
           ),
         },
         () => {
-          // console.log(false_array);
           this.generate_rows();
         }
       );

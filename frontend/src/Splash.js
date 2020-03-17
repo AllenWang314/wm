@@ -6,19 +6,25 @@ import { withRouter } from 'react-router-dom'
 import Calendar from './ReactTableDrag.js'
 import Timezone from './Timezone.js'
 
-
 const API_LINK = "http://localhost:8000/api/"
 const current_timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
 class Splash extends Component {
   constructor(props) {
       super(props);
-      this.state = { future_slug: ''};
+      this.state = { future_slug: '',
+      date_list: []
+      };
     }
   async componentDidMount() {
     Axios.get(API_LINK + "get_slug").then(response => {
       this.setState({future_slug: response.data[0].slug})
     });
+  }
+
+  handleDrag = (selected) => {
+    this.setState({date_list: JSON.stringify(selected)})
+    console.log(this.state)
   }
 
   render() {
@@ -31,7 +37,8 @@ class Splash extends Component {
           earliest: "",
           latest: "",
           repeating: false,
-          slug: this.state.future_slug
+          slug: this.state.future_slug,
+          date_list: this.state.date_list
         }}
         onSubmit={(values) => {
           Axios.post(API_LINK + "post/", values, {
@@ -61,7 +68,10 @@ class Splash extends Component {
                   value={props.values.event_name}
                   onChange={props.handleChange}
                 />
-                <Calendar/>
+                <Calendar 
+                  date_list={this.state.date_list}
+                  onDrag = {this.handleDrag}
+                />
                 <Field
                   name="earliest"
                   as="select"
