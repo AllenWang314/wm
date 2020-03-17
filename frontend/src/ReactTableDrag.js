@@ -64,7 +64,6 @@ class Calendar extends React.Component {
     var selected = Object.values(this.state.selected_cells).map(x =>
       x.getTime()
     );
-    console.log('here')
     for (var i = 0; i < 5; ++i) {
       var column = [];
       for (var j = 0; j < 7; ++j) {
@@ -108,11 +107,12 @@ class Calendar extends React.Component {
         else if (current_cell === false &&
            selected_times.includes(current_day.getTime()) === true
            ){
-          selected.splice(selected.indexOf(current_day),1)
+          console.log(current_day)
+          selected.splice(selected_times.indexOf(current_day.getTime()),1)
         }
       }
     }
-    console.log(selected)
+
     this.setState({ selected_cells: selected });
   };
 
