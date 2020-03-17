@@ -91,28 +91,25 @@ class Calendar extends React.Component {
 
   handleDrag = new_cells => {
     this.setState({ first_month_cells: new_cells });
-    var selected = this.state.selected_cells;
-    var selected_times = Object.values(selected).map(x => x.getTime()
-    );
+    var selected = Object.values(this.state.selected_cells).map(x => x.getTime());
     for (var i = 0; i < 5; ++i) {
       for (var j = 0; j < 7; ++j) {
         var current_day = this.state.current_array[i][j];
         var current_cell = new_cells[i+1][j]
         if (
           current_cell === true &&
-          selected_times.includes(current_day.getTime()) === false
+          selected.includes(current_day.getTime()) === false
         ) {
           selected.push(current_day);
         }
         else if (current_cell === false &&
-           selected_times.includes(current_day.getTime()) === true
+           selected.includes(current_day.getTime()) === true
            ){
-          console.log(current_day)
-          selected.splice(selected_times.indexOf(current_day.getTime()),1)
+          selected.splice(selected.indexOf(current_day.getTime()),1)
         }
       }
     }
-
+    selected = selected.map(x => new Date(x))
     this.setState({ selected_cells: selected });
   };
 
