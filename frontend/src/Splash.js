@@ -4,6 +4,7 @@ import { Formik } from "formik";
 import Axios from "axios";
 import { withRouter } from "react-router-dom";
 import Calendar from "./ReactTableDrag.js";
+import ByWeek from "./ByWeek.js";
 import Bounds from "./Bounds.js";
 import Timezone from "./Timezone.js";
 
@@ -14,7 +15,7 @@ const current_timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 class Splash extends Component {
     constructor(props) {
         super(props);
-        this.state = { future_slug: "", date_list: [] };
+        this.state = { future_slug: "", date_list: [], repeating: false, day_list: "" };
     }
     async componentDidMount() {
         Axios.get(API_LINK + "get_slug").then(response => {
@@ -31,9 +32,10 @@ class Splash extends Component {
                     timezone: current_timezone,
                     earliest: "",
                     latest: "",
-                    repeating: false,
+                    repeating: this.state.repeating,
                     slug: this.state.future_slug,
-                    date_list: this.state.date_list
+                    date_list: this.state.date_list,
+                    day_list: this.state.day_list,
                 }}
                 onSubmit={values => {
                     Axios.post(API_LINK + "post/", values, {
@@ -66,10 +68,13 @@ class Splash extends Component {
                                         required
                                     />
                                     </div>
-                                    <Calendar
+                                    {props.values.repeating === true ? <Calendar
                                         date_list={props.values.date_list}
                                         onDrag={props.handleChange}
-                                    />
+                                    /> : <ByWeek
+                                        day_list={props.values.day_list}
+                                        onDrag={props.handleChange}
+                                    />}
                                     <Bounds
                                         name="earliest"
                                         as="select"
@@ -77,7 +82,6 @@ class Splash extends Component {
                                         value={props.values.earliest}
                                         onChange={props.handleChange}
                                     />
-                                    <br/>
                                     <Bounds
                                         name="latest"
                                         as="select"
@@ -94,7 +98,7 @@ class Splash extends Component {
                                     />
                                     <br/>
                                     <label>
-                                        <small>Repeating</small>
+                                        <small>By Week</small>
                                     </label>
                                     <Checkbox
                                         name="repeating"

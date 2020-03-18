@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import TableDragSelect from "react-table-drag-select";
-import "./DragTable.css";
+// import "./DragTable.css";
 import calendar from "calendar-month-array";
 
 const monthNames = [
