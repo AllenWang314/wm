@@ -7,6 +7,7 @@ import Calendar from "./ReactTableDrag.js";
 import Bounds from "./Bounds.js";
 import Timezone from "./Timezone.js";
 
+
 const API_LINK = "http://localhost:8000/api/";
 const current_timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -86,8 +87,10 @@ class Splash extends Component {
                                     />
                                     <br/>
                                     <Timezone
-                                        handleChange={props.handleChange}
-                                        curr_zone={props.values.timezone}
+                                        name="timezone"
+                                        as="select"
+                                        value={props.values.timezone}
+                                        onChange={props.handleChange}
                                     />
                                     <br/>
                                     <label>

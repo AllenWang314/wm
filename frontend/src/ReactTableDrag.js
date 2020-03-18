@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Button } from "@material-ui/core";
 import TableDragSelect from "react-table-drag-select";
 import "./DragTable.css";
 import calendar from "calendar-month-array";
@@ -42,54 +41,29 @@ function initial_rows() {
     return rows;
 }
 
-function makeFalseArrayInit () {
-    var rows = []
-    var element = Array(7).fill(false)
-    for (var i = 0; i < calendar().length + 1; ++i){
-        rows.push(element)
+function genFalseArray (length) {
+    const rows = []
+    for (var i = 0; i < length; ++i){
+        rows.push([false,false,false,false,false,false,false])
     }
-    return(rows)
+    return (rows)
 }
 
 class Calendar extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            first_month_cells: [
-            [false, false, false, false, false, false, false],
-            [false, false, false, false, false, false, false],
-            [false, false, false, false, false, false, false],
-            [false, false, false, false, false, false, false],
-            [false, false, false, false, false, false, false],
-            [false, false, false, false, false, false, false],
-            [false, false, false, false, false, false, false]
-        ],
+            first_month_cells: genFalseArray(calendar().length + 1),
             selected_cells: [],
             displayed_array: initial_rows(),
             current_month: new Date(now.getFullYear(), now.getMonth(), 1),
             current_array: calendar()
         };
     }
-    makeFalseArray =  (length) => {
-        var rows = []
-        var element = Array(7).fill(false)
-        for (var i = 0; i < length; ++i){
-            rows.push(element)
-        }
-        return(rows)
-    }
 
     generate_rows = () => {
         var rows = [];
-        var current_month_cells = [
-            [false, false, false, false, false, false, false],
-            [false, false, false, false, false, false, false],
-            [false, false, false, false, false, false, false],
-            [false, false, false, false, false, false, false],
-            [false, false, false, false, false, false, false],
-            [false, false, false, false, false, false, false],
-            [false, false, false, false, false, false, false]
-        ];
+        var current_month_cells = genFalseArray(calendar(this.state.current_month).length + 1);
         var selected = Object.values(this.state.selected_cells).map(x =>
             x.getTime()
         );
@@ -105,7 +79,7 @@ class Calendar extends Component {
                     current_month_cells[i + 1][j] = true;
                 }
                 if (date.getMonth() !== this.state.current_month.getMonth()){
-                    column.push(<td disabled key={year + month + day}/>);
+                    column.push(<td disabled key={year + month + day}></td>);
                 }
                 else {
                     column.push(<td key={year + month + day}>{day}</td>);    
@@ -261,4 +235,5 @@ class Calendar extends Component {
         );
     }
 }
+
 export default Calendar;

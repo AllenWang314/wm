@@ -1,33 +1,34 @@
-import React from "react";
+import React, { Component } from "react";
 import { Field } from "formik";
-const zoneList = {}
 
-class Timezone extends React.Component {
-    get_current_zone() {
-        var offset = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        var current_timezone = offset;
-        return current_timezone;
-    }
-
-    generateZones(current_zone){
-
+var moment = require('moment-timezone');
+class Timezone extends Component {
+    
+    generateZones (){
+        var rows = []
+        for (var zone of moment.tz.names()){
+            if (zone === moment.tz.guess()){
+                rows.push(<option defaultValue key={zone}> {zone} </option>)
+            }
+            else {
+                rows.push(<option value={zone} key={zone}> {zone} </option>)
+            }
+        }
+        return(rows)
     }
 
     render() {
         return (
             <Field
-                name="timezone"
-                as="select"
-                placeholder="At the latest"
-                className="selector"
-                value={this.props.curr_zone}
-                onChange={this.props.handleChange}
+            name={this.props.name}
+            as={this.props.as}
+            className="selector"
+            value={this.props.value}
+            onChange={this.props.onChange}
             >
-                <option defaultValue>{this.get_current_zone()}</option>
-                <option value="12">PST</option>
-                <option value="2">EST</option>
+                {this.generateZones()}
             </Field>
-        );
+            )
     }
 }
 
