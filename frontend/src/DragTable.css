@@ -22,7 +22,7 @@
     line-height: 2rem;
     padding-left: 0rem;
     padding-right: 0rem;
-    font-size: 3.5vmin;
+    font-size: 1rem;
   }
 
   .table-drag-select td.cell-enabled {
@@ -56,7 +56,7 @@
     margin-right: auto;
     border-collapse: collapse;
   }
-  
+
   .table-drag-select td {
     text-align: center;
     text-overflow: ellipsis;
@@ -64,11 +64,11 @@
     border: 0.1rem solid transparent;
     border-radius: 10px;
     background-clip: padding-box;
-
-    line-height: 2rem;
+    width: 2rem;
+    line-height: 3rem;
     padding-left: 0rem;
     padding-right: 0rem;
-    font-size: 1.5vmin;
+    font-size: 1rem;
   }
 
   .table-drag-select td.cell-enabled {
