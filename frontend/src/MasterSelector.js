@@ -33,7 +33,8 @@ class MasterSelector extends Component {
 
     generateContent() {
 
-        return <TimeSelector/>;
+        console.log(this.props.dates);
+        return <TimeSelector slug = {this.props.slug} date = {this.props.dates[this.state.index]} />;
     }
 
     render() {
