@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import TableDragSelect from "react-table-drag-select";
-// import "./DragTable.css";
+import "./DragTable.css";
 import calendar from "calendar-month-array";
 
 const monthNames = [
@@ -118,6 +118,7 @@ class Calendar extends Component {
                 }
             }
         }
+        
         this.props.onDrag(JSON.stringify(selected));
         selected = selected.map(x => new Date(x));
         this.setState({ selected_cells: selected });

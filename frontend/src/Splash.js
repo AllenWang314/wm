@@ -15,13 +15,18 @@ const current_timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 class Splash extends Component {
     constructor(props) {
         super(props);
-        this.state = { future_slug: "", date_list: [], repeating: false, day_list: "" };
+        this.state = { future_slug: "", repeating: false, day_list: "", date_list: "" };
     }
     async componentDidMount() {
         Axios.get(API_LINK + "get_slug").then(response => {
             this.setState({ future_slug: response.data[0].slug });
         });
     }
+
+    handleDrag = (selected) => {
+        this.setState({date_list: JSON.stringify(selected)})
+        console.log(this.state)
+      }
 
     render() {
         return (
@@ -38,6 +43,7 @@ class Splash extends Component {
                     day_list: this.state.day_list,
                 }}
                 onSubmit={values => {
+                    console.log(values)
                     Axios.post(API_LINK + "post/", values, {
                         headers: {
                             "Content-Type": "application/json"
@@ -68,13 +74,13 @@ class Splash extends Component {
                                         required
                                     />
                                     </div>
-                                    {props.values.repeating === true ? <Calendar
+                                    <Calendar
                                         date_list={props.values.date_list}
-                                        onDrag={props.handleChange}
-                                    /> : <ByWeek
+                                        onDrag={this.handleDrag}
+                                    /> {/*<ByWeek
                                         day_list={props.values.day_list}
                                         onDrag={props.handleChange}
-                                    />}
+                                    />*/}
                                     <Bounds
                                         name="earliest"
                                         as="select"

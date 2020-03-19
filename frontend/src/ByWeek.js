@@ -2,18 +2,48 @@ import React, { Component } from "react";
 import TableDragSelect from "react-table-drag-select";
 // import "./DragTable.css";
 
-const day_list = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+function genFalseArray (length) {
+    const rows = []
+    for (var i = 0; i < length; ++i){
+        rows.push([false,false,false,false,false,false,false])
+    }
+    return (rows)
+}
+
+function genInitRows(){
+	var rows = []
+	for (var j = 0; j < 1; ++j){
+			var column = []
+			for (var i = 0; i < 7; ++i){
+				column.push(<td key={i}>{}</td>)
+			}
+			rows.push(<tr key={1}>{column}</tr>)
+		}
+	return(rows)
+}
 
 class ByWeek extends Component {
 	constructor(props){
 		super(props)
-		this.state = {boolean_cells: [
-			[false,false,false,false,false,false,false],
-			[false,false,false,false,false,false,false]],
-			selected: []}
+		this.state = {boolean_cells: genFalseArray(2),
+			selected: [],
+			displayed_array: genInitRows()}
 	}
 
-	handleDrag = (new_cells) => {
+	generateRows(){
+		var rows = []
+		for (var j = 0; j < 1; ++j){
+				var column = []
+				for (var i = 0; i < 7; ++i){
+					column.push(<td key={i}>{ }</td>)
+				}
+				rows.push(<tr key={1}>{column}</tr>)
+			}
+		return(rows)
+	}
+
+	handleDrag = new_cells => {
+		const day_list = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 		this.setState({boolean_cells: new_cells})
 		var selected = []
 		for (var i = 0; i < 7; ++i){
@@ -31,37 +61,21 @@ class ByWeek extends Component {
 	render() {
 		return(
 			<div>
-			<table>
-			<tbody>
-			<tr>
-			<td>
 			<TableDragSelect
 			    value={this.state.boolean_cells}
-			    onChange={this.handleDrag}
+			    onChange={cells => {this.setState({boolean_cells: cells})}}
 			>
-				<tr key="0">
-				    <td disabled key='dSun'>Sun</td>
-				    <td disabled key='dMon'>Mon</td>
-				    <td disabled key='dTue'>Tue</td>
-				    <td disabled key='dWed'>Wed</td>
-				    <td disabled key='dThu'>Thu</td>
-				    <td disabled key='dFri'>Fri</td>
-				    <td disabled key='dSat'>Sat</td>
+				<tr>
+				    <td disabled >Sun</td>
+				    <td disabled >Mon</td>
+				    <td disabled >Tue</td>
+				    <td disabled >Wed</td>
+				    <td disabled >Thu</td>
+				    <td disabled >Fri</td>
+				    <td disabled >Sat</td>
 				</tr>
-				<tr key="1">
-				    <td key='Sun'></td>
-				    <td key='Mon'></td>
-				    <td key='Tue'></td>
-				    <td key='Wed'></td>
-				    <td key='Thu'></td>
-				    <td key='Fri'></td>
-				    <td key='Sat'></td>
-				</tr>
+				{this.state.displayed_array}
 			</TableDragSelect>
-			</td>
-			</tr>
-			</tbody>
-			</table>
 			</div>
 		)
 	}
