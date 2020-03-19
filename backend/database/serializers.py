@@ -12,6 +12,7 @@ class DatabaseSerializer(serializers.ModelSerializer):
     slug = serializers.SlugField(max_length=15, required=False)
     date_array = serializers.ListField(child=serializers.IntegerField())
     day_array = serializers.ListField(child=serializers.CharField())
+    name_array = serializers.ListField(child=serializers.CharField())
     class Meta:
         model = event
         fields = '__all__'

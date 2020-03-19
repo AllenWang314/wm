@@ -23,7 +23,7 @@ def all_events(request, format = None):
 		return Response(serializer.data)
 	return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['GET', 'POST'])
+@api_view(['GET', 'POST', 'PUT'])
 def event_info(request,page_slug, format = None):
 	try:
 		items = event.objects.filter(slug = page_slug)
@@ -32,7 +32,7 @@ def event_info(request,page_slug, format = None):
 	if request.method == "GET":
 		serializer = DatabaseSerializer(items, many=True)
 		return Response(serializer.data)
-	elif request.method == 'POST':
+	elif request.method == 'POST' or request.method == 'PUT':
 		serializer = DatabaseSerializer(items.first(), data=request.data)
 		if serializer.is_valid():
 			serializer.save()

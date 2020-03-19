@@ -14,3 +14,4 @@ class event(models.Model):
     slug = models.SlugField(max_length=15)
     date_array = ArrayField(models.BigIntegerField(), size = 365)
     day_array = ArrayField(models.CharField(max_length=4), size = 7)
+    name_array = ArrayField(models.CharField(max_length=100), size = 200)
