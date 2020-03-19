@@ -6,12 +6,7 @@ import "./DragTable.css";
 class MasterSelector extends Component {
     constructor(props) {
         super(props);
-        const selectorList = this.props.dates.map((val) => {
-            return <TimeSelector date={val} />;
-        });
         this.state = {
-            selectorList: selectorList,
-            currTimeSelector: selectorList[0],
             index: 0
         };
         this.nextDate = this.nextDate.bind(this);
@@ -19,10 +14,9 @@ class MasterSelector extends Component {
     }
 
     nextDate() {
-        if (this.state.index < this.state.selectorList.length - 1) {
+        if (this.state.index < this.props.dates.length - 1) {
             this.setState({
                 index: this.state.index + 1,
-                currTimeSelector: this.state.selectorList[this.state.index + 1]
             })
         }
     }
@@ -31,17 +25,22 @@ class MasterSelector extends Component {
         if (this.state.index > 0) {
             this.setState({
                 index: this.state.index - 1,
-                currTimeSelector: this.state.selectorList[this.state.index - 1]
             });
         }
     }
 
+    generateContent() {
+        console.log(this.props.dates);
+        return <TimeSelector date = {this.props.dates[this.state.index]} />;
+    }
+
     render() {
+        console.log(this.props.dates);
         return (
             <table>
                 <tbody>
                     <td><Button variant="contained" color="primary" onClick={this.prevDate}>&lt;</Button></td>
-                    <td>{this.state.currTimeSelector}</td>
+                    <td>{this.generateContent()}</td>
                     <td><Button variant="contained" color="primary" onClick={this.nextDate}>&gt;</Button></td>
 
                 </tbody>
