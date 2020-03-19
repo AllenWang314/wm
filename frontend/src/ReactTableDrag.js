@@ -119,7 +119,7 @@ class Calendar extends Component {
                 }
             }
         }
-        
+        selected.sort();
         this.props.onDrag('date_array',selected);
         selected = selected.map(x => new Date(x));
         this.setState({ selected_cells: selected });

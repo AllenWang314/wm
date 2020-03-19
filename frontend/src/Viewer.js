@@ -20,7 +20,7 @@ class Viewer extends Component {
     Axios.get(API_LINK + slug).then((response) => {
       this.setState({ 
         data: (response.data[0]), 
-        content: <MasterSelector dates = {(response.data[0].repeating)? response.data[0].day_array: response.data[0].date_array}/>
+        content: <MasterSelector slug = {slug} dates = {(response.data[0].repeating)? response.data[0].day_array: response.data[0].date_array}/>
       });
     });
   }
@@ -37,7 +37,6 @@ class Viewer extends Component {
   */
 
   render() {
-    console.log("content is " + this.state.content);
     return (
     <div className = "App">
       <div className = "App-header"> {this.state.data.event_name}
