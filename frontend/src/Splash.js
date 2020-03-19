@@ -15,7 +15,7 @@ const current_timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 class Splash extends Component {
     constructor(props) {
         super(props);
-        this.state = { future_slug: "", repeating: false, date_array: [] };
+        this.state = { future_slug: "", repeating: false, date_array: [], day_array: [] };
     }
     async componentDidMount() {
         Axios.get(API_LINK + "get_slug").then(response => {
@@ -33,24 +33,24 @@ class Splash extends Component {
                     latest: "",
                     repeating: this.state.repeating,
                     slug: this.state.future_slug,
-
                     date_array: this.state.date_array,
+                    day_array: this.state.day_array,
 
                 }}
                 onSubmit={values => {
                     console.log(values)
-                    // Axios.post(API_LINK + "post/", values, {
-                    //     headers: {
-                    //         "Content-Type": "application/json"
-                    //     }
-                    // })
-                    //     .then(response => {
-                    //         alert(JSON.stringify(values, null, 2));
-                    //         this.props.history.push(values.slug);
-                    //     })
-                    //     .catch(error => {
-                    //         alert("ERROR");
-                    //     });
+                    Axios.post(API_LINK + "post/", values, {
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    })
+                        .then(response => {
+                            alert(JSON.stringify(values, null, 2));
+                            this.props.history.push(values.slug);
+                        })
+                        .catch(error => {
+                            alert("ERROR");
+                        });
                 }}
             >
                 {props => (
@@ -71,11 +71,11 @@ class Splash extends Component {
                                     </div>
 
                                     {props.values.repeating === false ? <Calendar
-                                        date_list={props.values.date_list}
+                                        date_list={props.values.date_array}
                                         onDrag={props.setFieldValue}
                                     /> : 
                                     <ByWeek
-                                        day_list={props.values.day_list}
+                                        day_list={props.values.day_array}
                                         onDrag={props.setFieldValue}
                                     />}
 

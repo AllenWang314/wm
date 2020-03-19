@@ -44,7 +44,7 @@ class ByWeek extends Component {
 				selected.splice(selected.indexOf(day_list[i]), 1);
 			}
 		}
-		this.props.onDrag('day_list',JSON.stringify(selected))
+		this.props.onDrag('day_array',selected)
 		this.setState({selected: selected})
 	}
 

@@ -13,3 +13,4 @@ class event(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(max_length=15)
     date_array = ArrayField(models.BigIntegerField(), size = 365)
+    day_array = ArrayField(models.CharField(max_length=4), size = 7)
