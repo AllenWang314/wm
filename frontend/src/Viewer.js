@@ -9,13 +9,16 @@ const API_LINK = "http://localhost:8000/api/";
 class Viewer extends Component {
   constructor(props) {
     super(props);
-    this.state = { data: [] };
+    this.state = { 
+      data: {}, 
+      content: <MasterSelector dates = {[]}/>
+    };
   }
 
   async componentDidMount() {
     const slug = this.props.match.params.slug;
     Axios.get(API_LINK + slug).then(response => {
-      this.setState({ data: (response.data[0])? response.data[0] : [] });
+      this.setState({ data: (response.data[0]), content: <MasterSelector dates = {response.data[0].date_list}/>});
     });
   }
 
@@ -30,14 +33,15 @@ class Viewer extends Component {
           location: this.state.data.location
   */
 
-
   render() {
-    const testDates = [0,1,2,3];
+    console.log("content is " + this.state.content);
     return (
     <div className = "App">
-      <div className = "App-header"> Event info, such as name: {this.state.data.event_name}
+      <div className = "App-header"> {this.state.data.event_name}
         <div className = "Splash">
-          <MasterSelector dates = {testDates} />
+          {this.state.data.date_list}
+          {this.state.content}
+          {/* {<MasterSelector dates = {(this.state.data.date_list)? this.state.data.date_list : []}/>} */}
         </div>
       </div>
     </div>
