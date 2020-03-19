@@ -29,8 +29,8 @@ class Splash extends Component {
                 initialValues={{
                     event_name: "",
                     timezone: current_timezone,
-                    earliest: "",
-                    latest: "",
+                    earliest: 0,
+                    latest: 24,
                     repeating: this.state.repeating,
                     slug: this.state.future_slug,
                     date_array: this.state.date_array,
@@ -51,7 +51,8 @@ class Splash extends Component {
                         .catch(error => {
                             alert("ERROR");
                         });
-                }}
+                    }
+                }
             >
                 {props => (
                         <div className="App-header">

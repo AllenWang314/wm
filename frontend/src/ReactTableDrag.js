@@ -21,19 +21,24 @@ const monthNames = [
 var now = new Date();
 function initial_rows() {
     var rows = [];
-    for (var i = 0; i < calendar(now).length; ++i) {
+    for (var i = 0; i < 6; ++i) {
         var column = [];
         for (var j = 0; j < 7; ++j) {
-            var date = calendar(now)[i][j];
-            var day = date.getDate();
-            var month = date.getMonth() * 100;
-            var year = date.getFullYear() * 10000;
-
-            if (date.getMonth() !== now.getMonth()){
-                column.push(<td disabled key={year + month + day}></td>);
+            if (i >= calendar().length){
+                column.push(<td disabled key={i+j}></td>);
             }
             else {
-                column.push(<td key={year + month + day}>{day}</td>);    
+                var date = calendar(now)[i][j];
+                var day = date.getDate();
+                var month = date.getMonth() * 100;
+                var year = date.getFullYear() * 10000;
+    
+                if (date.getMonth() !== now.getMonth()){
+                    column.push(<td disabled key={year + month + day}></td>);
+                }
+                else {
+                    column.push(<td key={year + month + day}>{day}</td>);    
+                }
             }
         }
         rows.push(<tr key={i}>{column}</tr>);
@@ -54,7 +59,7 @@ class Calendar extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            first_month_cells: genFalseArray(calendar().length + 1),
+            first_month_cells: genFalseArray(7),
             selected_cells: [],
             displayed_array: initial_rows(),
             current_month: new Date(now.getFullYear(), now.getMonth(), 1),
@@ -64,26 +69,31 @@ class Calendar extends Component {
 
     generate_rows = () => {
         var rows = [];
-        var current_month_cells = genFalseArray(calendar(this.state.current_month).length + 1);
+        var current_month_cells = genFalseArray(7);
         var selected = Object.values(this.state.selected_cells).map(x =>
             x.getTime()
         );
-        for (var i = 0; i < calendar(this.state.current_month).length; ++i) {
+        for (var i = 0; i < 6; ++i) {
             var column = [];
             for (var j = 0; j < 7; ++j) {
-                var date = calendar(this.state.current_month)[i][j];
-                var day = date.getDate();
-                var month = date.getMonth() * 100;
-                var year = date.getFullYear() * 10000;
-
-                if (selected.includes(date.getTime())) {
-                    current_month_cells[i + 1][j] = true;
-                }
-                if (date.getMonth() !== this.state.current_month.getMonth()){
-                    column.push(<td disabled key={year + month + day}></td>);
+                if (i >= calendar(this.state.current_month).length){
+                    column.push(<td disabled key={i+j}></td>);
                 }
                 else {
-                    column.push(<td key={year + month + day}>{day}</td>);    
+                    var date = calendar(this.state.current_month)[i][j];
+                    var day = date.getDate();
+                    var month = date.getMonth() * 100;
+                    var year = date.getFullYear() * 10000;
+    
+                    if (selected.includes(date.getTime())) {
+                        current_month_cells[i + 1][j] = true;
+                    }
+                    if (date.getMonth() !== this.state.current_month.getMonth()){
+                        column.push(<td disabled key={year + month + day}></td>);
+                    }
+                    else {
+                        column.push(<td key={year + month + day}>{day}</td>);    
+                    }
                 }
             }
             var row_key =

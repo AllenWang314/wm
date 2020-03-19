@@ -7,12 +7,14 @@ class MasterSelector extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            index: 0
+            index: 0,
         };
         this.nextDate = this.nextDate.bind(this);
         this.prevDate = this.prevDate.bind(this);
     }
-
+    componentDidMount (){
+        
+    }
     nextDate() {
         if (this.state.index < this.props.dates.length - 1) {
             this.setState({
@@ -30,19 +32,26 @@ class MasterSelector extends Component {
     }
 
     generateContent() {
-        console.log(this.props.dates);
-        return <TimeSelector date = {this.props.dates[this.state.index]} />;
+
+        return <TimeSelector/>;
     }
 
     render() {
-        console.log(this.props.dates);
         return (
             <table>
                 <tbody>
+                <tr>
                     <td><Button variant="contained" color="primary" onClick={this.prevDate}>&lt;</Button></td>
-                    <td>{this.generateContent()}</td>
+                    <td>
+                        <TimeSelector
+                            date={this.props.date_array}
+                            timezone={this.props.timezone}
+                            earliest={this.props.earliest}
+                            latest={this.props.latest}
+                        />
+                    </td>
                     <td><Button variant="contained" color="primary" onClick={this.nextDate}>&gt;</Button></td>
-
+                    </tr>
                 </tbody>
             </table>
         );
