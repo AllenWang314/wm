@@ -41,6 +41,45 @@
   .table-drag-select td.cell-being-selected {
     background-color: #3F83D5;
   }
+
+  .viewer-table {
+    width: 100%;  
+    table-layout: auto;
+    user-select: none;
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;
+  }
+
+  .viewer-table td {
+    text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    border: 0.1rem solid transparent;
+    background-clip: padding-box;
+    line-height: 2rem;
+    padding-left: 0rem;
+    padding-right: 0rem;
+    font-size: 1rem;
+    width: 50%;
+  }
+
+  .viewer-table td.cell-enabled {
+    background-color: #DDD;
+    color: black;
+    cursor: cell;
+  }
+
+  .viewer-table td.cell-disabled {
+  }
+
+  .viewer-table td.cell-selected {
+    background-color: #00796b;
+  }
+
+  .viewer-table td.cell-being-selected {
+    background-color: #3F83D5;
+  }
 }
 
 /****************************/

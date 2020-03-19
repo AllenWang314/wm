@@ -17,10 +17,7 @@ class Viewer extends Component {
   async componentDidMount() {
     const slug = this.props.match.params.slug;
     Axios.get(API_LINK + slug).then((response) => {
-      this.setState({ 
-        data: (response.data[0]), 
-        content: <MasterSelector slug = {slug} dates = {(response.data[0].repeating)? response.data[0].day_array: response.data[0].date_array}/>
-      });
+      this.setState({ data: (response.data[0])});
     });
   }
 
@@ -35,13 +32,22 @@ class Viewer extends Component {
           location: this.state.data.location
   */
 
+  generateContent(){
+    return(
+      <MasterSelector             
+            date_array={this.state.data.date_array} 
+            timezone={this.state.data.timezone}
+            earliest={Number(this.state.data.earliest)}
+            latest={Number(this.state.data.latest)}/>
+      )
+  }
+
   render() {
     return (
     <div className = "App">
-      <div className = "App-header"> {this.state.data.event_name}
+      <div className = "App-header"> 
         <div className = "Splash">
-
-          {this.state.content}
+          {this.generateContent()}
         </div>
       </div>
     </div>
