@@ -15,12 +15,14 @@ function genInitRows(){
 	for (var j = 0; j < 1; ++j){
 			var column = []
 			for (var i = 0; i < 7; ++i){
-				column.push(<td key={i}>{}</td>)
+				column.push(<td key={i}>&nbsp;</td>)
 			}
 			rows.push(<tr key={1}>{column}</tr>)
 		}
 	return(rows)
 }
+
+const day_list = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
 class ByWeek extends Component {
 	constructor(props){
@@ -30,20 +32,8 @@ class ByWeek extends Component {
 			displayed_array: genInitRows()}
 	}
 
-	generateRows(){
-		var rows = []
-		for (var j = 0; j < 1; ++j){
-				var column = []
-				for (var i = 0; i < 7; ++i){
-					column.push(<td key={i}>{ }</td>)
-				}
-				rows.push(<tr key={1}>{column}</tr>)
-			}
-		return(rows)
-	}
-
 	handleDrag = new_cells => {
-		const day_list = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+		
 		this.setState({boolean_cells: new_cells})
 		var selected = []
 		for (var i = 0; i < 7; ++i){
@@ -54,7 +44,7 @@ class ByWeek extends Component {
 				selected.splice(selected.indexOf(day_list[i]), 1);
 			}
 		}
-		this.props.onDrag(JSON.stringify(selected))
+		this.props.onDrag('day_list',JSON.stringify(selected))
 		this.setState({selected: selected})
 	}
 
@@ -63,7 +53,7 @@ class ByWeek extends Component {
 			<div>
 			<TableDragSelect
 			    value={this.state.boolean_cells}
-			    onChange={cells => {this.setState({boolean_cells: cells})}}
+			    onChange={this.handleDrag}
 			>
 				<tr>
 				    <td disabled >Sun</td>

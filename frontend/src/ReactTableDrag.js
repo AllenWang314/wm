@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import TableDragSelect from "react-table-drag-select";
 import "./DragTable.css";
+import { connect } from "formik";
 import calendar from "calendar-month-array";
 
 const monthNames = [
@@ -48,6 +49,7 @@ function genFalseArray (length) {
     }
     return (rows)
 }
+
 
 class Calendar extends Component {
     constructor(props) {
@@ -118,8 +120,7 @@ class Calendar extends Component {
                 }
             }
         }
-        
-        this.props.onDrag(JSON.stringify(selected));
+        this.props.onDrag('date_list',JSON.stringify(selected));
         selected = selected.map(x => new Date(x));
         this.setState({ selected_cells: selected });
     };

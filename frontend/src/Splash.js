@@ -23,11 +23,6 @@ class Splash extends Component {
         });
     }
 
-    handleDrag = (selected) => {
-        this.setState({date_list: JSON.stringify(selected)})
-        console.log(this.state)
-      }
-
     render() {
         return (
             <Formik
@@ -39,23 +34,23 @@ class Splash extends Component {
                     latest: "",
                     repeating: this.state.repeating,
                     slug: this.state.future_slug,
-                    date_list: this.state.date_list,
+                    date_list: "",
                     day_list: this.state.day_list,
                 }}
                 onSubmit={values => {
                     console.log(values)
-                    Axios.post(API_LINK + "post/", values, {
-                        headers: {
-                            "Content-Type": "application/json"
-                        }
-                    })
-                        .then(response => {
-                            alert(JSON.stringify(values, null, 2));
-                            this.props.history.push(values.slug);
-                        })
-                        .catch(error => {
-                            alert("ERROR");
-                        });
+                    // Axios.post(API_LINK + "post/", values, {
+                    //     headers: {
+                    //         "Content-Type": "application/json"
+                    //     }
+                    // })
+                    //     .then(response => {
+                    //         alert(JSON.stringify(values, null, 2));
+                    //         this.props.history.push(values.slug);
+                    //     })
+                    //     .catch(error => {
+                    //         alert("ERROR");
+                    //     });
                 }}
             >
                 {props => (
@@ -74,13 +69,14 @@ class Splash extends Component {
                                         required
                                     />
                                     </div>
-                                    <Calendar
+                                    {props.values.repeating === false ? <Calendar
                                         date_list={props.values.date_list}
-                                        onDrag={this.handleDrag}
-                                    /> {/*<ByWeek
+                                        onDrag={props.setFieldValue}
+                                    /> : 
+                                    <ByWeek
                                         day_list={props.values.day_list}
-                                        onDrag={props.handleChange}
-                                    />*/}
+                                        onDrag={props.setFieldValue}
+                                    />}
                                     <Bounds
                                         name="earliest"
                                         as="select"
