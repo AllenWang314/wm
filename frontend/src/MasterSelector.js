@@ -32,8 +32,12 @@ class MasterSelector extends Component {
     }
 
     generateContent() {
-        console.log(this.props.dates);
-        return <TimeSelector slug = {this.props.slug} date = {this.props.dates[this.state.index]} />;
+        return <TimeSelector 
+            date={[1583899200000]}
+            timezone={this.props.timezone}
+            earliest={1}
+            latest={4}
+            />;
     }
 
     render() {
@@ -43,12 +47,7 @@ class MasterSelector extends Component {
                 <tr>
                     <td><Button variant="contained" color="primary" onClick={this.prevDate}>&lt;</Button></td>
                     <td>
-                        <TimeSelector
-                            date={this.props.date_array}
-                            timezone={this.props.timezone}
-                            earliest={this.props.earliest}
-                            latest={this.props.latest}
-                        />
+                        {this.generateContent()}
                     </td>
                     <td><Button variant="contained" color="primary" onClick={this.nextDate}>&gt;</Button></td>
                     </tr>
