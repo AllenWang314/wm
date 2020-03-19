@@ -15,14 +15,13 @@ const current_timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 class Splash extends Component {
     constructor(props) {
         super(props);
-        this.state = { future_slug: "", repeating: false, day_list: "", date_list: "" };
+        this.state = { future_slug: "", repeating: false, date_array: [] };
     }
     async componentDidMount() {
         Axios.get(API_LINK + "get_slug").then(response => {
             this.setState({ future_slug: response.data[0].slug });
         });
     }
-
     render() {
         return (
             <Formik
@@ -34,8 +33,9 @@ class Splash extends Component {
                     latest: "",
                     repeating: this.state.repeating,
                     slug: this.state.future_slug,
-                    date_list: "",
-                    day_list: this.state.day_list,
+
+                    date_array: this.state.date_array,
+
                 }}
                 onSubmit={values => {
                     console.log(values)
@@ -69,6 +69,7 @@ class Splash extends Component {
                                         required
                                     />
                                     </div>
+
                                     {props.values.repeating === false ? <Calendar
                                         date_list={props.values.date_list}
                                         onDrag={props.setFieldValue}
@@ -77,6 +78,7 @@ class Splash extends Component {
                                         day_list={props.values.day_list}
                                         onDrag={props.setFieldValue}
                                     />}
+
                                     <Bounds
                                         name="earliest"
                                         as="select"

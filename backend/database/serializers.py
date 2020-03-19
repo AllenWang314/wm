@@ -10,7 +10,7 @@ class DatabaseSerializer(serializers.ModelSerializer):
     repeating = serializers.BooleanField(required=False)
     location = serializers.CharField(max_length=300, required=False, allow_blank=True)
     slug = serializers.SlugField(max_length=15, required=False)
-    date_list = serializers.CharField(max_length=400)
+    date_array = serializers.ListField(child=serializers.IntegerField())
     class Meta:
         model = event
         fields = '__all__'

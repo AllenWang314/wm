@@ -45,7 +45,6 @@ def event_info(request,page_slug, format = None):
 def post_event(request, format = None):
 	if request.method == 'POST':
 		serializer = DatabaseSerializer(event(), data=request.data)
-		print(type(request.data['date_list']))
 		if serializer.is_valid():
 			serializer.save()
 			return Response(serializer.data, status=status.HTTP_201_CREATED)

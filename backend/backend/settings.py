@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.postgres.fields',
     'database.apps.DatabaseConfig',
     'rest_framework',
     'corsheaders',
@@ -83,8 +84,12 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'ddhn2e42nbsrc5',
+        'USER': 'yvlwgcrsvwptst',
+        'PASSWORD': '819520150c25ffe386d3451281630b93bbde5cb572fc26cb51e55d10fce3c1f7',
+        'HOST': 'ec2-18-235-97-230.compute-1.amazonaws.com',
+        'PORT': '5432'
     }
 }
 
