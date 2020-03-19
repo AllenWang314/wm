@@ -119,7 +119,7 @@ class Calendar extends Component {
             }
         }
         
-        this.props.onDrag(JSON.stringify(selected));
+        this.props.onDrag(selected);
         selected = selected.map(x => new Date(x));
         this.setState({ selected_cells: selected });
     };

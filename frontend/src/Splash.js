@@ -15,7 +15,7 @@ const current_timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 class Splash extends Component {
     constructor(props) {
         super(props);
-        this.state = { future_slug: "", repeating: false, day_list: "", date_list: "" };
+        this.state = { future_slug: "", repeating: false, date_array: [] };
     }
     async componentDidMount() {
         Axios.get(API_LINK + "get_slug").then(response => {
@@ -24,7 +24,7 @@ class Splash extends Component {
     }
 
     handleDrag = (selected) => {
-        this.setState({date_list: JSON.stringify(selected)})
+        this.setState({date_array: selected})
         console.log(this.state)
       }
 
@@ -39,8 +39,7 @@ class Splash extends Component {
                     latest: "",
                     repeating: this.state.repeating,
                     slug: this.state.future_slug,
-                    date_list: this.state.date_list,
-                    day_list: this.state.day_list,
+                    date_array: this.state.date_array,
                 }}
                 onSubmit={values => {
                     console.log(values)
@@ -75,12 +74,9 @@ class Splash extends Component {
                                     />
                                     </div>
                                     <Calendar
-                                        date_list={props.values.date_list}
+                                        date_array={props.values.date_array}
                                         onDrag={this.handleDrag}
-                                    /> {/*<ByWeek
-                                        day_list={props.values.day_list}
-                                        onDrag={props.handleChange}
-                                    />*/}
+                                    />
                                     <Bounds
                                         name="earliest"
                                         as="select"
