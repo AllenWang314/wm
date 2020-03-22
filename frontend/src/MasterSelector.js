@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import TimeSelector from "./TimeSelectorFinal.js";
 import TableDragSelect from "react-table-drag-select";
 import "./DragTable.css";
+import Axios from "axios";
 
 var moment = require('moment-timezone');
 moment().utc();
@@ -22,6 +23,7 @@ class MasterSelector extends Component {
     constructor(props) {
         super(props);
         this.state = {
+        availabilities: {},
         labels: [],
         label_cells: []
         }
@@ -29,6 +31,10 @@ class MasterSelector extends Component {
     async componentDidMount (){
         await moment.tz.setDefault(this.props.timezone);
         await this.generateLabels()
+        Axios.get("some fantastic link").then((response) => {
+
+            //do stuff here
+        });
     }
 
     generateBounds = () => {
