@@ -3,12 +3,14 @@ import TableDragSelect from "react-table-drag-select";
 
 var moment = require('moment');
 moment().format();
-const date_array = [1583899200000,1584504000000,1584590400000]
+const date_array = [1583899200000,1584590400000]
 const name_array = ['Michelle', 'Rachel']
+const availabilities = [[true,true,false,false,false,true,true,false,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,false,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true],[true,true,false,true,false,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,false,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true]]
 
 function transpose (m) {
     return(m[0].map((x,i) => m.map(x => x[i])))
 }
+
 
 function circularSlice(start,end,array){
     if (start <= end){
@@ -53,19 +55,17 @@ class TimeSelector extends Component {
         displayed: [],
         labels: [],
         label_cells: [],
-        date_array: date_array,
-        displayed_avails: [],
-        sliced: [],
-        loaded: false
+        name_array: name_array,
+        availabilities: availabilities,
+        displayed_avails: []
       }
-      this.printCell = this.printCell.bind(this)
     }
-    async componentDidMount(){
+    componentDidMount(){
         const difference = this.generateDifference()
-        await this.setState({cells: genFalseArray(49,this.state.date_array.length), label_cells: genFalseArray(2*difference+1,1)})
-        await this.generateZips()
-        await this.generateSlice()
-        this.setState({loaded: true})
+        this.setState({cells: genFalseArray(48,1), label_cells: genFalseArray(2*difference+1,1)})
+        this.generateRows()
+        this.generateLabels()
+        this.genAvail()
     }
 
     generateBounds = () =>{
@@ -109,72 +109,65 @@ class TimeSelector extends Component {
             }
             rows.push(<tr key={i}>{column}</tr>)
         }
-        this.setState({labels: rows})
+        this.setState({labels: rows}, ()=> console.log(this.state))
     }
 
-    generateSlice = () =>{
+    generateRows = () => {
         const difference = this.generateDifference()
         if (isNaN(difference)){return}
-        const startCell = this.generateBounds().earliest.getHours() 
-        const endCell = this.generateBounds().latest.getHours()
-        const sliced = genFalseArray(1,this.state.date_array.length).concat(circularSlice(2*startCell,2*endCell,this.state.cells))
-        this.setState({sliced: sliced})
-    }
-
-    generateCols = () => {
-        const difference = this.generateDifference()
-        if (isNaN(difference)){return}
-        const column = []
+        const rows = []
         for (var i = 0; i < 2 * difference; ++i){
-            column.push(<td key={100*i + 1} onMouseOver={this.printCell}>&nbsp;</td>)
+            const column = []
+            column.push(<td key={100*i + 1} >&nbsp;</td>)
+            rows.push(<tr key={i}>{column}</tr>)
         }
-        return (column)
+        this.setState({displayed: rows})
     }
+
     handleDrag = (new_cells) =>{
         const startCell = this.generateBounds().earliest.getHours() 
         const endCell = this.generateBounds().latest.getHours()
-        new_cells.shift()
-        const current_cells = this.state.cells
-        current_cells.shift()
-        const new_array = []
-        for (var i = 0; i < this.state.date_array.length; ++i){
-            new_array.push(circularSplice(2*startCell,2*endCell, transpose(current_cells)[i], transpose(new_cells)[i]))
-        }
-        this.setState({cells: transpose(new_array)}, ()=> this.generateZips())
-        console.log(this.state)
+        const new_array = circularSplice(2*startCell,2*endCell, this.state.cells, new_cells)
+        this.setState({cells: new_array})
     }
 
-    generateZips = () => {
-        const num_days = this.state.date_array.length
+    genAvail = () =>{
+        const startCell = this.generateBounds().earliest.getHours() 
+        const endCell = this.generateBounds().latest.getHours()
+        const num_people = this.state.name_array.length
+        const difference = 2 * this.generateDifference()
         const rows = []
-        for (var day_index = 0; day_index < num_days; ++day_index){
-            const array = [<td key={-1} disabled>{moment(date_array[day_index]).format('LL')}</td>].concat(this.generateCols())
-            rows.push(array)
+        var availBools = []
+        for (var i = -1; i < difference; ++i){
+            const column = []
+            for (var indiv_index = 0; indiv_index < num_people; ++indiv_index){
+                const current_slice = circularSlice(2*startCell,2*endCell, this.state.availabilities[indiv_index])
+                const name = this.state.name_array[indiv_index]
+                if (i === -1){
+                    availBools.push([false].concat(current_slice))
+                    column.push(<td disabled className="cell-disabled-rotated" key={name}><p className="rotated">{name}</p></td>)
+                    continue
+                }
+                if (current_slice[i] === true){
+                    column.push(<td key={name + i} disabled className="cell-disabled-green">&nbsp;&nbsp;</td>)
+                }
+                else {
+                    column.push(<td key={name + i} disabled className="cell-disabled-gray">&nbsp;&nbsp;</td>)  
+                }
+            }
+            rows.push(<tr key={i}>{column}</tr>)
         }
-        this.setState({displayed: transpose(rows).map((x,index) => <tr key={index}>{x}</tr>)}, ()=> this.generateSlice())
+        this.setState({availabilities: transpose(availBools), displayed_avails: rows})
     }
-
-    printCell = () => {
-        console.log('here')
-    }
-
-    generateContent (){
-        return(
-            <div>
-                <TableDragSelect className="viewer-table" 
-                value={this.state.sliced} 
-                onChange={this.handleDrag}>
-                {this.state.displayed}
-                </TableDragSelect>
-            </div>
-            )
-    }
-
     render() {
+        const startCell = this.generateBounds().earliest.getHours() 
+        const endCell = this.generateBounds().latest.getHours()
+        const sliced = circularSlice(2*startCell,2*endCell,this.state.cells)
         return (
-            <div>
-            {this.state.loaded === true ? this.generateContent(): null}
-            </div>                
+                <TableDragSelect className="viewer-table"
+                value={this.state.label_cells} >
+                {this.state.labels}
+                </TableDragSelect>
         );
     }
 

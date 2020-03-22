@@ -50,7 +50,7 @@ class Viewer extends Component {
         console.log(typeof name_array[i]);
         i++;
       }
-      if (this.state.userIndex == -1) {
+      if (this.state.userIndex === -1) {
         this.setState({ userIndex: i, submitted: true });
       }
     });}

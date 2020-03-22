@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import TimeSelector from "./TimeSelector.js";
-import { Button } from "@material-ui/core";
+import TimeSelector from "./TimeSelectorFinal.js";
 import "./DragTable.css";
 
 class MasterSelector extends Component {
@@ -34,7 +33,7 @@ class MasterSelector extends Component {
     generateContent() {
         return <TimeSelector 
             date={[1583899200000]}
-            timezone={this.props.timezone}
+            timezone={"America/New_York"}
             earliest={1}
             latest={4}
             />;
@@ -42,17 +41,10 @@ class MasterSelector extends Component {
 
     render() {
         return (
-            <table>
-                <tbody>
-                <tr>
-                    <td><Button variant="contained" color="primary" onClick={this.prevDate}>&lt;</Button></td>
-                    <td>
-                        {this.generateContent()}
-                    </td>
-                    <td><Button variant="contained" color="primary" onClick={this.nextDate}>&gt;</Button></td>
-                    </tr>
-                </tbody>
-            </table>
+            <div>
+                {this.generateContent()}
+            </div>
+
         );
     }
 }

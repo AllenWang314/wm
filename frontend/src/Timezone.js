@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Field } from "formik";
 
 var moment = require('moment-timezone');
+moment.tz.setDefault("Etc/UTC");
+
 class Timezone extends Component {
     
     generateZones (){
