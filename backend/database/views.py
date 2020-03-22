@@ -1,9 +1,9 @@
 from django.shortcuts import render
-from .models import event
+from .models import event, times
 from rest_framework import status
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.response import Response
-from .serializers import DatabaseSerializer, SlugSerializer
+from .serializers import DatabaseSerializer, SlugSerializer, TimesSerializer
 from rest_framework.parsers import JSONParser
 from django.utils.crypto import get_random_string
 
@@ -23,8 +23,16 @@ def all_events(request, format = None):
 		return Response(serializer.data)
 	return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['GET', 'POST'])
+def all_times(request, format = None):
+	items = times.objects.all()
+	if request.method == "GET":
+		serializer = TimesSerializer(items, many=True)
+		return Response(serializer.data)
+	return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 @api_view(['GET', 'POST', 'PUT'])
-def event_info(request,page_slug, format = None):
+def event_info(request, page_slug, format = None):
 	try:
 		items = event.objects.filter(slug = page_slug)
 	except event.DoesNotExist:
@@ -34,6 +42,23 @@ def event_info(request,page_slug, format = None):
 		return Response(serializer.data)
 	elif request.method == 'POST' or request.method == 'PUT':
 		serializer = DatabaseSerializer(items.first(), data=request.data)
+		if serializer.is_valid():
+			serializer.save()
+			return Response(serializer.data, status=status.HTTP_201_CREATED)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+	return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET', 'POST', 'PUT'])
+def times_info(request, pkey, format = None):
+	try:
+		item = times.objects.get(pk = pkey) # take advantage of primary key here
+	except times.DoesNotExist:
+		return Response(status=status.HTTP_404_NOT_FOUND)
+	if request.method == "GET":
+		serializer = TimesSerializer(item, many=False)
+		return Response(serializer.data)
+	elif request.method == 'POST' or request.method == 'PUT':
+		serializer = TimesSerializer(item, data=request.data)
 		if serializer.is_valid():
 			serializer.save()
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
