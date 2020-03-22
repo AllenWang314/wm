@@ -29,13 +29,13 @@ class Splash extends Component {
                 initialValues={{
                     event_name: "",
                     timezone: current_timezone,
-                    earliest: 0,
+                    earliest: -1,
                     latest: 24,
                     repeating: this.state.repeating,
                     slug: this.state.future_slug,
                     date_array: this.state.date_array,
                     day_array: this.state.day_array,
-
+                    name_array: []
                 }}
                 onSubmit={values => {
                     console.log(values)

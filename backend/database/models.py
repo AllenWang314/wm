@@ -15,3 +15,8 @@ class event(models.Model):
     date_array = ArrayField(models.BigIntegerField(), size = 365)
     day_array = ArrayField(models.CharField(max_length=4), size = 7)
     name_array = ArrayField(models.CharField(max_length=100), size = 200)
+
+class times(models.Model):
+    snd_hash = models.CharField(max_length = 150, primary_key=True)
+    times_array = ArrayField(models.BigIntegerField(), size = 50)
+

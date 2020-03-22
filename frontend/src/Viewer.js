@@ -19,14 +19,16 @@ class Viewer extends Component {
     this.state = {
       data: {},
       name: "",
+      event_name: "",
       submitted: false,
       userIndex: -1,
-      date_array: date_array,
-      earliest: earliest,
-      latest: latest,
-      timezone: timezone,
-      name_array: name_array,
-      availabilities: availabilities
+      date_array: [],
+      repeating: false,
+      day_array: [],
+      earliest: -1,
+      latest: 24,
+      timezone: "",
+      name_array: [],
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -36,7 +38,17 @@ class Viewer extends Component {
   async componentDidMount() {
     const slug = this.props.match.params.slug;
     Axios.get(API_LINK + slug).then((response) => {
-      this.setState({ data: (response.data[0])});
+      this.setState({ data: (response.data[0]), 
+        event_name: response.data[0].event_name,
+        date_array: response.data[0].date_array,
+        day_array: response.data[0].day_array,
+        name_array: response.data[0].name_array,
+        timezone: response.data[0].timezone,
+        slug: response.data[0].slug,
+        repeating: response.data[0].repeating,
+        earliest: response.data[0].earliest,
+        latest: response.data[0].latest
+      });
     });
   }
 
@@ -88,14 +100,17 @@ class Viewer extends Component {
   }
 
   generateContent(){
+    console.log(this.state);
+    if(this.state.event_name == "") return "";
     return(
       <MasterSelector             
-            date_array={this.state.date_array} 
+            date_array={(this.state.repeating)? this.state.day_array : this.state.date_array}
+            slug={this.state.slug}
             timezone={this.state.timezone}
-            earliest={Number(this.state.earliest)}
-            latest={Number(this.state.latest)}
+            earliest={this.state.earliest} 
+            latest={this.state.latest}
             name_array={this.state.name_array}
-            availabilities={this.state.availabilities}/>
+            />
       )
   }
 
