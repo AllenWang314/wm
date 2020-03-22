@@ -83,34 +83,19 @@ p.rotated {
     cursor: cell;
   }
 
-  .viewer-table td.cell-disabled {
-  }
-
-  .viewer-table td.cell-disabled-pushed {
-  }
-
-  .viewer-table td.cell-disabled-large-text {
-    font-size:0.75rem;
-  }
-
-  .viewer-table td.cell-disabled-green {
-    font-size:0.75rem;
-    background-color: #00796b;
-  }
-
-  .viewer-table td.cell-disabled-rotated {
-
-  }
-
-  .viewer-table td.cell-disabled-gray {
-    font-size:0.75rem;
+  .viewer-table td.cell-enabled-gray {
     background-color: #a9a9a9;
+    color: white;
+    cursor: cell;
+  }
+
+  .viewer-table td.cell-disabled {
   }
 
   .viewer-table td.cell-selected {
     background-color: #00796b;
   }
-
+  
   .viewer-table td.cell-being-selected {
     background-color: #3F83D5;
   }
@@ -189,25 +174,12 @@ p.rotated {
   }
 
   .viewer-table td.cell-disabled {
-    
   }
 
-  .viewer-table td.cell-disabled-large-text {
-    font-size:0.75rem;
-  }
-
-  .viewer-table td.cell-disabled-green {
-    font-size:0.75rem;
-    background-color: #00796b;
-  }
-
-  .viewer-table td.cell-disabled-rotated {
-
-  }
-
-  .viewer-table td.cell-disabled-gray {
-    font-size:0.75rem;
+  .viewer-table td.cell-enabled-gray {
     background-color: #a9a9a9;
+    color: white;
+    cursor: cell;
   }
 
   .viewer-table td.cell-selected {

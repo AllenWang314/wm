@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import TimeSelector from "./TimeSelectorFinal.js";
 import TableDragSelect from "react-table-drag-select";
+import Availability from "./AvailabilityDisplay.js"
 import "./DragTable.css";
 
 var moment = require('moment-timezone');
@@ -23,12 +24,16 @@ class MasterSelector extends Component {
         super(props);
         this.state = {
         labels: [],
-        label_cells: []
+        label_cells: [],
+        times: [],
+        loaded: false
         }
     }
     async componentDidMount (){
         await moment.tz.setDefault(this.props.timezone);
         await this.generateLabels()
+        await this.generateTimes()
+        await this.setState({loaded: true})
     }
 
     generateBounds = () => {
@@ -68,6 +73,22 @@ class MasterSelector extends Component {
         this.setState({labels: rows, label_cells: genFalseArray(2*difference + 2,1)})
     }
 
+    generateTimes = () => {
+        const difference = this.generateDifference()
+        const time_array = []
+        for (var j = 0; j < this.props.date_array.length; ++j){
+            const current_day = moment(this.props.date_array[j])
+            const column = []
+            for(var i = 0; i < 2 * difference + 1; ++i){
+                if (i === 0){column.push([]);continue}
+                const new_moment = moment(current_day).add(30*difference+30*(i-1),'minutes').valueOf()
+                column.push(new_moment)
+            }
+            time_array.push(column)
+        }
+        this.setState({times: time_array})
+    }
+
     generateContent() {
         return (
             <table style={{align: "center", margin: "0px auto"}}>
@@ -84,7 +105,8 @@ class MasterSelector extends Component {
                 date_array={this.props.date_array} 
                 timezone={this.props.timezone}
                 earliest={Number(this.props.earliest)}
-                latest={Number(this.props.latest)}/>
+                latest={Number(this.props.latest)}
+                times={this.state.times}/>
             </td>
             </tr>
             <tr>
@@ -95,7 +117,15 @@ class MasterSelector extends Component {
                 </TableDragSelect>
             </td>
             <td>
-                
+                <Availability
+                date_array={this.props.date_array} 
+                timezone={this.props.timezone}
+                earliest={Number(this.props.earliest)}
+                latest={Number(this.props.latest)}
+                difference={this.generateDifference()}
+                times={this.state.times}
+                name_array={this.props.name_array}
+                availabilities={this.props.availabilities}/>
             </td>
             </tr>
             </tbody>
@@ -106,7 +136,7 @@ class MasterSelector extends Component {
     render() {
         return (
             <div>
-                {this.generateContent()}
+                {this.state.loaded ? this.generateContent() : null}
             </div>
 
         );
