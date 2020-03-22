@@ -11,7 +11,7 @@ const earliest  = 1
 const latest = 4
 const timezone = "America/New_York"
 const name_array = ['Michelle', 'Rachel']
-const availabilities = [[1583906400000, 1583908200000, 1583910000000, 1583911800000],[1584597600000, 1584599400000, 1584601200000]]
+const availabilities = [[1583906400000, 1583908200000, 1583910000000, 1583911800000],[1584597600000, 1584599400000, 1584601200000, 1583911800000]]
 
 class Viewer extends Component {
   constructor(props) {

@@ -28,6 +28,7 @@
     "react-scripts": "3.4.0",
     "react-side-effect": "^2.1.0",
     "react-table-drag-select": "^0.3.1",
+    "react-tooltip": "^4.1.2",
     "reactstrap": "^6.5.0"
   },
   "scripts": {

@@ -35,7 +35,7 @@ class TimeSelector extends Component {
         const difference = this.generateDifference()
         await this.setState({cells:genFalseArray(2*difference + 1 ,this.state.date_array.length ),
             label_cells: genFalseArray(2*difference + 2,1)})
-        await this.generateTimes()
+        await this.setState({times: this.props.times})
         await this.generateRows()
         this.setState({loaded: true})
     }
@@ -61,22 +61,6 @@ class TimeSelector extends Component {
         const {earliest, latest} = this.generateBounds()
         const difference = moment.duration(moment(latest).diff(moment(earliest))).asHours()
         return(difference)
-    }
-
-    generateTimes = () => {
-        const difference = this.generateDifference()
-        const time_array = []
-        for (var j = 0; j < this.state.date_array.length; ++j){
-            const current_day = moment(this.state.date_array[j])
-            const column = []
-            for(var i = 0; i < 2 * difference + 1; ++i){
-                if (i === 0){column.push([]);continue}
-                const new_moment = moment(current_day).add(30*difference+30*(i-1),'minutes').valueOf()
-                column.push(new_moment)
-            }
-            time_array.push(column)
-        }
-        this.setState({times: time_array})
     }
 
     printCell = (e) => {
