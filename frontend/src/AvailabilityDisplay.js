@@ -17,6 +17,25 @@ function genFalseArray (length, width) {
     return (rows)
 }
 
+
+function genAvailDict (arr){
+    var counts = {};
+    for (var i = 0; i < arr.length; i++) {
+      var num = arr[i];
+      counts[num] = counts[num] ? counts[num] + 1 : 1;
+    }
+    return (counts)
+}
+
+function pickHex(color1, color2, weight) {
+    var w1 = weight;
+    var w2 = 1 - w1;
+    var rgb = [Math.round(color1[0] * w1 + color2[0] * w2),
+        Math.round(color1[1] * w1 + color2[1] * w2),
+        Math.round(color1[2] * w1 + color2[2] * w2)];
+    return rgb;
+}
+
 class Availability extends Component {
     constructor(props) {
       super(props);
@@ -25,20 +44,20 @@ class Availability extends Component {
         name_array: [],
         times: [],
         cells: [],
-        loaded: false
+        loaded: false, 
+        dispalyed: []
       }
     }
     async componentDidMount(){
-        await this.setState({times: this.props.times, cells: genFalseArray(2*this.props.difference + 1 ,this.props.date_array.length)})
+        console.log(this.props)
+        await this.setState({times: this.props.times, cells: genFalseArray(2*this.props.difference + 1 ,this.props.date_array.length), availabilities: this.props.availabilities, name_array: this.props.name_array})
         await this.generateRows()
         this.setState({loaded: true})
     }
 
-    handleTouch = (people) =>{
-        console.log(JSON.stringify(people))
-    }
-
     generateRows = () => {
+        const availDict = genAvailDict(this.props.availabilities.flat())
+
         const difference = this.props.difference
         const rows = []
         for(var i = 0; i < 2 * difference + 1; ++i) {
@@ -58,17 +77,19 @@ class Availability extends Component {
                     for (var k  = 0; k < names.length; ++k){
                         this.props.availabilities[k].includes(time) ? people.push(names[k]): people.push();
                     }
-                    column.push(<td key={100 * i + j} 
-                        onTouchStart={() => this.handleTouch(people)}  
-                        data-tip={people} 
+
+                    const color = pickHex([169, 169, 169],[0, 121, 107],1 - (isNaN(availDict[time]) ? 0 : availDict[time])/names.length)
+                    column.push(<td key={100 * i + j}   
+                        data-tip={people}
+                        style={{backgroundColor: "rgb(" + color + ")"}} 
                         className="cell-enabled-gray">
-                        &nbsp;<ReactTooltip effect="solid"/>
+                        {JSON.stringify(color)}<ReactTooltip effect="solid"/>
                         </td>)
                 }
             }
             rows.push(<tr key={i}>{column}</tr>)
         }
-        return rows;
+        this.setState({displayed: rows})
     }
 
     generateContent = () => {
@@ -77,7 +98,7 @@ class Availability extends Component {
             style={{tableLayout:"fixed"}}
             value={this.state.cells}
             onChange={this.handleDrag}>
-            {this.generateRows()}
+            {this.state.displayed}
             </TableDragSelect>
         )
     }

@@ -77,7 +77,6 @@ class TimeSelector extends Component {
                     column.push(<td key={100 * i + j} disabled>{moment(this.state.times[j][1]).format('LL')}</td>)    
                 }
                 else {
-                    // const time = JSON.stringify(this.state.times[j][i])
                     column.push(<td key={100 * i + j}>&nbsp;</td>)
                 }
             }
@@ -100,6 +99,7 @@ class TimeSelector extends Component {
         }
         selected_times = selected_times.map(x => moment(x).valueOf())
         this.setState({selected: selected_times})
+        this.props.handleAvail(selected_times)
     }
 
     generateContent (){
