@@ -40,7 +40,6 @@ class MasterSelector extends Component {
             await Axios.get("http://localhost:8000/api/times/" + this.props.slug + "%" + this.props.name_array[i]).then((response) => {
                 const updatedAvailabilities = [... this.state.availabilities];
                 updatedAvailabilities[i] = response.data.times_array;
-                console.log(updatedAvailabilities);
                 this.setState({availabilities: updatedAvailabilities});
             });
         }
@@ -100,7 +99,6 @@ class MasterSelector extends Component {
     }
 
     generateContent() {
-        console.log("within generate content" + this.state.availabilities);
         return (
             <table style={{align: "center", margin: "0px auto"}}>
             <tbody>
@@ -113,6 +111,8 @@ class MasterSelector extends Component {
             </td>
             <td>
                 <TimeSelector 
+                name = {this.props.name}
+                slug = {this.props.slug}
                 date_array={this.props.date_array} 
                 timezone={this.props.timezone}
                 earliest={Number(this.props.earliest)}

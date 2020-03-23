@@ -97,7 +97,8 @@ class Viewer extends Component {
   generateContent(){
     if(this.state.event_name == "") return "";
     return(
-      <MasterSelector             
+      <MasterSelector
+            name = {this.state.name}             
             date_array={(this.state.repeating)? this.state.day_array : this.state.date_array}
             slug={this.state.slug}
             timezone={this.state.timezone}

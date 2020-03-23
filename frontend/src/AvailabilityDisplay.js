@@ -83,7 +83,6 @@ class Availability extends Component {
     }
 
     render() {
-        console.log("in render they are " + this.props.availabilities);
         return (
             <div>
             {this.state.loaded? this.generateContent() : null}

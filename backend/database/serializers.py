@@ -22,4 +22,14 @@ class SlugSerializer(serializers.Serializer):
 
 class TimesSerializer(serializers.Serializer):
     snd_hash = serializers.CharField(max_length = 150, required=True, allow_blank=False) # hash only slug and name
-    times_array = serializers.ListField(child=serializers.IntegerField())
+    times_array = serializers.ListField(child=serializers.IntegerField())     
+    
+    def update(self, instance, validated_data):
+        instance.snd_hash = validated_data.get('snd_hash', instance.snd_hash)
+        instance.times_array = validated_data.get('times_array', instance.times_array)
+        instance.save()
+        return instance
+
+    class Meta:
+        model = times
+        fields = '__all__'   
