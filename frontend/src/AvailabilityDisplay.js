@@ -100,13 +100,11 @@ class Availability extends Component {
 
     generateContent = () => {
         return(
-            <TableDragSelect className="viewer-table" 
+            <table className="viewer-table" 
             style={{tableLayout:"fixed"}}
-            value={this.state.cells}
-            onChange={this.handleDrag}
             >
             {this.generateRows()}
-            </TableDragSelect>
+            </table>
         )
     }
 
