@@ -38,11 +38,40 @@ class TimeSelector extends Component {
             label_cells: genFalseArray(2 * difference + 2, 1)
         })
         await this.setState({ times: this.props.times })
-        await this.generateRows()
-        this.setState({ loaded: true })
-        // if (this.props.name !== "") {
-        //     Axios.get()
-        // }
+        await this.setState({ loaded: true })
+    }
+
+    async componentDidUpdate(prevProps) {
+        if (this.props.userIndex != prevProps.userIndex) {
+            Axios.get("http://localhost:8000/api/times/" + this.props.slug + "%" + this.props.name).then((response) => {
+                const prev_times = response.data.times_array;
+                const new_cells = this.state.cells;
+                for (var i = 0; i < prev_times.length; i++) {
+                    const index = this.findIndex(prev_times[i]);
+                    new_cells[index[1]][index[0]] = true;
+                }
+                console.log(new_cells);
+                this.setState({cells: new_cells});
+            });
+        }
+    }
+
+    findIndex = (moment) => {
+        const difference = this.generateDifference()
+        const num_days = this.state.date_array.length
+        const ans = [];
+        console.log(this.state.times);
+        console.log(2 * difference + 1);
+        console.log(num_days);
+        for (var i = 1; i < 2 * difference + 1; ++i) {
+            for (var j = 0; j < num_days; ++j) {
+                if (this.state.times[j][i] === moment) {
+                    ans.push(j);
+                    ans.push(i);
+                    return ans;
+                }
+            }
+        }
     }
 
     generateBounds = () => {
@@ -91,30 +120,32 @@ class TimeSelector extends Component {
     }
 
     handleDrag = (new_cells) => {
-        console.log(this.props.name)
-        this.setState({ cells: new_cells })
-        const difference = this.generateDifference()
-        const num_days = this.state.date_array.length
-        var selected_times = []
-        for (var i = 1; i < 2 * difference + 1; ++i) {
-            for (var j = 0; j < num_days; ++j) {
-                if (new_cells[i][j] === true) {
-                    selected_times.push(this.state.times[j][i])
+        if (this.props.userIndex != -1) {
+            console.log(new_cells);
+            this.setState({ cells: new_cells })
+            const difference = this.generateDifference()
+            const num_days = this.state.date_array.length
+            var selected_times = []
+            for (var i = 1; i < 2 * difference + 1; ++i) {
+                for (var j = 0; j < num_days; ++j) {
+                    if (new_cells[i][j] === true) {
+                        selected_times.push(this.state.times[j][i])
+                    }
                 }
             }
-        }
-        selected_times = selected_times.map(x => moment(x).valueOf())
-        Axios.get("http://localhost:8000/api/times/" + this.props.slug + "%" + this.props.name).then((response) => {
-            response.data.times_array = selected_times;
-            Axios.put("http://localhost:8000/api/times/" + this.props.slug + "%" + this.props.name, response.data).then((response) => {
-                this.setState({ selected: selected_times });
-                this.props.handleAvail(selected_times)
-                console.log(response);
-                console.log(selected_times);
+            selected_times = selected_times.map(x => moment(x).valueOf())
+            Axios.get("http://localhost:8000/api/times/" + this.props.slug + "%" + this.props.name).then((response) => {
+                response.data.times_array = selected_times;
+                Axios.put("http://localhost:8000/api/times/" + this.props.slug + "%" + this.props.name, response.data).then((response) => {
+                    this.setState({ selected: selected_times });
+                    this.props.handleAvail(selected_times)
+                });
             });
-        });
+        }
     }
 
+
+    
     generateContent() {
         return (
             <TableDragSelect className="viewer-table"

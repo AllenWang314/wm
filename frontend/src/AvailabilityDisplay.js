@@ -5,12 +5,12 @@ import ReactTooltip from 'react-tooltip'
 var moment = require('moment-timezone');
 moment().utc();
 
-function genFalseArray (length, width) {
+function genTrueArray (length, width) {
     const rows = []
     for (var i = 0; i < length; ++i){
         const column = []
         for (var j = 0; j < width; ++j){
-            column.push(false)
+            column.push(true)
         }
         rows.push(column)
     }
@@ -49,23 +49,20 @@ class Availability extends Component {
       }
     }
     async componentDidMount(){
-        console.log(this.props)
-        await this.setState({times: this.props.times, cells: genFalseArray(2*this.props.difference + 1 ,this.props.date_array.length), availabilities: this.props.availabilities, name_array: this.props.name_array})
-        await this.generateRows()
+        await this.setState({times: this.props.times, cells: genTrueArray(2*this.props.difference + 1 ,this.props.date_array.length), availabilities: this.props.availabilities, name_array: this.props.name_array});
+        this.generateRows();
         this.setState({loaded: true})
     }
 
-    componentDidUpdate (prevProps){
-        if (this.props.availabilities !== prevProps.availabilities){
-            console.log('here')
-            this.generateRows()
-        }
-    }
+    // componentDidUpdate (prevProps){
+    //     if (this.props.availabilities !== prevProps.availabilities){
+    //         console.log('here')
+    //         this.generateRows()
+    //     }
+    // }
 
     generateRows = () => {
         const availDict = genAvailDict(this.props.availabilities.flat())
-        console.log(availDict)
-        console.log(this.props.name_array)
         const difference = this.props.difference
         const rows = []
         for(var i = 0; i < 2 * difference + 1; ++i) {
@@ -97,16 +94,18 @@ class Availability extends Component {
             }
             rows.push(<tr key={i}>{column}</tr>)
         }
-        this.setState({displayed: rows})
+        return rows;
     }
+
 
     generateContent = () => {
         return(
             <TableDragSelect className="viewer-table" 
             style={{tableLayout:"fixed"}}
             value={this.state.cells}
-            onChange={this.handleDrag}>
-            {this.state.displayed}
+            onChange={this.handleDrag}
+            >
+            {this.generateRows()}
             </TableDragSelect>
         )
     }

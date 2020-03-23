@@ -100,7 +100,7 @@ class MasterSelector extends Component {
 
     handleAvail = (new_avails) => {
         const updatedAvailabilities = this.state.availabilities;
-        updatedAvailabilities[this.props.name_array.length] = new_avails;
+        updatedAvailabilities[this.props.userIndex] = new_avails;
         this.setState({availabilities: updatedAvailabilities});
     }
 
@@ -116,7 +116,8 @@ class MasterSelector extends Component {
                 </TableDragSelect>
             </td>
             <td>
-                <TimeSelector 
+                <TimeSelector
+                userIndex = {this.props.userIndex} 
                 name = {this.props.name}
                 slug = {this.props.slug}
                 date_array={this.props.date_array} 

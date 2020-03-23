@@ -67,7 +67,6 @@ class Viewer extends Component {
     Axios.get(API_LINK + this.props.match.params.slug).then((response) => {
       name_array = response.data[0].name_array;
       while (i < name_array.length & name_array[i] !== this.state.name) {
-        console.log(typeof name_array[i]);
         i++;
       }
       if (this.state.userIndex === -1) {
@@ -98,7 +97,8 @@ class Viewer extends Component {
     if(this.state.event_name == "") return "";
     return(
       <MasterSelector
-            name = {this.state.name}             
+            name = {this.state.name}
+            userIndex = {this.state.userIndex}             
             date_array={(this.state.repeating)? this.state.day_array : this.state.date_array}
             slug={this.state.slug}
             timezone={this.state.timezone}
