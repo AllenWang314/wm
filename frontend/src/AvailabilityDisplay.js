@@ -24,7 +24,6 @@ class Availability extends Component {
         availabilities: [],
         name_array: [],
         times: [],
-        displayed: [],
         cells: [],
         loaded: false
       }
@@ -69,7 +68,7 @@ class Availability extends Component {
             }
             rows.push(<tr key={i}>{column}</tr>)
         }
-        this.setState({displayed: rows})
+        return rows;
     }
 
     generateContent = () => {
@@ -78,12 +77,13 @@ class Availability extends Component {
             style={{tableLayout:"fixed"}}
             value={this.state.cells}
             onChange={this.handleDrag}>
-            {this.state.displayed}
+            {this.generateRows()}
             </TableDragSelect>
         )
     }
 
     render() {
+        console.log("in render they are " + this.props.availabilities);
         return (
             <div>
             {this.state.loaded? this.generateContent() : null}

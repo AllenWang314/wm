@@ -24,7 +24,7 @@ class MasterSelector extends Component {
     constructor(props) {
         super(props);
         this.state = {
-        availabilities: {},
+        availabilities: this.props.name_array.map(() => {return []}),
         labels: [],
         label_cells: [],
         times: [],
@@ -36,10 +36,14 @@ class MasterSelector extends Component {
         await this.generateLabels()
         await this.generateTimes()
         await this.setState({loaded: true})
-        Axios.get("some fantastic link").then((response) => {
-
-            //do stuff here
-        });
+        for (var i = 0; i < this.props.name_array.length; i++){
+            await Axios.get("http://localhost:8000/api/times/" + this.props.slug + "%" + this.props.name_array[i]).then((response) => {
+                const updatedAvailabilities = [... this.state.availabilities];
+                updatedAvailabilities[i] = response.data.times_array;
+                console.log(updatedAvailabilities);
+                this.setState({availabilities: updatedAvailabilities});
+            });
+        }
     }
 
     generateBounds = () => {
@@ -96,6 +100,7 @@ class MasterSelector extends Component {
     }
 
     generateContent() {
+        console.log("within generate content" + this.state.availabilities);
         return (
             <table style={{align: "center", margin: "0px auto"}}>
             <tbody>
@@ -131,7 +136,7 @@ class MasterSelector extends Component {
                 difference={this.generateDifference()}
                 times={this.state.times}
                 name_array={this.props.name_array}
-                availabilities={this.props.availabilities}/>
+                availabilities={this.state.availabilities}/>
             </td>
             </tr>
             </tbody>
