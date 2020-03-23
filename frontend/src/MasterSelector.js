@@ -98,6 +98,12 @@ class MasterSelector extends Component {
         this.setState({times: time_array})
     }
 
+    handleAvail = (new_avails) => {
+        const updatedAvailabilities = this.state.availabilities;
+        updatedAvailabilities[this.props.name_array.length] = new_avails;
+        this.setState({availabilities: updatedAvailabilities});
+    }
+
     generateContent() {
         return (
             <table style={{align: "center", margin: "0px auto"}}>
@@ -117,7 +123,8 @@ class MasterSelector extends Component {
                 timezone={this.props.timezone}
                 earliest={Number(this.props.earliest)}
                 latest={Number(this.props.latest)}
-                times={this.state.times}/>
+                times={this.state.times}
+                handleAvail={this.handleAvail}/>
             </td>
             </tr>
             <tr>

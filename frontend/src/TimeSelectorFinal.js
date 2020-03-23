@@ -82,7 +82,6 @@ class TimeSelector extends Component {
                     column.push(<td key={100 * i + j} disabled>{moment(this.state.times[j][1]).format('LL')}</td>)
                 }
                 else {
-                    // const time = JSON.stringify(this.state.times[j][i])
                     column.push(<td key={100 * i + j}>&nbsp;</td>)
                 }
             }
@@ -109,6 +108,7 @@ class TimeSelector extends Component {
             response.data.times_array = selected_times;
             Axios.put("http://localhost:8000/api/times/" + this.props.slug + "%" + this.props.name, response.data).then((response) => {
                 this.setState({ selected: selected_times });
+                this.props.handleAvail(selected_times)
                 console.log(response);
                 console.log(selected_times);
             });

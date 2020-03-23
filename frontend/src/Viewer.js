@@ -102,8 +102,8 @@ class Viewer extends Component {
             date_array={(this.state.repeating)? this.state.day_array : this.state.date_array}
             slug={this.state.slug}
             timezone={this.state.timezone}
-            earliest={this.state.earliest} 
-            latest={this.state.latest}
+            earliest={Number(this.state.earliest)} 
+            latest={Number(this.state.latest)}
             name_array={this.state.name_array}
             availabilities = {availabilities}
             />
