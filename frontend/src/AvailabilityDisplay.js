@@ -55,9 +55,17 @@ class Availability extends Component {
         this.setState({loaded: true})
     }
 
+    componentDidUpdate (prevProps){
+        if (this.props.availabilities !== prevProps.availabilities){
+            console.log('here')
+            this.generateRows()
+        }
+    }
+
     generateRows = () => {
         const availDict = genAvailDict(this.props.availabilities.flat())
-
+        console.log(availDict)
+        console.log(this.props.name_array)
         const difference = this.props.difference
         const rows = []
         for(var i = 0; i < 2 * difference + 1; ++i) {
