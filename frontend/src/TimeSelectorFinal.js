@@ -52,6 +52,14 @@ class TimeSelector extends Component {
                 }
                 console.log(new_cells);
                 this.setState({cells: new_cells});
+            }).catch((error) => {
+                // Error 😨
+                const values = {snd_hash: (this.props.slug + "%" + this.props.name), times_array : []}
+                Axios.post("http://localhost:8000/api/post-times/", values, {
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                })
             });
         }
     }
@@ -134,6 +142,7 @@ class TimeSelector extends Component {
                 }
             }
             selected_times = selected_times.map(x => moment(x).valueOf())
+
             Axios.get("http://localhost:8000/api/times/" + this.props.slug + "%" + this.props.name).then((response) => {
                 response.data.times_array = selected_times;
                 Axios.put("http://localhost:8000/api/times/" + this.props.slug + "%" + this.props.name, response.data).then((response) => {

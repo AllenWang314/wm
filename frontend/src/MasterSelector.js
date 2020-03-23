@@ -41,6 +41,9 @@ class MasterSelector extends Component {
                 const updatedAvailabilities = [... this.state.availabilities];
                 updatedAvailabilities[i] = response.data.times_array;
                 this.setState({availabilities: updatedAvailabilities});
+            }).catch((error) => {
+                console.log(error.response);
+                console.log("yeetie");
             });
         }
     }

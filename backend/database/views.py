@@ -76,6 +76,16 @@ def post_event(request, format = None):
 		print(serializer.errors)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['POST'])
+def post_time(request, format = None):
+	if request.method == 'POST':
+		serializer = TimesSerializer(times(), data=request.data)
+		if serializer.is_valid():
+			serializer.save()
+			return Response(serializer.data, status=status.HTTP_201_CREATED)
+		print(serializer.errors)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 @api_view(['GET'])
 def get_slug(request, format = None):
 	if request.method == 'GET':
