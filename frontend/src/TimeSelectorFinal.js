@@ -42,7 +42,15 @@ class TimeSelector extends Component {
     }
 
     async componentDidUpdate(prevProps) {
-        if (this.props.userIndex != prevProps.userIndex) {
+        if (this.props.newUser != prevProps.newUser && this.props.newUser == 1) {
+            const values = {snd_hash: (this.props.slug + "%" + this.props.name), times_array : []};
+            Axios.post("http://localhost:8000/api/post-times/", values, {
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                });
+        }
+        else if (this.props.newUser != -1 && this.props.newUser != prevProps.newUser){
             Axios.get("http://localhost:8000/api/times/" + this.props.slug + "%" + this.props.name).then((response) => {
                 const prev_times = response.data.times_array;
                 const new_cells = this.state.cells;
@@ -50,16 +58,7 @@ class TimeSelector extends Component {
                     const index = this.findIndex(prev_times[i]);
                     new_cells[index[1]][index[0]] = true;
                 }
-                console.log(new_cells);
                 this.setState({cells: new_cells});
-            }).catch((error) => {
-                // Error 😨
-                const values = {snd_hash: (this.props.slug + "%" + this.props.name), times_array : []}
-                Axios.post("http://localhost:8000/api/post-times/", values, {
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                })
             });
         }
     }
@@ -68,9 +67,6 @@ class TimeSelector extends Component {
         const difference = this.generateDifference()
         const num_days = this.state.date_array.length
         const ans = [];
-        console.log(this.state.times);
-        console.log(2 * difference + 1);
-        console.log(num_days);
         for (var i = 1; i < 2 * difference + 1; ++i) {
             for (var j = 0; j < num_days; ++j) {
                 if (this.state.times[j][i] === moment) {
@@ -128,7 +124,7 @@ class TimeSelector extends Component {
     }
 
     handleDrag = (new_cells) => {
-        if (this.props.userIndex != -1) {
+        if (this.props.newUser != -1) {
             console.log(new_cells);
             this.setState({ cells: new_cells })
             const difference = this.generateDifference()
@@ -146,8 +142,9 @@ class TimeSelector extends Component {
             Axios.get("http://localhost:8000/api/times/" + this.props.slug + "%" + this.props.name).then((response) => {
                 response.data.times_array = selected_times;
                 Axios.put("http://localhost:8000/api/times/" + this.props.slug + "%" + this.props.name, response.data).then((response) => {
+                    console.log("hell yeet"); 
                     this.setState({ selected: selected_times });
-                    this.props.handleAvail(selected_times)
+                    this.props.handleAvail(selected_times);
                 });
             });
         }

@@ -48,6 +48,14 @@ class MasterSelector extends Component {
         }
     }
 
+    async componentDidUpdate(prevProps){
+        if(prevProps.name_array.length != this.props.name_array.length) {
+            const old_avail = [...this.state.availabilities];
+            old_avail.push([]);
+            this.setState({availabilities: old_avail});
+        }
+    }
+
     generateBounds = () => {
         if (this.props.earliest < this.props.latest){
             const earliest = new Date(Number(this.props.date_array[0]))
@@ -102,12 +110,17 @@ class MasterSelector extends Component {
     }
 
     handleAvail = (new_avails) => {
+        console.log("triggered");
+        console.log(new_avails);
+        console.log(this.props.userIndex);
         const updatedAvailabilities = this.state.availabilities;
         updatedAvailabilities[this.props.userIndex] = new_avails;
+        console.log(updatedAvailabilities);
         this.setState({availabilities: updatedAvailabilities});
     }
 
     generateContent() {
+        console.log(this.props.name_array)
         return (
             <table style={{align: "center", margin: "0px auto"}}>
             <tbody>
@@ -120,7 +133,8 @@ class MasterSelector extends Component {
             </td>
             <td>
                 <TimeSelector
-                userIndex = {this.props.userIndex} 
+                newUser = {this.props.newUser} 
+                userIndex = {this.props.userIndex}
                 name = {this.props.name}
                 slug = {this.props.slug}
                 date_array={this.props.date_array} 
@@ -156,6 +170,7 @@ class MasterSelector extends Component {
     }
 
     render() {
+        console.log(this.props.name_array)
         return (
             <div>
                 {this.state.loaded ? this.generateContent() : null}

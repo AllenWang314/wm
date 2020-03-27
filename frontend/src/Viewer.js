@@ -6,8 +6,6 @@ import './index.css';
 
 const API_LINK = "http://localhost:8000/api/";
 
-const availabilities = [[1583906400000, 1583908200000, 1583910000000, 1583911800000],[1584597600000, 1584599400000, 1584601200000, 1583911800000]]
-
 class Viewer extends Component {
   constructor(props) {
     super(props);
@@ -16,14 +14,15 @@ class Viewer extends Component {
       name: "",
       event_name: "",
       submitted: false,
-      userIndex: -1,
       date_array: [],
       repeating: false,
       day_array: [],
+      userIndex: -1,
       earliest: -1,
       latest: 24,
       timezone: "",
       name_array: [],
+      newUser: -1, // -1: not submitted yet, 0: not a new user, 1: yes new user
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -33,7 +32,8 @@ class Viewer extends Component {
   async componentDidMount() {
     const slug = this.props.match.params.slug;
     Axios.get(API_LINK + slug).then((response) => {
-      this.setState({ data: (response.data[0]), 
+      this.setState({
+        data: (response.data[0]),
         event_name: response.data[0].event_name,
         date_array: response.data[0].date_array,
         day_array: response.data[0].day_array,
@@ -57,27 +57,38 @@ class Viewer extends Component {
     this.setState({ submitted: true }, () => {
       Axios.get(API_LINK + this.props.match.params.slug).then((response) => {
         if (!response.data[0].name_array.includes(this.state.name)) {
+          this.setState({ newUser: 1 });
           response.data[0].name_array.push(this.state.name);
           Axios.put(API_LINK + this.props.match.params.slug, response.data[0])
-            .then(res => console.log(res.data));
+            .then(() => {
+              if (this.state.userIndex === -1) {
+                this.setState({
+                  userIndex: response.data[0].name_array.length - 1, submitted: true, name_array: response.data[0].name_array
+                });
+              }
+            });
+        }
+        else {
+          this.setState({ newUser: 0 });
+          if (this.state.userIndex === -1) {
+            var i = 0;
+            let narray = response.data[0].name_array;
+            while (i < narray.length && narray[i] !== this.state.name) {
+              i++;
+            }
+            if (this.state.userIndex === -1) {
+              console.log(narray);
+              this.setState({ userIndex: i, submitted: true, name_array: narray });
+            }
+          }
         }
       });
-    var i = 0;
-    let name_array;
-    Axios.get(API_LINK + this.props.match.params.slug).then((response) => {
-      name_array = response.data[0].name_array;
-      while (i < name_array.length & name_array[i] !== this.state.name) {
-        i++;
-      }
-      if (this.state.userIndex === -1) {
-        this.setState({ userIndex: i, submitted: true });
-      }
-    });}
+    }
     );
   }
 
   generateSignIn() {
-    if (!this.state.submitted || this.state.userIndex === -1) {
+    if (!this.state.submitted || this.state.newUser === -1) {
       return (<div>
         <input
           value={this.state.name}
@@ -89,25 +100,25 @@ class Viewer extends Component {
       </div>);
     }
     else {
-      return (<div>Welcome {this.state.name}! You are index {this.state.userIndex}!</div>)
+      return (<div>Welcome {this.state.name}! You are at index {this.state.userIndex}!</div>)
     }
   }
 
-  generateContent(){
-    if(this.state.event_name == "") return "";
-    return(
+  generateContent() {
+    if (this.state.event_name == "") return "";
+    return (
       <MasterSelector
-            name = {this.state.name}
-            userIndex = {this.state.userIndex}             
-            date_array={(this.state.repeating)? this.state.day_array : this.state.date_array}
-            slug={this.state.slug}
-            timezone={this.state.timezone}
-            earliest={Number(this.state.earliest)} 
-            latest={Number(this.state.latest)}
-            name_array={this.state.name_array}
-            availabilities = {availabilities}
-            />
-      )
+        name={this.state.name}
+        date_array={(this.state.repeating) ? this.state.day_array : this.state.date_array}
+        slug={this.state.slug}
+        timezone={this.state.timezone}
+        earliest={Number(this.state.earliest)}
+        latest={Number(this.state.latest)}
+        name_array={this.state.name_array}
+        newUser={this.state.newUser}
+        userIndex={this.state.userIndex}
+      />
+    )
   }
 
   render() {
