@@ -125,7 +125,6 @@ class TimeSelector extends Component {
 
     handleDrag = (new_cells) => {
         if (this.props.newUser != -1) {
-            console.log(new_cells);
             this.setState({ cells: new_cells })
             const difference = this.generateDifference()
             const num_days = this.state.date_array.length
@@ -142,7 +141,6 @@ class TimeSelector extends Component {
             Axios.get("http://localhost:8000/api/times/" + this.props.slug + "%" + this.props.name).then((response) => {
                 response.data.times_array = selected_times;
                 Axios.put("http://localhost:8000/api/times/" + this.props.slug + "%" + this.props.name, response.data).then((response) => {
-                    console.log("hell yeet"); 
                     this.setState({ selected: selected_times });
                     this.props.handleAvail(selected_times);
                 });

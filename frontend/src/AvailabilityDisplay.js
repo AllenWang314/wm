@@ -62,8 +62,6 @@ class Availability extends Component {
     }
 
     generateRows = () => {
-        console.log("regenerated");
-        console.log(this.props.name_array);
         const availDict = genAvailDict(this.props.availabilities.flat())
         const difference = this.props.difference
         const rows = []
@@ -94,12 +92,10 @@ class Availability extends Component {
                         className="cell-enabled-gray">
                         {JSON.stringify(color)}<ReactTooltip effect="solid"/>
                         </td>)
-                    console.log(color);
                 }
             }
             rows.push(<tr key={i}>{column}</tr>)
         }
-        console.log(rows);
         return rows;
     }
 

@@ -43,7 +43,6 @@ class MasterSelector extends Component {
                 this.setState({availabilities: updatedAvailabilities});
             }).catch((error) => {
                 console.log(error.response);
-                console.log("yeetie");
             });
         }
     }
@@ -110,17 +109,12 @@ class MasterSelector extends Component {
     }
 
     handleAvail = (new_avails) => {
-        console.log("triggered");
-        console.log(new_avails);
-        console.log(this.props.userIndex);
         const updatedAvailabilities = this.state.availabilities;
         updatedAvailabilities[this.props.userIndex] = new_avails;
-        console.log(updatedAvailabilities);
         this.setState({availabilities: updatedAvailabilities});
     }
 
     generateContent() {
-        console.log(this.props.name_array)
         return (
             <table style={{align: "center", margin: "0px auto"}}>
             <tbody>
@@ -170,7 +164,6 @@ class MasterSelector extends Component {
     }
 
     render() {
-        console.log(this.props.name_array)
         return (
             <div>
                 {this.state.loaded ? this.generateContent() : null}
