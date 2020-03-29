@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import TableDragSelect from "react-table-drag-select";
 import "./DragTable.css";
 import calendar from "calendar-month-array";
-
+import { FormNext, FormPrevious } from "grommet-icons"
+import { Heading, Box } from "grommet"
 const monthNames = [
     "January",
     "February",
@@ -200,10 +201,14 @@ class Calendar extends Component {
     render() {
         return (
             <div>
-                    <label className="large_label">
+                    <Box justify="center" alignSelf="center">
+                    <Box justify="center" alignSelf="center">
+                    <Heading level="5">
                         {monthNames[this.state.current_month.getMonth()]}{" "}
                         {this.state.current_month.getFullYear()}
-                    </label>
+                    </Heading>
+                    </Box>
+                    </Box>
                 <table>
                     <tbody>
                         <tr>
@@ -212,7 +217,7 @@ class Calendar extends Component {
                                     className="circular"
                                     onClick={this.handlePrev}
                                 >
-                                    &lt;
+                                    <FormPrevious/>
                                 </button>
                             </td>
                             <td>
@@ -237,7 +242,7 @@ class Calendar extends Component {
                                     className="circular"
                                     onClick={this.handleNext}
                                 >
-                                    &gt;
+                                    <FormNext/>
                                 </button>
                             </td>
                         </tr>

@@ -14,6 +14,7 @@
     "core-js": "^3.6.4",
     "formik": "^2.1.4",
     "grommet": "^2.11.3",
+    "grommet-icons": "^4.4.0",
     "material-ui": "^0.20.2",
     "mathjs": "^6.6.1",
     "moment": "^2.24.0",

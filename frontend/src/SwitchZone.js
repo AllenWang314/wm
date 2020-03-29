@@ -18,7 +18,7 @@ class SwitchZone extends Component {
 	render(){
 		return(
 			<Select 
-			size="small"
+			size="xsmall"
 			options={all_zones}
 			placeholder={moment.tz.guess()}
 			value={this.state.timezone}

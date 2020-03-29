@@ -80,16 +80,15 @@ class Availability extends Component {
                     const names = this.props.name_array
                     const modified_availabilities = [...this.props.availabilities];
                     if (modified_availabilities.length !== this.state.name_array.length) modified_availabilities.push([]);
-                    for (var k  = 0; k < names.length-1; ++k){
+                    for (var k  = 0; k < modified_availabilities.length; ++k){
                         modified_availabilities[k].includes(time) ? people.push(names[k]): people.push();
                     }
-
                     const color = pickHex([169, 169, 169],[0, 121, 107],1 - (isNaN(availDict[time]) ? 0 : availDict[time])/(names.length))
                     column.push(<td key={100 * i + j}   
-                        data-tip={people}
+                        data-tip={people.join(", ")}
                         style={{backgroundColor: "rgb(" + color + ")"}} 
                         className="cell-enabled-gray">
-                        &nbsp;<ReactTooltip effect="solid"/>
+                        &nbsp;<ReactTooltip effect="solid" offset={{bottom: "7px"}}/>
                         </td>)
                 }
             }

@@ -34,7 +34,7 @@ class MasterSelector extends Component {
         await this.generateLabels()
         await this.generateTimes()
         await this.setState({loaded: true})
-        for (var i = 0; i < this.props.name_array.length; i++){
+        for (let i = 0; i < this.props.name_array.length; i++){
             await Axios.get("http://localhost:8000/api/times/" + this.props.slug + "%" + this.props.name_array[i]).then((response) => {
                 const updatedAvailabilities = [...this.state.availabilities];
                 updatedAvailabilities[i] = response.data.times_array;
@@ -125,7 +125,7 @@ class MasterSelector extends Component {
             <table style={{align: "center", margin: "0px auto"}}>
             <tbody>
             <tr>
-            <td style={{width:"10%"}}>
+            <td style={{width:"70px"}}>
                 <table className="viewer-table" 
                 value={this.state.label_cells}>
                 <tbody>
@@ -148,7 +148,7 @@ class MasterSelector extends Component {
             </td>
             </tr>
             <tr>
-            <td style={{width:"20%"}}>
+            <td style={{width:"70px"}}>
                 <table className="viewer-table" 
                 value={this.state.label_cells}>
                 <tbody>

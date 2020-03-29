@@ -7,6 +7,8 @@ import Calendar from "./ReactTableDrag.js";
 import ByWeek from "./ByWeek.js";
 import Bounds from "./Bounds.js";
 import Timezone from "./Timezone.js";
+import Main from "./GrommetTheme.js";
+import { Grommet, Grid, Box, Heading, Button } from "grommet";
 
 
 const API_LINK = "http://localhost:8000/api/";
@@ -15,7 +17,7 @@ const current_timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 class Splash extends Component {
     constructor(props) {
         super(props);
-        this.state = { future_slug: "", repeating: false, date_array: [], day_array: [] };
+        this.state = { future_slug: "", repeating: false, date_array: [], day_array: [], earliest: 10, latest: 14 };
     }
     async componentDidMount() {
         Axios.get(API_LINK + "get_slug").then(response => {
@@ -29,8 +31,8 @@ class Splash extends Component {
                 initialValues={{
                     event_name: "",
                     timezone: current_timezone,
-                    earliest: -1,
-                    latest: 24,
+                    earliest: this.state.earliest,
+                    latest: this.state.latest,
                     repeating: this.state.repeating,
                     slug: this.state.future_slug,
                     date_array: this.state.date_array,
@@ -38,7 +40,6 @@ class Splash extends Component {
                     name_array: []
                 }}
                 onSubmit={values => {
-                    console.log(values)
                     Axios.post(API_LINK + "post/", values, {
                         headers: {
                             "Content-Type": "application/json"
@@ -50,13 +51,16 @@ class Splash extends Component {
                         })
                         .catch(error => {
                             alert("ERROR");
+                            alert(error.response);
                         });
                     }
                 }
             >
                 {props => (
+                    <div className="App">
                         <div className="App-header">
                             <div className="Splash">
+                            <Grommet theme={Main} themeMode="dark">
                                 <form onSubmit={props.handleSubmit}>
                                     <div className="form__group">
                                     <input
@@ -70,7 +74,6 @@ class Splash extends Component {
                                         required
                                     />
                                     </div>
-
                                     {props.values.repeating === false ? <Calendar
                                         date_list={props.values.date_array}
                                         onDrag={props.setFieldValue}
@@ -79,28 +82,60 @@ class Splash extends Component {
                                         day_list={props.values.day_array}
                                         onDrag={props.setFieldValue}
                                     />}
-
+                                    <Box justify="center">
+                                    <Grid 
+                                    alignSelf="center"
+                                    rows={["stretch" , "stretch"]}
+                                    columns={["small", "small"]}
+                                    gap="xsmall"
+                                    areas={[
+                                        { name: "top_1", start: [0, 0], end: [0, 0] },
+                                        { name: "top_2", start: [1, 0], end: [1, 0] },
+                                        { name: "bottom_1", start: [0, 1], end: [1, 1] },
+                                    ]}>
+                                    <Box
+                                        gridArea="top_1"
+                                        justify="center"
+                                        align="center"
+                                        pad="xxsmall"
+                                    >
+                                    <Heading level="6">At the earliest</Heading>
                                     <Bounds
                                         name="earliest"
-                                        as="select"
                                         placeholder="At the earliest"
                                         value={props.values.earliest}
-                                        onChange={props.handleChange}
+                                        onChange={(event) => props.setFieldValue("earliest", event)}
                                     />
+                                    </Box>
+                                    <Box
+                                        gridArea="top_2"
+                                        justify="center"
+                                        align="center"
+                                        pad="xxsmall"
+                                    >
+                                    <Heading level="6">At the latest</Heading>
                                     <Bounds
                                         name="latest"
-                                        as="select"
-                                        placeholder="At the latest"
                                         value={props.values.latest}
-                                        onChange={props.handleChange}
+                                        placeholder="At the latest"
+                                        onChange={(event) => props.setFieldValue("latest", event)}
                                     />
-                                    <br/>
+                                    </Box>
+                                    <Box
+                                        gridArea="bottom_1"
+                                        justify="center"
+                                        align="center"
+                                        pad="xxsmall"
+                                    >
                                     <Timezone
                                         name="timezone"
                                         as="select"
                                         value={props.values.timezone}
-                                        onChange={props.handleChange}
+                                        onChange={(event) => props.setFieldValue("timezone", event.value)}
                                     />
+                                    </Box>
+                                    </Grid>
+                                    </Box>
                                     <br/>
                                     <label>
                                         <small>By Week</small>
@@ -112,16 +147,17 @@ class Splash extends Component {
                                         onChange={props.handleChange}
                                     ></Checkbox>
                                     <div>
-                                        <button
+                                        <Button
+                                            primary
                                             type="submit"
-                                            className="bright_button"
-                                        >
-                                            Create Event
-                                        </button>
+                                            label="Create Event"
+                                        />
                                     </div>
                                 </form>
+                                </Grommet>
                             </div>
                         </div>
+                    </div>
                 )}
             </Formik>
         );
