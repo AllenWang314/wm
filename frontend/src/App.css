@@ -16,11 +16,13 @@
     justify-content: center;
     font-size: calc(10px + 2vmin);
     color: white;
+    font-family: "Helvetica";
 }
 
 .Splash {
     width: 20em;
     justify-content: center;
+    font-family: inherit;
 }
 
 @media only screen and (min-aspect-ratio: 1/1) {
@@ -31,10 +33,12 @@
         flex-direction: column;
         font-size: calc(10px + 2vmin);
         color: white;
+        font-family: inherit;
     }
     .Splash {
         width: 20em;
         justify-content: center;
+        font-family: inherit;
     }
 }
 
@@ -45,6 +49,7 @@
     padding: 0 10px 0;
     font-size: 1rem;
     font-weight: 400;
+    font-family: inherit;
     border: 0;
     width: 40%;
     height: 3rem;
@@ -63,6 +68,7 @@
     padding: 0 10px 0;
     font-size: 1rem;
     font-weight: 400;
+    font-family: inherit;
     border: 0;
     width: 40%;
     height: 3rem;
@@ -83,11 +89,13 @@
     border: 0;
     text-align: center;
     align-content: center;
-    justify-content: center
+    justify-content: center;
+    font-family: inherit;
 }
 
 .large_label {
     font-size: 1.2rem;
+    font-family: inherit;
 }
 
 .form__group {
@@ -95,6 +103,7 @@
     justify-content: center;
     width: 75%;
     padding-bottom: 10px;
+    font-family: inherit;
 }
 
 .form__field {
@@ -132,6 +141,7 @@
 
 .form__field:valid {
     ~.form__label {
+        font-family: inherit;
         position: absolute;
         top: 0;
         display: block;
@@ -140,6 +150,7 @@
         color: var(--primary);
         font-weight: 700;
     }
+    font-family: inherit;
     padding-bottom: 6px;
     font-weight: 700;
     border-width: 3px;
@@ -150,6 +161,7 @@
 .form__field:focus {
     ~.form__label {
         position: absolute;
+        font-family: inherit;
         top: 0;
         display: block;
         transition: 0.2s;
@@ -159,6 +171,7 @@
     }
     padding-bottom: 6px;
     font-weight: 700;
+    font-family: inherit;
     border-width: 3px;
     border-image: linear-gradient(to right, var(--primary), var(--secondary), var(--primary));
     border-image-slice: 1;
@@ -170,3 +183,4 @@
         box-shadow: none;
     }
 }
+

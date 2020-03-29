@@ -13,6 +13,7 @@
     "calendar-month-array": "^2.1.1",
     "core-js": "^3.6.4",
     "formik": "^2.1.4",
+    "grommet": "^2.11.3",
     "material-ui": "^0.20.2",
     "mathjs": "^6.6.1",
     "moment": "^2.24.0",
@@ -29,7 +30,8 @@
     "react-side-effect": "^2.1.0",
     "react-table-drag-select": "^0.3.1",
     "react-tooltip": "^4.1.2",
-    "reactstrap": "^6.5.0"
+    "reactstrap": "^6.5.0",
+    "styled-components": "^5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import TimeSelector from "./TimeSelectorFinal.js";
-import TableDragSelect from "react-table-drag-select";
 import Availability from "./AvailabilityDisplay.js"
 import "./DragTable.css";
 import Axios from "axios";
@@ -28,17 +27,16 @@ class MasterSelector extends Component {
         labels: [],
         label_cells: [],
         times: [],
-        loaded: false
+        loaded: false,
         }
     }
     async componentDidMount (){
-        await moment.tz.setDefault(this.props.timezone);
         await this.generateLabels()
         await this.generateTimes()
         await this.setState({loaded: true})
         for (var i = 0; i < this.props.name_array.length; i++){
             await Axios.get("http://localhost:8000/api/times/" + this.props.slug + "%" + this.props.name_array[i]).then((response) => {
-                const updatedAvailabilities = [... this.state.availabilities];
+                const updatedAvailabilities = [...this.state.availabilities];
                 updatedAvailabilities[i] = response.data.times_array;
                 this.setState({availabilities: updatedAvailabilities});
             }).catch((error) => {
@@ -48,10 +46,13 @@ class MasterSelector extends Component {
     }
 
     async componentDidUpdate(prevProps){
-        if(prevProps.name_array.length != this.props.name_array.length) {
+        if (prevProps.name_array.length !== this.props.name_array.length) {
             const old_avail = [...this.state.availabilities];
             old_avail.push([]);
             this.setState({availabilities: old_avail});
+        }
+        if (prevProps.timezone !== this.props.timezone){
+            this.generateLabels()
         }
     }
 
@@ -85,8 +86,13 @@ class MasterSelector extends Component {
         const rows = []
         for(var i = 0; i < 2 * difference + 2; ++i) {
             const column = []
-            const time = moment(current_day).add(60*earliest+30*(i-1),'minutes').format('LT')
-            column.push(<td key={i} disabled>{i%2===1 ? time : "" }</td>)
+            const time = moment(current_day).tz(this.props.timezone).add(60*earliest+30*(i-1),'minutes').format('LT')
+            if (i%2===1){
+                column.push(<td key={i} disabled>{time}</td>)
+            }
+            else {
+                column.push(<td key={i} disabled>&nbsp;</td>)   
+            }
             rows.push(<tr key={i}>{column}</tr>)
         }
         this.setState({labels: rows, label_cells: genFalseArray(2*difference + 2,1)})
@@ -119,11 +125,13 @@ class MasterSelector extends Component {
             <table style={{align: "center", margin: "0px auto"}}>
             <tbody>
             <tr>
-            <td style={{width:"20%"}}>
-                <TableDragSelect className="viewer-table" 
+            <td style={{width:"10%"}}>
+                <table className="viewer-table" 
                 value={this.state.label_cells}>
+                <tbody>
                 {this.state.labels}
-                </TableDragSelect>
+                </tbody>
+                </table>
             </td>
             <td>
                 <TimeSelector
@@ -141,10 +149,12 @@ class MasterSelector extends Component {
             </tr>
             <tr>
             <td style={{width:"20%"}}>
-                <TableDragSelect className="viewer-table" 
+                <table className="viewer-table" 
                 value={this.state.label_cells}>
+                <tbody>
                 {this.state.labels}
-                </TableDragSelect>
+                </tbody>
+                </table>
             </td>
             <td>
                 <Availability

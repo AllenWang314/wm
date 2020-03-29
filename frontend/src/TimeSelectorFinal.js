@@ -42,7 +42,7 @@ class TimeSelector extends Component {
     }
 
     async componentDidUpdate(prevProps) {
-        if (this.props.newUser != prevProps.newUser && this.props.newUser == 1) {
+        if (this.props.newUser !== prevProps.newUser && this.props.newUser === 1) {
             const values = {snd_hash: (this.props.slug + "%" + this.props.name), times_array : []};
             Axios.post("http://localhost:8000/api/post-times/", values, {
                     headers: {
@@ -50,7 +50,7 @@ class TimeSelector extends Component {
                     }
                 });
         }
-        else if (this.props.newUser != -1 && this.props.newUser != prevProps.newUser){
+        else if (this.props.newUser !== -1 && this.props.newUser !== prevProps.newUser){
             Axios.get("http://localhost:8000/api/times/" + this.props.slug + "%" + this.props.name).then((response) => {
                 const prev_times = response.data.times_array;
                 const new_cells = this.state.cells;
@@ -124,7 +124,7 @@ class TimeSelector extends Component {
     }
 
     handleDrag = (new_cells) => {
-        if (this.props.newUser != -1) {
+        if (this.props.newUser !== -1) {
             this.setState({ cells: new_cells })
             const difference = this.generateDifference()
             const num_days = this.state.date_array.length

@@ -3,6 +3,9 @@ import Axios from "axios";
 import MasterSelector from "./MasterSelector.js";
 import { withRouter } from 'react-router-dom'
 import './index.css';
+import {Box, TextInput, Grommet, Button, Grid} from "grommet"
+import Main from './GrommetTheme.js'
+import SwitchZone from "./SwitchZone.js"
 
 const API_LINK = "http://localhost:8000/api/";
 
@@ -24,9 +27,6 @@ class Viewer extends Component {
       name_array: [],
       newUser: -1, // -1: not submitted yet, 0: not a new user, 1: yes new user
     };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.generateSignIn = this.generateSignIn.bind(this);
   }
 
   async componentDidMount() {
@@ -47,12 +47,12 @@ class Viewer extends Component {
     });
   }
 
-  handleChange(e) {
+  handleChange = (e) => {
     e.preventDefault();
     this.setState({ name: e.target.value });
   }
 
-  handleSubmit(e) {
+  handleSubmit = (e) => {
     e.preventDefault();
     this.setState({ submitted: true }, () => {
       Axios.get(API_LINK + this.props.match.params.slug).then((response) => {
@@ -87,25 +87,59 @@ class Viewer extends Component {
     );
   }
 
-  generateSignIn() {
+  handleZoneChange = (option) =>{
+    this.setState({timezone: option})
+  }
+
+  generateSignIn = () => {
     if (!this.state.submitted || this.state.newUser === -1) {
-      return (<div>
-        <input
+      return (
+        <Box>
+        <Grid
+          alignSelf="center"
+          rows={['stretch']}
+          columns={['stretch', 'stretch']}
+          gap="small"
+          areas={[
+            { name: 'body_1', start: [0, 0], end: [0, 0] },
+            { name: 'body_2', start: [1, 0], end: [1, 0] },
+          ]}
+        >
+        <Box gridArea="body_1" justify="center" align="center" pad="small">
+        <Box justify="center" align="center" pad="small">
+        <TextInput
+          size="small"
+          placeholder="Name"
           value={this.state.name}
           onChange={this.handleChange}
         />
-        <button onClick={this.handleSubmit}>
-          Sign In
-        </button>
-      </div>);
+        <TextInput
+          size="small"
+          placeholder="Password (Optional)"
+          value=""
+        />
+        <Button onClick={this.handleSubmit} label="Sign In" primary margin="small"/>
+        </Box>
+        </Box>
+        <Box gridArea="body_2" align="center" pad="small">
+        <Box justify="center" align="center" pad="small">
+        <SwitchZone
+            value={this.state.timezone}
+            onChange={this.handleZoneChange}
+        />
+        </Box>
+        </Box>
+        </Grid>
+        </Box>
+        );
     }
     else {
       return (<div>Welcome {this.state.name}! You are at index {this.state.userIndex}!</div>)
     }
   }
 
-  generateContent() {
-    if (this.state.event_name == "") return "";
+  generateContent = () => {
+    if (this.state.event_name === "") return "";
     return (
       <MasterSelector
         name={this.state.name}
@@ -121,16 +155,30 @@ class Viewer extends Component {
     )
   }
 
+  generateEventName = () => {
+    return(
+      <div className="form__group">
+      <input
+          placeholder={this.state.event_name}
+          className="form__field"
+          disabled
+          value={this.state.event_name}
+      />
+      </div>
+      )
+  }
+
   render() {
     return (
-      <div className="App">
         <div className="App-header">
           <div className="Splash">
+            <Grommet theme={Main} themeMode="dark">
+            {this.generateEventName()}
             {this.generateSignIn()}
             {this.generateContent()}
+            </Grommet>
           </div>
         </div>
-      </div>
     );
   }
 }

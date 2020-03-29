@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import TableDragSelect from "react-table-drag-select";
 import ReactTooltip from 'react-tooltip'
 
 var moment = require('moment-timezone');
@@ -54,7 +53,7 @@ class Availability extends Component {
     }
 
     async componentDidUpdate(prevProps){
-        if(prevProps.name_array.length != this.props.name_array.length) {
+        if(prevProps.name_array.length !== this.props.name_array.length) {
             const old_avail = [...this.props.availabilities];
             old_avail.push([]);
             this.setState({availabilities: old_avail});
@@ -79,8 +78,8 @@ class Availability extends Component {
                 else {
                     const people = []
                     const names = this.props.name_array
-                    const modified_availabilities = [... this.props.availabilities];
-                    if (modified_availabilities.length != this.state.name_array.length) modified_availabilities.push([]);
+                    const modified_availabilities = [...this.props.availabilities];
+                    if (modified_availabilities.length !== this.state.name_array.length) modified_availabilities.push([]);
                     for (var k  = 0; k < names.length-1; ++k){
                         modified_availabilities[k].includes(time) ? people.push(names[k]): people.push();
                     }
@@ -90,7 +89,7 @@ class Availability extends Component {
                         data-tip={people}
                         style={{backgroundColor: "rgb(" + color + ")"}} 
                         className="cell-enabled-gray">
-                        {JSON.stringify(color)}<ReactTooltip effect="solid"/>
+                        &nbsp;<ReactTooltip effect="solid"/>
                         </td>)
                 }
             }
@@ -105,7 +104,9 @@ class Availability extends Component {
             <table className="viewer-table" 
             style={{tableLayout:"fixed"}}
             >
+            <tbody>
             {this.generateRows()}
+            </tbody>
             </table>
         )
     }
