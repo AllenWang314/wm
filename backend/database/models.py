@@ -20,3 +20,6 @@ class times(models.Model):
     snd_hash = models.CharField(max_length = 150, primary_key=True)
     times_array = ArrayField(models.BigIntegerField(), size = 50)
 
+class passwords(models.Model):
+    snd_hash = models.CharField(max_length = 150, primary_key=True)
+    password = models.CharField(max_length = 100)

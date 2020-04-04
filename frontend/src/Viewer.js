@@ -25,6 +25,8 @@ class Viewer extends Component {
             latest: 24,
             timezone: "",
             name_array: [],
+            incorrect_password: <div />,
+            password: "",
             newUser: -1, // -1: not submitted yet, 0: not a new user, 1: yes new user
         };
     }
@@ -52,52 +54,101 @@ class Viewer extends Component {
         this.setState({ name: e.target.value });
     };
 
+    handleChangeDos = (e) => {
+        e.preventDefault();
+        this.setState({ password: e.target.value });
+    };
+
     handleSubmit = (e) => {
         e.preventDefault();
-        this.setState({ submitted: true }, () => {
-            Axios.get(API_LINK + this.props.match.params.slug).then(
-                (response) => {
-                    if (
-                        !response.data[0].name_array.includes(this.state.name)
-                    ) {
-                        this.setState({ newUser: 1 });
-                        response.data[0].name_array.push(this.state.name);
-                        Axios.put(
-                            API_LINK + this.props.match.params.slug,
-                            response.data[0]
-                        ).then(() => {
-                            if (this.state.userIndex === -1) {
-                                this.setState({
+        if (this.state.name_array.indexOf(this.state.name) === -1) {
+            this.setState({ submitted: true }, () => {
+                Axios.get(API_LINK + this.props.match.params.slug).then(
+                    (response) => {
+                        if (
+                            !response.data[0].name_array.includes(this.state.name)
+                        ) {
+                            this.setState({ newUser: 1 });
+                            response.data[0].name_array.push(this.state.name);
+                            Axios.put(
+                                API_LINK + this.props.match.params.slug,
+                                response.data[0]
+                            ).then(() => {
+                                var hash = require('object-hash');
+                                const hash_result = "" + hash(this.state.password);
+                                const values = {snd_hash : (this.props.match.params.slug + "%" + this.state.name), 
+                                    password: hash_result};
+                                Axios.post(API_LINK + "post-password/", values, {
+                                    headers: {
+                                        "Content-Type": "application/json"
+                                    }
+                                }).then(() => {this.setState({
                                     userIndex:
                                         response.data[0].name_array.length - 1,
                                     submitted: true,
                                     name_array: response.data[0].name_array,
-                                });
-                            }
-                        });
-                    } else {
-                        this.setState({ newUser: 0 });
-                        if (this.state.userIndex === -1) {
-                            var i = 0;
-                            let narray = response.data[0].name_array;
-                            while (
-                                i < narray.length &&
-                                narray[i] !== this.state.name
-                            ) {
-                                i++;
-                            }
-                            if (this.state.userIndex === -1) {
-                                this.setState({
-                                    userIndex: i,
-                                    submitted: true,
-                                    name_array: narray,
-                                });
-                            }
+                                });})
+                            });
                         }
                     }
+                );
+            });
+        }
+        else {
+            Axios.get(API_LINK + "password/" + this.props.match.params.slug + "%" + this.state.name).then((rsp) => {
+                var hash = require('object-hash');
+                const hash_password = hash(this.state.password);
+                if (rsp.data.password == hash_password) {
+                    this.setState({ submitted: true }, () => {
+                        Axios.get(API_LINK + this.props.match.params.slug).then(
+                            (response) => {
+                                if (
+                                    !response.data[0].name_array.includes(this.state.name)
+                                ) {
+                                    this.setState({ newUser: 1 });
+                                    response.data[0].name_array.push(this.state.name);
+                                    Axios.put(
+                                        API_LINK + this.props.match.params.slug,
+                                        response.data[0]
+                                    ).then(() => {
+                                        if (this.state.userIndex === -1) {
+                                            this.setState({
+                                                userIndex:
+                                                    response.data[0].name_array.length - 1,
+                                                submitted: true,
+                                                name_array: response.data[0].name_array,
+                                            });
+                                        }
+                                    });
+                                } else {
+                                    this.setState({ newUser: 0 });
+                                    if (this.state.userIndex === -1) {
+                                        var i = 0;
+                                        let narray = response.data[0].name_array;
+                                        while (
+                                            i < narray.length &&
+                                            narray[i] !== this.state.name
+                                        ) {
+                                            i++;
+                                        }
+                                        if (this.state.userIndex === -1) {
+                                            this.setState({
+                                                userIndex: i,
+                                                submitted: true,
+                                                name_array: narray,
+                                            });
+                                        }
+                                    }
+                                }
+                            }
+                        );
+                    });
                 }
-            );
-        });
+                else {
+                    this.setState({incorrect_password: <div> Incorrect password!</div>})
+                }
+            });
+        }
     };
 
     handleZoneChange = (option) => {
@@ -125,29 +176,32 @@ class Viewer extends Component {
                     >
                         <Box justify="center" align="center" pad="small">
                             {!this.state.submitted ||
-                            this.state.newUser === -1 ? (
-                                <div>
-                                    <TextInput
-                                        size="xsmall"
-                                        placeholder="Name"
-                                        value={this.state.name}
-                                        onChange={this.handleChange}
-                                    />
-                                    <TextInput
-                                        size="xsmall"
-                                        placeholder="Password (Optional)"
-                                        value=""
-                                    />
-                                    <Button
-                                        onClick={this.handleSubmit}
-                                        label="Sign In"
-                                        primary
-                                        margin="small"
-                                    />
-                                </div>
-                            ) : (
-                                <div>Welcome {this.state.name}!</div>
-                            )}
+                                this.state.newUser === -1 ? (
+                                    <div>
+                                        <TextInput
+                                            size="xsmall"
+                                            placeholder="Name"
+                                            value={this.state.name}
+                                            onChange={this.handleChange}
+                                        />
+                                        <TextInput
+                                            type = "password"
+                                            size="xsmall"
+                                            placeholder="Password (Optional)"
+                                            value={this.state.password}
+                                            onChange={this.handleChangeDos}
+                                        />
+                                        {this.state.incorrect_password}
+                                        <Button
+                                            onClick={this.handleSubmit}
+                                            label="Sign In"
+                                            primary
+                                            margin="small"
+                                        />
+                                    </div>
+                                ) : (
+                                    <div>Welcome {this.state.name}!</div>
+                                )}
                         </Box>
                     </Box>
                     <Box gridArea="body_2" align="center" pad="small">
@@ -189,7 +243,7 @@ class Viewer extends Component {
     };
 
     generateNames = () => {
-        return(
+        return (
             <Text align="center" size="small">People: {this.state.name_array.join(", ")}</Text>
         )
     }
