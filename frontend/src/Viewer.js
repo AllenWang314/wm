@@ -3,7 +3,8 @@ import Axios from "axios";
 import MasterSelector from "./MasterSelector.js";
 import { withRouter } from "react-router-dom";
 import "./index.css";
-import { Box, TextInput, Grommet, Button, Grid, Heading, Text } from "grommet";
+import { Box, TextInput, Grommet, Button, Grid, Heading, Text} from "grommet";
+import {CircleInformation, Link, SettingsOption} from 'grommet-icons';
 import Main from "./GrommetTheme.js";
 import SwitchZone from "./SwitchZone.js";
 import copy from "copy-to-clipboard";
@@ -283,15 +284,15 @@ class Viewer extends Component {
                     </div>
                     <div style = {style_selector} >
                         <Button onClick = {() => {copy("localhost:3000/" + this.props.match.params.slug);}} // replace with link icon
-                            label="Copy Link" // when in production we should replace with the actual url
+                            icon = {<Link />}
                             primary
                             margin="small" />
                         <Button onClick = {this.showHelp}  // replace with question mark icon
-                            label="Help"
+                            icon = {<CircleInformation />}
                             primary
                             margin="small" />
                         <Button onClick = {this.showAdv} // replace with gear icon
-                            label="Advanced Controls"
+                            icon = {<SettingsOption />}
                             primary
                             margin="small" />
                         <Grommet theme={Main} themeMode="dark">
