@@ -11,7 +11,6 @@ class DatabaseSerializer(serializers.ModelSerializer):
     location = serializers.CharField(max_length=300, required=False, allow_blank=True)
     slug = serializers.SlugField(max_length=15, required=False)
     date_array = serializers.ListField(child=serializers.IntegerField(), required=False)
-    day_array = serializers.ListField(child=serializers.CharField(), required=False)
     name_array = serializers.ListField(child=serializers.CharField(), required=False)
     class Meta:
         model = event

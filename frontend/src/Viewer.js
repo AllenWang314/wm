@@ -6,6 +6,7 @@ import "./index.css";
 import { Box, TextInput, Grommet, Button, Grid, Heading, Text } from "grommet";
 import Main from "./GrommetTheme.js";
 import SwitchZone from "./SwitchZone.js";
+import copy from "copy-to-clipboard";
 
 const API_LINK = "http://localhost:8000/api/";
 
@@ -19,7 +20,6 @@ class Viewer extends Component {
             submitted: false,
             date_array: [],
             repeating: false,
-            day_array: [],
             userIndex: -1,
             earliest: -1,
             latest: 24,
@@ -28,6 +28,8 @@ class Viewer extends Component {
             incorrect_password: <div />,
             password: "",
             newUser: -1, // -1: not submitted yet, 0: not a new user, 1: yes new user
+            help: false,
+            adv_controls: false,
         };
     }
 
@@ -38,7 +40,6 @@ class Viewer extends Component {
                 data: response.data[0],
                 event_name: response.data[0].event_name,
                 date_array: response.data[0].date_array,
-                day_array: response.data[0].day_array,
                 name_array: response.data[0].name_array,
                 timezone: response.data[0].timezone,
                 slug: response.data[0].slug,
@@ -98,7 +99,7 @@ class Viewer extends Component {
             Axios.get(API_LINK + "password/" + this.props.match.params.slug + "%" + this.state.name).then((rsp) => {
                 var hash = require('object-hash');
                 const hash_password = hash(this.state.password);
-                if (rsp.data.password == hash_password) {
+                if (rsp.data.password === hash_password) {
                     this.setState({ submitted: true }, () => {
                         Axios.get(API_LINK + this.props.match.params.slug).then(
                             (response) => {
@@ -222,11 +223,8 @@ class Viewer extends Component {
         return (
             <MasterSelector
                 name={this.state.name}
-                date_array={
-                    this.state.repeating
-                        ? this.state.day_array
-                        : this.state.date_array
-                }
+                date_array={this.state.date_array}
+                repeating={this.state.repeating}
                 slug={this.state.slug}
                 timezone={this.state.timezone}
                 earliest={Number(this.state.earliest)}
@@ -248,16 +246,61 @@ class Viewer extends Component {
         )
     }
 
+    showHelp = () => {
+        const curr_state = this.state.help;
+        this.setState({help: !curr_state});
+    }
+
+    showAdv = () => {
+        const curr_state = this.state.adv_controls;
+        this.setState({adv_controls: !curr_state});
+    }
+
     render() {
+        const style_selector = (this.state.help || this.state.adv_controls) ? {display: "none"} : {};
+        const style_help = (this.state.help) ? {} : {display: "none"};
+        const style_adv = (this.state.adv_controls)? {} : {display: "none"};
         return (
             <div className="App-header">
                 <div className="Splash">
-                    <Grommet theme={Main} themeMode="dark">
-                        {this.generateEventName()}
-                        {this.generateSignIn()}
-                        {this.generateContent()}
-                        {this.generateNames()}
-                    </Grommet>
+                    <div style = {style_help}>
+                        <Button onClick = {this.showHelp} label="Back"
+                            primary
+                            margin="small"/>
+                        - explain sign in
+                        - explain adv controls 
+                        - explain time zones
+                        - explain selector and avail
+                        - explain google sign in
+                    </div>
+                    <div style = {style_adv}>
+                        <Button onClick = {this.showAdv} label="Back"
+                            primary
+                            margin="small"/>
+                        - change dates
+                        - change times
+                        - 
+                    </div>
+                    <div style = {style_selector} >
+                        <Button onClick = {() => {copy("localhost:3000/" + this.props.match.params.slug);}} // replace with link icon
+                            label="Copy Link" // when in production we should replace with the actual url
+                            primary
+                            margin="small" />
+                        <Button onClick = {this.showHelp}  // replace with question mark icon
+                            label="Help"
+                            primary
+                            margin="small" />
+                        <Button onClick = {this.showAdv} // replace with gear icon
+                            label="Advanced Controls"
+                            primary
+                            margin="small" />
+                        <Grommet theme={Main} themeMode="dark">
+                            {this.generateEventName()}
+                            {this.generateSignIn()}
+                            {this.generateContent()}
+                            {this.generateNames()}
+                        </Grommet>
+                    </div>
                 </div>
             </div>
         );

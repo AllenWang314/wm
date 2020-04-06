@@ -137,6 +137,7 @@ class MasterSelector extends Component {
                 <TimeSelector
                 newUser = {this.props.newUser} 
                 userIndex = {this.props.userIndex}
+                repeating={this.props.repeating}
                 name = {this.props.name}
                 slug = {this.props.slug}
                 date_array={this.props.date_array} 
@@ -159,6 +160,7 @@ class MasterSelector extends Component {
             <td>
                 <Availability
                 date_array={this.props.date_array} 
+                repeating={this.props.repeating}
                 timezone={this.props.timezone}
                 earliest={Number(this.props.earliest)}
                 latest={Number(this.props.latest)}

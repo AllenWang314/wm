@@ -40,6 +40,13 @@ class Splash extends Component {
                     name_array: []
                 }}
                 onSubmit={values => {
+                    if (values.repeating) {
+                        values.date_array = values.day_array;
+                        delete values.day_array;
+                    }
+                    else {
+                        delete values.day_array;
+                    }
                     Axios.post(API_LINK + "post/", values, {
                         headers: {
                             "Content-Type": "application/json"
@@ -75,11 +82,11 @@ class Splash extends Component {
                                     />
                                     </div>
                                     {props.values.repeating === false ? <Calendar
-                                        date_list={props.values.date_array}
+                                        initial_dates={props.values.date_array}
                                         onDrag={props.setFieldValue}
                                     /> : 
                                     <ByWeek
-                                        day_list={props.values.day_array}
+                                        initial_days={props.values.day_array}
                                         onDrag={props.setFieldValue}
                                     />}
                                     <Box justify="center">

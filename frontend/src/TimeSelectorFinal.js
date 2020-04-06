@@ -112,7 +112,8 @@ class TimeSelector extends Component {
             const column = []
             for (var j = 0; j < this.state.date_array.length; ++j) {
                 if (i === 0) {
-                    column.push(<td key={100 * i + j} disabled>{moment(this.state.times[j][1]).format('LL')}</td>)
+                    const format = (this.props.repeating) ? 'ddd' : 'ddd MMM D';
+                    column.push(<td key={100 * i + j} disabled>{moment(this.state.times[j][1]).format(format)}</td>)
                 }
                 else {
                     column.push(<td key={100 * i + j}>&nbsp;</td>)

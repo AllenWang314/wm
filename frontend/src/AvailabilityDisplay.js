@@ -70,9 +70,10 @@ class Availability extends Component {
                 const day = this.state.times[j][1]
                 const time = this.state.times[j][i]
                 if (i === 0){
+                    const format = (this.props.repeating) ? 'ddd' : 'ddd MMM D';
                     column.push(<td key={100 * i + j} 
                         disabled>
-                        {moment(day).format('LL')}
+                        {moment(day).format(format)}
                         </td>)    
                 }
                 else {
