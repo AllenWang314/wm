@@ -256,7 +256,7 @@ class Viewer extends Component {
         const curr_state = this.state.adv_controls;
         this.setState({adv_controls: !curr_state});
     }
-
+ 
     render() {
         const style_selector = (this.state.help || this.state.adv_controls) ? {display: "none"} : {};
         const style_help = (this.state.help) ? {} : {display: "none"};
