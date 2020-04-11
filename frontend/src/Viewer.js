@@ -3,8 +3,8 @@ import Axios from "axios";
 import MasterSelector from "./MasterSelector.js";
 import { withRouter } from "react-router-dom";
 import "./index.css";
-import { Box, TextInput, Grommet, Button, Grid, Heading, Text} from "grommet";
-import {CircleInformation, Link, SettingsOption} from 'grommet-icons';
+import { Box, TextInput, Grommet, Button, Grid, Heading, Text, Nav, Anchor, Header} from "grommet";
+import {CircleInformation, Link, SettingsOption, Home, LinkPrevious} from 'grommet-icons';
 import Main from "./GrommetTheme.js";
 import SwitchZone from "./SwitchZone.js";
 import copy from "copy-to-clipboard";
@@ -265,9 +265,16 @@ class Viewer extends Component {
             <div className="App-header">
                 <div className="Splash">
                     <div style = {style_help}>
-                        <Button onClick = {this.showHelp} label="Back"
-                            primary
-                            margin="small"/>
+                    <Header pad="medium" 
+                        border = {{"size": "medium", "side": "all"}} 
+                        margin = "xsmall"
+                        pad = "xxsmall">
+                            <Box direction="row" align="center" gap="small">
+        <Anchor icon={<LinkPrevious/>} onClick = {this.showHelp}>
+                            </Anchor>
+                            </Box>
+                        </Header>
+
                         - explain sign in
                         - explain adv controls 
                         - explain time zones
@@ -282,20 +289,23 @@ class Viewer extends Component {
                         - change times
                         - 
                     </div>
-                    <div style = {style_selector} >
-                        <Button onClick = {() => {copy("localhost:3000/" + this.props.match.params.slug);}} // replace with link icon
-                            icon = {<Link />}
-                            primary
-                            margin="small" />
-                        <Button onClick = {this.showHelp}  // replace with question mark icon
-                            icon = {<CircleInformation />}
-                            primary
-                            margin="small" />
-                        <Button onClick = {this.showAdv} // replace with gear icon
-                            icon = {<SettingsOption />}
-                            primary
-                            margin="small" />
+                    <div style = {style_selector}>
                         <Grommet theme={Main} themeMode="dark">
+                        <Header fixed = {true} pad="medium" 
+                        border = {{"size": "medium", "side": "all"}} 
+                        margin = "xsmall"
+                        pad = "xxsmall">
+                            <Box direction="row" align="center" gap="small">
+        <Anchor icon={<Home />} href="http://localhost:3000/">
+                            Home
+                        </Anchor>
+                        </Box>
+                        <Nav direction="row" gap = "small">
+                            <Anchor icon = {<Link size = "medium"/>} onClick = {() => {copy("localhost:3000/" + this.props.match.params.slug);}}/>
+                            <Anchor icon = {<CircleInformation size='medium' />} onClick = {this.showHelp} />
+        <Anchor icon = {<SettingsOption size = "medium"/>} onClick = {this.showAdv}/>                            
+                        </Nav>
+                        </Header>
                             {this.generateEventName()}
                             {this.generateSignIn()}
                             {this.generateContent()}
