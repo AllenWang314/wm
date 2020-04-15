@@ -10,6 +10,7 @@ class Timezone extends Component {
             <Select 
             size="xsmall"
             dropHeight="medium"
+            dropAlign={{top: "bottom"}}
             options={all_zones}
             value={this.props.value}
             onChange={this.props.onChange}

@@ -189,9 +189,12 @@ class Viewer extends Component {
     };
 
     generateNames = () => {
-        return(
-            <Text align="center" size="small">People: {this.state.name_array.join(", ")}</Text>
-        )
+        if (this.state.name_array.length === 0){
+            return(<Text align="center" size="small">No one has signed up yet </Text>)
+        }
+        else{
+            return(<Text align="center" size="small">People: {this.state.name_array.join(", ")}</Text>)
+        }
     }
 
     render() {
