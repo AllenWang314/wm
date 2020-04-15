@@ -1,9 +1,9 @@
 from django.shortcuts import render
-from .models import event, times
+from .models import event, times, passwords
 from rest_framework import status
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.response import Response
-from .serializers import DatabaseSerializer, SlugSerializer, TimesSerializer
+from .serializers import DatabaseSerializer, SlugSerializer, TimesSerializer, PasswordSerializer
 from rest_framework.parsers import JSONParser
 from django.utils.crypto import get_random_string
 
@@ -92,4 +92,34 @@ def get_slug(request, format = None):
 		field = [{'slug': unique_slug_gen()}]
 		serializer = SlugSerializer(field)
 		return Response(field)
+	return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def get_password(request, pkey, format = None):
+	print("pkey is " + str(pkey))
+	try:
+		item = passwords.objects.get(pk = pkey) # take advantage of primary key here
+	except passwords.DoesNotExist:
+		return Response(status=status.HTTP_404_NOT_FOUND)
+	if request.method == "GET":
+		serializer = PasswordSerializer(item, many=False)
+		return Response(serializer.data)
+	return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def post_password(request, format = None):
+	print(request.data)
+	if request.method == 'POST':
+		serializer = PasswordSerializer(passwords(), data=request.data)
+		if serializer.is_valid():
+			serializer.save()
+			return Response(serializer.data, status=status.HTTP_201_CREATED)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET', 'POST'])
+def all_passwords(request, format = None):
+	items = passwords.objects.all()
+	if request.method == "GET":
+		serializer = PasswordSerializer(items, many=True)
+		return Response(serializer.data)
 	return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

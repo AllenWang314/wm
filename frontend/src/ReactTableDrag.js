@@ -20,32 +20,6 @@ const monthNames = [
 ];
 
 var now = new Date();
-function initial_rows() {
-    var rows = [];
-    for (var i = 0; i < 6; ++i) {
-        var column = [];
-        for (var j = 0; j < 7; ++j) {
-            if (i >= calendar().length){
-                column.push(<td disabled key={i+j}></td>);
-            }
-            else {
-                var date = calendar(now)[i][j];
-                var day = date.getDate();
-                var month = date.getMonth() * 100;
-                var year = date.getFullYear() * 10000;
-    
-                if (date.getMonth() !== now.getMonth()){
-                    column.push(<td disabled key={year + month + day}></td>);
-                }
-                else {
-                    column.push(<td key={year + month + day}>{day}</td>);    
-                }
-            }
-        }
-        rows.push(<tr key={i}>{column}</tr>);
-    }
-    return rows;
-}
 
 function genFalseArray (length) {
     const rows = []
@@ -60,12 +34,60 @@ class Calendar extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            first_month_cells: genFalseArray(7),
-            selected_cells: [],
-            displayed_array: initial_rows(),
+            first_month_cells: this.initial_first_month_cells(),
+            selected_cells: this.props.initial_dates.map((x) => new Date(x)),
+            displayed_array: this.initial_rows(),
             current_month: new Date(now.getFullYear(), now.getMonth(), 1),
             current_array: calendar()
         };
+    }
+
+    initial_rows = () => {
+        var rows = [];
+        var current_month_cells = genFalseArray(7);
+        var selected = this.props.initial_dates;
+        for (var i = 0; i < 6; ++i) {
+            var column = [];
+            for (var j = 0; j < 7; ++j) {
+                if (i >= calendar().length){
+                    column.push(<td disabled key={i+j}></td>);
+                }
+                else {
+                    var date = calendar(now)[i][j];
+                    var day = date.getDate();
+                    var month = date.getMonth() * 100;
+                    var year = date.getFullYear() * 10000;
+        
+                    if (selected.includes(date.getTime())) {
+                        current_month_cells[i + 1][j] = true;
+                    }
+                    if (date.getMonth() !== now.getMonth()){
+                        column.push(<td disabled key={year + month + day}></td>);
+                    }
+                    else {
+                        column.push(<td key={year + month + day}>{day}</td>);    
+                    }
+                }
+            }
+            rows.push(<tr key={i}>{column}</tr>);
+        }
+        return rows;
+    }
+
+    initial_first_month_cells = () => {
+        var current_month_cells = genFalseArray(7);
+        var selected = this.props.initial_dates;
+        for (var i = 0; i < 6; ++i) {
+            for (var j = 0; j < 7; ++j) {
+                if (i < calendar().length){
+                    var date = calendar(now)[i][j];
+                    if (selected.includes(date.getTime())) {
+                        current_month_cells[i + 1][j] = true;
+                    }
+                }
+            }
+        }
+        return current_month_cells;
     }
 
     generate_rows = () => {

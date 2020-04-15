@@ -13,10 +13,12 @@ class event(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(max_length=15)
     date_array = ArrayField(models.BigIntegerField(), size = 365)
-    day_array = ArrayField(models.CharField(max_length=4), size = 7)
     name_array = ArrayField(models.CharField(max_length=100), size = 200)
 
 class times(models.Model):
     snd_hash = models.CharField(max_length = 150, primary_key=True)
     times_array = ArrayField(models.BigIntegerField(), size = 50)
 
+class passwords(models.Model):
+    snd_hash = models.CharField(max_length = 150, primary_key=True)
+    password = models.CharField(max_length = 100)
