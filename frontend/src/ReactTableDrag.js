@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import TableDragSelect from "react-table-drag-select";
-import "./DragTable.css";
+import "./CSS/DragTable.css";
 import calendar from "calendar-month-array";
 import { FormNext, FormPrevious } from "grommet-icons"
 import { Heading, Box } from "grommet"

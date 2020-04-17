@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Viewer from './Viewer.js';
 import Splash from './Splash.js';
-import './App.css';
+import './CSS/App.css';
 import {
   BrowserRouter as Router,
   Switch,

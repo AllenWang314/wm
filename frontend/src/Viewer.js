@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Axios from "axios";
 import MasterSelector from "./MasterSelector.js";
 import { withRouter } from "react-router-dom";
-import "./index.css";
+import "./CSS/index.css";
 import { Box, TextInput, Grommet, Button, Grid, Heading, Text, Nav, Anchor, Header} from "grommet";
 import {CircleInformation, Link, SettingsOption, Home, LinkPrevious} from 'grommet-icons';
 import Main from "./GrommetTheme.js";
