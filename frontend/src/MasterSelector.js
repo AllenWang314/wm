@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import TimeSelector from "./TimeSelectorFinal.js";
 import Availability from "./AvailabilityDisplay.js"
-import "./CSS/DragTable.css";
+
 import Axios from "axios";
 
 var moment = require('moment-timezone');

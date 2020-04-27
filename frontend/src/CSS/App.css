@@ -1,193 +1,26 @@
-:root {
-    --primaryColor: #222222;
-    --primary: #11998e;
-    --secondary: #38ef7d;
-    --white: #fff;
-    --gray: #9b9b9b;
+body.dark-mode {
+  background-color: #222222;
+  color: #fff;
 }
 
-.App {
-  text-align: center;
+body.light-mode {
+  background-color: #eceff1;
+  color: #333;
+  transition: background-color 0.3s ease;
+}
+
+footer {
+  position: fixed;
+  left: 0;
+  padding: 10px;
+  bottom: 0;
+  width: 100%;
+  color: inherit;
 }
 
 
-.App-header {
-    background-color: var(--primaryColor);
-    min-height: 100vh;
+.main {
+    justify-content: center;
     display: flex;
-    flex-direction: column;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    font-size: calc(10px + 2vmin);
-    color: white;
-    font-family: "Helvetica";
+    margin-top: 5vh;
 }
-
-.Splash {
-    width: 100%;
-    justify-content: center;
-    font-family: inherit;
-}
-
-@media only screen and (min-aspect-ratio: 1/1) {
-    .App-header {
-        background-color: var(--primaryColor);
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        font-size: calc(10px + 2vmin);
-        color: white;
-        font-family: "Helvetica";
-    }
-    .Splash {
-        width: 20em;
-        justify-content: center;
-        font-family: inherit;
-    }
-}
-
-
-.selector {
-/*    background: #11998e;
-    color: white;*/
-    border-radius: 10px;
-    padding: 0 10px 0;
-    font-size: 1rem;
-    font-weight: 400;
-    font-family: inherit;
-    border: 0;
-    width: 40%;
-    height: 3rem;
-    margin-top: 1rem;
-    margin-right: 5px;
-    margin-left: 5px;
-    text-align: center;
-    align-content: center;
-    justify-content: center;
-}
-
-.bright_button {
-    background: var(--primary);
-    color: white;
-    border-radius: 15px;
-    padding: 0 10px 0;
-    font-size: 1rem;
-    font-weight: 400;
-    font-family: inherit;
-    border: 0;
-    width: 40%;
-    height: 3rem;
-    margin-top: 1rem;
-    margin-right: 1px;
-    margin-left: 1px;
-    text-align: center;
-    align-content: center;
-    justify-content: center;
-}
-
-.circular {
-    background: var(--primary);
-    color: white;
-    width: 50px;
-    height: 50px;
-    border-radius: 25px;
-    border: 0;
-    text-align: center;
-    align-content: center;
-    justify-content: center;
-    font-family: inherit;
-}
-
-.large_label {
-    font-size: 1.2rem;
-    font-family: inherit;
-}
-
-.form__group {
-    display: inline-block;
-    justify-content: center;
-    width: 75%;
-    padding-bottom: 10px;
-    font-family: inherit;
-}
-
-.form__field {
-    font-family: inherit;
-    width: 100%;
-    text-align: center;
-    border: 0;
-    border-bottom: 3px solid var(--gray);
-    outline: 0;
-    font-size: 1.3rem;
-    color: var(--white);
-    padding: 7px 0;
-    background: transparent;
-    transition: border-color 0.2s;
-    &::placeholder {
-        color: transparent;
-    }
-    &:placeholder-shown~.form__label {
-        font-size: 1.3rem;
-        cursor: text;
-        top: 20px;
-        padding-bottom: 6px;
-        font-weight: 700;
-    }
-}
-
-.form__label {
-    position: absolute;
-    top: 0;
-    display: block;
-    transition: 0.2s;
-    font-size: 1rem;
-    color: var(--gray);
-}
-
-.form__field:valid {
-    ~.form__label {
-        font-family: inherit;
-        position: absolute;
-        top: 0;
-        display: block;
-        transition: 0.2s;
-        font-size: 1rem;
-        color: var(--primary);
-        font-weight: 700;
-    }
-    font-family: inherit;
-    padding-bottom: 6px;
-    font-weight: 700;
-    border-width: 3px;
-    border-image: linear-gradient(to right, var(--primary), var(--secondary), var(--primary));
-    border-image-slice: 1;
-}
-
-.form__field:focus {
-    ~.form__label {
-        position: absolute;
-        font-family: inherit;
-        top: 0;
-        display: block;
-        transition: 0.2s;
-        font-size: 1rem;
-        color: var(--primary);
-        font-weight: 700;
-    }
-    padding-bottom: 6px;
-    font-weight: 700;
-    font-family: inherit;
-    border-width: 3px;
-    border-image: linear-gradient(to right, var(--primary), var(--secondary), var(--primary));
-    border-image-slice: 1;
-}
-
-.form__field {
-    &:required,
-    &:invalid {
-        box-shadow: none;
-    }
-}
-

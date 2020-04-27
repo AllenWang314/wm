@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import TableDragSelect from "react-table-drag-select";
-// import "./DragTable.css";
 
 function genFalseArray (length) {
     const rows = []
@@ -78,7 +77,6 @@ class ByWeek extends Component {
 					<tbody>
 						<tr>
 							<td>
-								&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
 							</td>
 							<td>
 							<TableDragSelect
@@ -98,7 +96,6 @@ class ByWeek extends Component {
 			</TableDragSelect>
 							</td>
 							<td>
-							&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
 							</td>
 						</tr>
 					</tbody>

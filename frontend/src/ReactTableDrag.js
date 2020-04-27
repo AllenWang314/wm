@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import TableDragSelect from "react-table-drag-select";
-import "./CSS/DragTable.css";
 import calendar from "calendar-month-array";
-import { FormNext, FormPrevious } from "grommet-icons"
-import { Heading, Box } from "grommet"
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
+import { Button } from '@material-ui/core';
+
 const monthNames = [
     "January",
     "February",
@@ -223,24 +224,20 @@ class Calendar extends Component {
     render() {
         return (
             <div>
-                    <Box justify="center" alignSelf="center">
-                    <Box justify="center" alignSelf="center">
-                    <Heading level="5">
-                        {monthNames[this.state.current_month.getMonth()]}{" "}
-                        {this.state.current_month.getFullYear()}
-                    </Heading>
-                    </Box>
-                    </Box>
+                    <div><p>
+                    {monthNames[this.state.current_month.getMonth()]}{" "}
+                    {this.state.current_month.getFullYear()}</p>
+                    </div>
                 <table>
                     <tbody>
                         <tr>
                             <td>
-                                <button
-                                    className="circular"
+                                <Button
+                                    style={{maxWidth: '30px', maxHeight: '30px', minWidth: '30px', minHeight: '30px'}}
                                     onClick={this.handlePrev}
                                 >
-                                    <FormPrevious/>
-                                </button>
+                                <NavigateBeforeIcon/>
+                                </Button>
                             </td>
                             <td>
                                 <TableDragSelect
@@ -260,12 +257,12 @@ class Calendar extends Component {
                                 </TableDragSelect>
                             </td>
                             <td>
-                                <button
-                                    className="circular"
+                                <Button
+                                    style={{maxWidth: '30px', maxHeight: '30px', minWidth: '30px', minHeight: '30px'}}
                                     onClick={this.handleNext}
                                 >
-                                    <FormNext/>
-                                </button>
+                                    <NavigateNextIcon/>
+                                </Button>
                             </td>
                         </tr>
                     </tbody>

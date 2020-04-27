@@ -1,10 +1,7 @@
 /***************************/
-/*******Portrait Mode*******/
+/*******Common to All*******/
 /***************************/
-
-@media only screen and (max-aspect-ratio: 1/1){
-  .table-drag-select {
-    width: 100%;  
+.table-drag-select {
     table-layout: fixed;
     user-select: none;
     margin-left: auto;
@@ -12,21 +9,20 @@
     border-collapse: collapse;
   }
 
-  .table-drag-select td {
+.table-drag-select td {
     text-align: center;
     text-overflow: ellipsis;
     overflow: hidden;
     border: 0.1rem solid transparent;
-    border-radius: 10px;
+    border-radius: 1px;
     background-clip: padding-box;
-    line-height: 2rem;
     padding-left: 0rem;
     padding-right: 0rem;
     font-size: 1rem;
   }
 
-  .table-drag-select td.cell-enabled {
-    background-color: #DDD;
+.table-drag-select td.cell-enabled {
+    background-color: #e3f2fd;
     color: black;
     cursor: cell;
   }
@@ -35,14 +31,16 @@
   }
 
   .table-drag-select td.cell-selected {
-    background-color: #00796b;
+    background-color: #1565c0;
+    color: white;
   }
 
   .table-drag-select td.cell-being-selected {
     background-color: #3F83D5;
+    color: white;
   }
 
-  .viewer-table {
+.viewer-table {
     width: 100%;  
     table-layout: fixed;
     user-select: none;
@@ -50,7 +48,6 @@
     margin-right: auto;
     border-collapse: collapse;
   }
-
   .viewer-table td {
     text-align: center;
     border-radius: 5px;
@@ -74,9 +71,6 @@
     background-color: #a9a9a9;
     color: white;
     cursor: cell;
-  }
-
-  .viewer-table td.cell-disabled {
   }
 
   .viewer-table td.cell-selected {
@@ -86,95 +80,59 @@
   .viewer-table td.cell-being-selected {
     background-color: #3F83D5;
   }
-}
 
-/****************************/
-/*******Landscape Mode*******/
-/****************************/
+/***************************/
+/*******Very Small Screens*******/
+/***************************/
 
-@media only screen and (min-aspect-ratio: 1/1){
+@media only screen and (max-width: 400px) {
   .table-drag-select {
-    width: 80%;  
-    table-layout: fixed;
-    user-select: none;
-    margin-left: auto;
-    margin-right: auto;
-    border-collapse: collapse;
-  }
-
-  .table-drag-select td {
-    text-align: center;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    border: 0.1rem solid transparent;
-    border-radius: 10px;
-    background-clip: padding-box;
-    line-height: 3rem;
-    padding-left: 0rem;
-    padding-right: 0rem;
-    font-size: 1rem;
-  }
-
-  .table-drag-select td.cell-enabled {
-    background-color: #DDD;
-    color: black;
-    cursor: cell;
-  }
-
-  .table-drag-select td.cell-disabled {
-  }
-
-  .table-drag-select td.cell-selected {
-    background-color: #00796b;
-  }
-
-  .table-drag-select td.cell-being-selected {
-    background-color: #3F83D5;
+    width: 100%;  
   }
 
   .viewer-table {
+    table-layout: fixed;
+  }
+
+  .table-drag-select td {
+    line-height: 2rem;
+  }
+}
+
+/***************************/
+/*******Small Screens*******/
+/***************************/
+
+@media only screen and (min-width: 400px) {
+  .table-drag-select {
     width: 100%;  
-    table-layout: auto;
-    user-select: none;
-    margin-left: auto;
-    margin-right: auto;
-    border-collapse: collapse;
   }
 
-  .viewer-table td {
-    text-align: center;
-    border-radius: 5px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    border: 0.1rem solid transparent;
-    background-clip: padding-box;
-    line-height: 1rem;
-    padding-left: 0rem;
-    padding-right: 0rem;
-    font-size: .6rem;
+  .viewer-table {
+    table-layout: fixed;
   }
 
-  .viewer-table td.cell-enabled {
-    background-color: #DDD;
-    color: black;
-    cursor: cell;
+  .table-drag-select td {
+    line-height: 2rem;
+  }
+}
+
+
+/****************************/
+/*******Large Screens*******/
+/****************************/
+
+@media only screen and (min-width: 700px) {
+  .table-drag-select {
+    width: 80%;
   }
 
-  .viewer-table td.cell-disabled {
+  .viewer-table {
+    table-layout: auto;  
   }
 
-  .viewer-table td.cell-enabled-gray {
-    background-color: #a9a9a9;
-    color: white;
-    cursor: cell;
-  }
-
-  .viewer-table td.cell-selected {
-    background-color: #00796b;
-  }
-
-  .viewer-table td.cell-being-selected {
-    background-color: #3F83D5;
+  .table-drag-select td {
+    line-height: 3rem;
   }
 }
 

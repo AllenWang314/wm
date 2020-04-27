@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {Select} from "grommet"
+import { NativeSelect } from '@material-ui/core';
 
 var moment = require('moment-timezone');
 const all_zones = moment.tz.names()
@@ -11,21 +11,38 @@ class SwitchZone extends Component {
 			timezone: moment.tz.guess()
 		}
 	}
-	handleChange = (option) => {
-		this.setState({timezone: option})
-		this.props.onChange(option);
+
+	generateZones (){
+            var rows = []
+            for (var zone of all_zones){
+                if (zone === moment.tz.guess()){
+                    rows.push(<option defaultValue value={zone}key={zone}> {zone} </option>)
+                }
+                else {
+                    rows.push(<option value={zone} key={zone}> {zone} </option>)
+                }
+            }
+            return(rows)
+        }
+
+	handleChange = (e) => {
+		this.setState({timezone: e.target.value})
+		this.props.onChange(e.target.value);
 	}
-	render(){
-		return(
-			<Select 
-			size="xsmall"
-			options={all_zones}
-			placeholder={moment.tz.guess()}
-			value={this.state.timezone}
-			onChange={({option}) => this.handleChange(option)}
-			/>
-			)
-	}
+
+	render() {
+        return (
+            <NativeSelect
+            name={this.props.name}
+            as={this.props.as}
+            className="Timezone"
+            value={this.state.timezone} 
+            onChange={(e) => this.handleChange(e)}
+            >
+            {this.generateZones()}
+            </NativeSelect>
+            )
+    }
 }
 
 export default SwitchZone

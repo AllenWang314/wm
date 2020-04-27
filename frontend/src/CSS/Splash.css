@@ -1,0 +1,127 @@
+.Splash {
+    text-align: center;
+     margin: auto;
+}
+.Bounds {
+    margin: 5px;
+    width:120px;
+}
+
+.Timezone {
+    width: 225px;
+    margin: 10px
+}
+
+.Input {
+    width: 225px;
+    margin: 10px; 
+}
+
+@media only screen and (max-width: 400px) {
+    .Splash {
+        width: 300px;
+    }
+}
+
+@media only screen and (min-width: 400px) {
+    .Splash {
+        width: 350px;
+    }
+}
+
+@media only screen and (min-width: 700px) {
+    .Splash {
+        width: 500px;
+    }
+
+}
+
+
+/*******************************/
+/*********TOP INPUT CSS*********/
+/*******************************/
+.form__group {
+    display: inline-block;
+    justify-content: center;
+    width: 75%;
+    padding-bottom: 10px;
+    font-family: inherit;
+}
+
+.form__field {
+    font-family: inherit;
+    width: 100%;
+    text-align: center;
+    border: 0;
+    border-bottom: 3px solid var(--gray);
+    outline: 0;
+    font-size: 1.3rem;
+    color: var(--white);
+    padding: 7px 0;
+    background: transparent;
+    transition: border-color 0.2s;
+    &::placeholder {
+        color: transparent;
+    }
+    &:placeholder-shown~.form__label {
+        font-size: 1.3rem;
+        cursor: text;
+        top: 20px;
+        padding-bottom: 6px;
+        font-weight: 700;
+    }
+}
+
+.form__label {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 1rem;
+    color: var(--gray);
+}
+
+.form__field:valid {
+    ~.form__label {
+        font-family: inherit;
+        position: absolute;
+        top: 0;
+        display: block;
+        transition: 0.2s;
+        font-size: 1rem;
+        color: var(--primary);
+        font-weight: 700;
+    }
+    font-family: inherit;
+    padding-bottom: 6px;
+    font-weight: 700;
+    border-width: 3px;
+    border-image: linear-gradient(to right, var(--primary), var(--secondary), var(--primary));
+    border-image-slice: 1;
+}
+
+.form__field:focus {
+    ~.form__label {
+        position: absolute;
+        font-family: inherit;
+        top: 0;
+        display: block;
+        transition: 0.2s;
+        font-size: 1rem;
+        color: var(--primary);
+        font-weight: 700;
+    }
+    padding-bottom: 6px;
+    font-weight: 700;
+    font-family: inherit;
+    border-width: 3px;
+    border-image: linear-gradient(to right, var(--primary), var(--secondary), var(--primary));
+    border-image-slice: 1;
+}
+
+.form__field {
+    &:required,
+    &:invalid {
+        box-shadow: none;
+    }
+}
