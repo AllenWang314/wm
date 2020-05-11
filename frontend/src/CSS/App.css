@@ -10,7 +10,7 @@ body.light-mode {
 }
 
 footer {
-  position: fixed;
+  position: relative;
   left: 0;
   padding: 10px;
   bottom: 0;

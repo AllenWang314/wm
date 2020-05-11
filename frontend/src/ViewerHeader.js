@@ -1,24 +1,81 @@
 import React, { Component } from "react";
+import sign_in_demo from './STATIC/sign_in_demo.gif';
+import select_times_demo from './STATIC/select_times_demo.gif';
+import copy_link_demo from './STATIC/copy_link_demo.gif';
+import view_availabilities_demo from './STATIC/view_availabilities_demo.gif';
 import { AppBar, Toolbar, Button, Tooltip, Dialog, DialogTitle, DialogContent,DialogActions, Snackbar, Link } from '@material-ui/core';
-import { Home, Help, Close,Link as LinkIcon } from '@material-ui/icons';
+import { Home, Help, Close, NavigateNext, Link as LinkIcon } from '@material-ui/icons';
 import copy from "copy-to-clipboard";
 
 class ViewerHeader extends Component {
 	constructor(props){
 		super(props)
-		this.state = {"openHelp" : false, "showLink": false}
+		this.state = {"openHelp" : false, "showLink": false, helpStatus: 0}
 	}
 
 
 	handleHelp = () =>{
-		this.setState({"openHelp": !this.state.openHelp})
+		this.setState({"openHelp": !this.state.openHelp, helpStatus: (this.state.openHelp)? 0 : 1})
 	}
 
 	handleLink = () => {
-		copy("localhost:3000/" + this.props.slug)
+		copy(window.location.href)
 		this.setState({"showLink": !this.state.showLink})
 	}
 
+	handleNext = () => {
+		this.setState({helpStatus: this.state.helpStatus + 1})
+	}
+
+	helpContent = () => {
+		switch (this.state.helpStatus) {
+			case (1):
+				return (
+					<div>
+						<div> 1. Sign in with optional password
+						</div>
+						<br />
+						<img src={sign_in_demo} />
+					</div>
+					);
+			case (2):
+				return (
+				<div>
+					<div> 2. Select available times
+					</div>
+					<br />
+					<img src={select_times_demo} />
+				</div>
+				);
+			case (3):
+				return (
+					<div>
+						<div> 3. Copy and send the link to friends and colleagues
+						</div>
+						<br />
+						<img src={copy_link_demo} />
+					</div>
+				);
+			case (4):
+				return (
+					<div>
+						<div> 4. Click to view availabilities
+						</div>
+						<br />
+						<img src={view_availabilities_demo} />
+					</div>
+				);
+			default:
+				return (
+				<div>
+					<div> 1. Sign in with optional password
+					</div>
+					<br />
+					<img src={sign_in_demo} />
+				</div>
+				);
+		}
+	}
 	render() {
 		return (
 			<div>
@@ -26,7 +83,7 @@ class ViewerHeader extends Component {
 				<Toolbar>
 					<Tooltip title="Go back to main page">
 				<Button >
-					<Link href={"localhost:3000/" + this.props.slug} color="inherit">
+					<Link href={"http://localhost:3000"} color="inherit">
 						<Home/>
 					</Link>
 				</Button>
@@ -47,12 +104,16 @@ class ViewerHeader extends Component {
 					<DialogTitle>
 					Help and Info
 					</DialogTitle>
-					<DialogContent>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sodales viverra velit, et accumsan risus tempus sed. Praesent hendrerit ut lorem eu maximus. Mauris quis tellus tristique, consequat erat eu, placerat lectus. Donec luctus lacinia nisi, vitae elementum ex blandit a. Proin congue interdum justo, quis semper lacus tincidunt id. Aliquam sit amet eros ut urna pretium consequat. Praesent vitae risus ante. Phasellus tincidunt consectetur mi commodo congue. Nam ut nisl dui. Curabitur tempus diam ut ex mollis, non maximus enim dapibus. Ut eu leo sed nunc consectetur molestie. Vivamus sodales tempor velit, vitae malesuada odio tristique vel. Mauris iaculis enim porta, ornare sem vitae, placerat libero. Suspendisse dictum enim vitae tellus ultrices, id varius orci rutrum.
+					<DialogContent>
+						{this.helpContent()}
 					</DialogContent>
 					<DialogActions>
-						<Button onClick={this.handleHelp} >
-							<Close colorPrimary/> Close
-						</Button>
+						{(this.state.helpStatus === 4)? (<Button onClick={this.handleHelp} >
+							<Close/> Close
+						</Button>) :
+						(<Button onClick ={this.handleNext} >
+							<NavigateNext/> Next
+						</Button>)}
 					</DialogActions>
 				</Dialog>
 				</div>

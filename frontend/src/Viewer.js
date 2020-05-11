@@ -4,7 +4,7 @@ import MasterSelector from "./MasterSelector.js";
 import { withRouter } from "react-router-dom";
 import SwitchZone from "./SwitchZone.js";
 import ViewerHeader from "./ViewerHeader.js";
-import { Button, TextField, Typography } from "@material-ui/core";
+import { Button, TextField, Typography, CircularProgress } from "@material-ui/core";
 
 const API_LINK = "http://localhost:8000/api/";
 
@@ -12,7 +12,7 @@ class Viewer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: {},
+            data: 0,
             name: "",
             event_name: "",
             submitted: false,
@@ -28,6 +28,7 @@ class Viewer extends Component {
             newUser: -1, // -1: not submitted yet, 0: not a new user, 1: yes new user
             help: false,
             adv_controls: false,
+            availabilities: [],
         };
     }
 
@@ -35,15 +36,16 @@ class Viewer extends Component {
         const slug = this.props.match.params.slug;
         Axios.get(API_LINK + slug).then((response) => {
             this.setState({
-                data: response.data[0],
-                event_name: response.data[0].event_name,
-                date_array: response.data[0].date_array,
-                name_array: response.data[0].name_array,
-                timezone: response.data[0].timezone,
-                slug: response.data[0].slug,
-                repeating: response.data[0].repeating,
-                earliest: response.data[0].earliest,
-                latest: response.data[0].latest,
+                data: response.data[0][0],
+                event_name: response.data[0][0].event_name,
+                date_array: response.data[0][0].date_array,
+                name_array: response.data[0][0].name_array,
+                timezone: response.data[0][0].timezone,
+                slug: response.data[0][0].slug,
+                repeating: response.data[0][0].repeating,
+                earliest: response.data[0][0].earliest,
+                latest: response.data[0][0].latest,
+                availabilities: response.data[1]
             });
         });
     }
@@ -65,15 +67,15 @@ class Viewer extends Component {
                 Axios.get(API_LINK + this.props.match.params.slug).then(
                     (response) => {
                         if (
-                            !response.data[0].name_array.includes(
+                            !response.data[0][0].name_array.includes(
                                 this.state.name
                             )
                         ) {
                             this.setState({ newUser: 1 });
-                            response.data[0].name_array.push(this.state.name);
+                            response.data[0][0].name_array.push(this.state.name);
                             Axios.put(
                                 API_LINK + this.props.match.params.slug,
-                                response.data[0]
+                                response.data[0][0]
                             ).then(() => {
                                 var hash = require("object-hash");
                                 const hash_result =
@@ -96,10 +98,10 @@ class Viewer extends Component {
                                 ).then(() => {
                                     this.setState({
                                         userIndex:
-                                            response.data[0].name_array.length -
+                                            response.data[0][0].name_array.length -
                                             1,
                                         submitted: true,
-                                        name_array: response.data[0].name_array,
+                                        name_array: response.data[0][0].name_array,
                                     });
                                 });
                             });
@@ -122,26 +124,26 @@ class Viewer extends Component {
                         Axios.get(API_LINK + this.props.match.params.slug).then(
                             (response) => {
                                 if (
-                                    !response.data[0].name_array.includes(
+                                    !response.data[0][0].name_array.includes(
                                         this.state.name
                                     )
                                 ) {
                                     this.setState({ newUser: 1 });
-                                    response.data[0].name_array.push(
+                                    response.data[0][0].name_array.push(
                                         this.state.name
                                     );
                                     Axios.put(
                                         API_LINK + this.props.match.params.slug,
-                                        response.data[0]
+                                        response.data[0][0]
                                     ).then(() => {
                                         if (this.state.userIndex === -1) {
                                             this.setState({
                                                 userIndex:
-                                                    response.data[0].name_array
+                                                    response.data[0][0].name_array
                                                         .length - 1,
                                                 submitted: true,
                                                 name_array:
-                                                    response.data[0].name_array,
+                                                    response.data[0][0].name_array,
                                             });
                                         }
                                     });
@@ -150,7 +152,7 @@ class Viewer extends Component {
                                     if (this.state.userIndex === -1) {
                                         var i = 0;
                                         let narray =
-                                            response.data[0].name_array;
+                                            response.data[0][0].name_array;
                                         while (
                                             i < narray.length &&
                                             narray[i] !== this.state.name
@@ -245,6 +247,7 @@ class Viewer extends Component {
                 name_array={this.state.name_array}
                 newUser={this.state.newUser}
                 userIndex={this.state.userIndex}
+                availabilities={this.state.availabilities}
             />
         );
     };
@@ -270,15 +273,24 @@ class Viewer extends Component {
     };
 
     render() {
-        return (
-            <div className="Splash">
-                <ViewerHeader slug={this.state.slug} />
-                {this.generateEventName()}
-                {this.generateSignIn()}
-                {this.generateContent()}
-                {this.generateNames()}
-            </div>
-        );
+        if (this.state.data === 0){
+            return(
+                <div className = "Loading">
+                    <CircularProgress/>
+                </div>
+            );
+        }
+        else {
+            return (
+                <div className="Splash">
+                    <ViewerHeader slug={this.state.slug} />
+                    {this.generateEventName()}
+                    {this.generateSignIn()}
+                    {this.generateContent()}
+                    {this.generateNames()}
+                </div>
+            );
+        }
     }
 }
 

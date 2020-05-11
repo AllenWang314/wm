@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import TimeSelector from "./TimeSelectorFinal.js";
 import Availability from "./AvailabilityDisplay.js"
 
-import Axios from "axios";
-
 var moment = require('moment-timezone');
 moment().utc();
 
@@ -23,7 +21,7 @@ class MasterSelector extends Component {
     constructor(props) {
         super(props);
         this.state = {
-        availabilities: this.props.name_array.map(() => {return []}),
+        availabilities: this.props.availabilities,
         labels: [],
         label_cells: [],
         times: [],
@@ -34,12 +32,6 @@ class MasterSelector extends Component {
         await this.generateLabels()
         await this.generateTimes()
         await this.setState({loaded: true})
-        // here we need to get all availabilites at once
-            await Axios.get("http://localhost:8000/api/availabilities/" + this.props.slug).then((response) => {
-                this.setState({availabilities: response.data});
-            }).catch((error) => {
-                console.log(error.response);
-            });
     }
 
     async componentDidUpdate(prevProps){

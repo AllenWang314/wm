@@ -25,7 +25,7 @@ class App extends Component {
   }
 
   onToggle = (e) => {
-    this.setState({"dark": !this.state.dark},() => console.log(this.state))
+    this.setState({"dark": !this.state.dark})
     localStorage.setItem('darkMode', !this.state.dark);
   }
   render() {
