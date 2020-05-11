@@ -34,15 +34,12 @@ class MasterSelector extends Component {
         await this.generateLabels()
         await this.generateTimes()
         await this.setState({loaded: true})
-        for (let i = 0; i < this.props.name_array.length; i++){
-            await Axios.get("http://localhost:8000/api/times/" + this.props.slug + "%" + this.props.name_array[i]).then((response) => {
-                const updatedAvailabilities = [...this.state.availabilities];
-                updatedAvailabilities[i] = response.data.times_array;
-                this.setState({availabilities: updatedAvailabilities});
+        // here we need to get all availabilites at once
+            await Axios.get("http://localhost:8000/api/availabilities/" + this.props.slug).then((response) => {
+                this.setState({availabilities: response.data});
             }).catch((error) => {
                 console.log(error.response);
             });
-        }
     }
 
     async componentDidUpdate(prevProps){

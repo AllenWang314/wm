@@ -8,6 +8,7 @@ urlpatterns = [
     path('api/post-times/', views.post_time),
     path('api/', views.all_events),
     path('api/times', views.all_times),
+    path('api/availabilities/<pkey>', views.get_availabilities),
     path('api/passwords', views.all_passwords),
     path('api/post-password/', views.post_password),
     path('api/password/<pkey>', views.get_password),

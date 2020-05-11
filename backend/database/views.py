@@ -96,7 +96,6 @@ def get_slug(request, format = None):
 
 @api_view(['GET'])
 def get_password(request, pkey, format = None):
-	print("pkey is " + str(pkey))
 	try:
 		item = passwords.objects.get(pk = pkey) # take advantage of primary key here
 	except passwords.DoesNotExist:
@@ -122,4 +121,18 @@ def all_passwords(request, format = None):
 	if request.method == "GET":
 		serializer = PasswordSerializer(items, many=True)
 		return Response(serializer.data)
+	return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def get_availabilities(request, pkey, format = None):
+	availabilities_array = []
+	try:
+		items = event.objects.filter(slug = pkey)
+		for name in items[0].name_array:
+			item = times.objects.get(pk = (pkey + "%" + name))
+			availabilities_array.append(item.times_array)
+	except event.DoesNotExist:
+		return Response(status=status.HTTP_404_NOT_FOUND)
+	if request.method == "GET":
+		return Response(availabilities_array)
 	return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
