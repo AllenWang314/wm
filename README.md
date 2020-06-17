@@ -23,13 +23,34 @@ To get the dependencies, run `npm install package.json`. Odds are you'll still g
 Contains the main app. Note the use of Router with Switch to deal with the routing.
 
 ##### Splash.js
-Contains the front page of the site. Currently, the React is all barebones, but note the use of Formik in order to deal with all the `handleChange` and `handleSubmit`, as it's a horrible pain to write separate handlers for each of them. The page automatically pulls a slug on startup, generated server-side, and uses that to do the redirects.
+Contains the front page of the site. Uses of Formik in order to deal with all the `handleChange` and `handleSubmit`, as it's a horrible pain to write separate handlers for each of them. The page automatically pulls a slug on startup, generated server-side, and uses that to do the redirects.
 
 ##### Viewer.js
-Shows all the data, and will contain the grid. Not that much right now. 
+Shows all the data, schedule, and availabilities.
 
 # Some Samples
 
-<img src="/readme_img/light_mode_home.png" width="48">
-<img src="/readme_img/dark_mode_home.png" width="48">
+##### Homepage
+
+<img src="/readme_img/light_mode_home.png" height="400"> &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<img src="/readme_img/dark_mode_home.png" height="400">
+
+##### Homepage with Input
+
+<img src="/readme_img/highlighted_dates.png" height="400">
+
+##### Sign In
+
+<img src="/readme_img/sign_in.png" height="100">
+
+##### Availabilities
+
+<img src="/readme_img/availabilities.png" height="400"> &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<img src="/readme_img/availabilities_close_up.png" height="400">
+
+##### Demo
+
+<img src="/readme_img/demo.png" height="400">
+
+##### Copy Link
+
+<img src="/readme_img/copy_link.png" height="400">
 
