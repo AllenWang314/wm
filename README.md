@@ -30,16 +30,9 @@ Shows all the data, schedule, and availabilities.
 
 # Some Samples
 
-<<<<<<< HEAD
-##### Home: light and dark mode
+##### Homepage: light and dark mode
 
-<img src="/readme_img/light_mode_home.png">
-
-![some image](/readme_img/dark_mode_home.png)
-=======
-##### Homepage
-
-<img src="/readme_img/light_mode_home.png" height="400"> &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<img src="/readme_img/dark_mode_home.png" height="400">
+<img src="/readme_img/light_mode_home.png" height="400"> &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<img src="/readme_img/dark_mode_home.png" height="400">
 
 ##### Homepage with Input
 
@@ -60,5 +53,3 @@ Shows all the data, schedule, and availabilities.
 ##### Copy Link
 
 <img src="/readme_img/copy_link.png" height="400">
-
->>>>>>> 432d98caf619090780e3a4c5d989f1a10d70c892
