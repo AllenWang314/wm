@@ -30,4 +30,8 @@ Shows all the data, and will contain the grid. Not that much right now.
 
 # Some Samples
 
-![some image](/readme_img/demo.png)
+##### Home: light and dark mode
+
+<img src="/readme_img/light_mode_home.png">
+
+![some image](/readme_img/dark_mode_home.png)
