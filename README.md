@@ -30,3 +30,4 @@ Shows all the data, and will contain the grid. Not that much right now.
 
 # Some Samples
 
+![some image](/readme_img/demo.png)
