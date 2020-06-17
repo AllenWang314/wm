@@ -28,5 +28,5 @@ Contains the front page of the site. Currently, the React is all barebones, but 
 ##### Viewer.js
 Shows all the data, and will contain the grid. Not that much right now. 
 
-##### Notes
-Wendy and I agree with React sucks. Help. 
+# Some Samples
+
