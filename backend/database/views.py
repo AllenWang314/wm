@@ -39,7 +39,7 @@ def event_info(request, page_slug, format = None):
 		return Response(status=status.HTTP_404_NOT_FOUND)
 	if request.method == "GET":
 		serializer = DatabaseSerializer(items, many=True)
-		return Response(serializer.data)
+		return Response([serializer.data, get_availabilities_helper(page_slug)])
 	elif request.method == 'POST' or request.method == 'PUT':
 		serializer = DatabaseSerializer(items.first(), data=request.data)
 		if serializer.is_valid():
@@ -136,3 +136,15 @@ def get_availabilities(request, pkey, format = None):
 	if request.method == "GET":
 		return Response(availabilities_array)
 	return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+def get_availabilities_helper(pkey):
+	availabilities_array = []
+	try:
+		items = event.objects.filter(slug = pkey)
+		for name in items[0].name_array:
+			item = times.objects.get(pk = (pkey + "%" + name))
+			availabilities_array.append(item.times_array)
+	except event.DoesNotExist:
+		return Response(status=status.HTTP_404_NOT_FOUND)
+	print(availabilities_array)
+	return availabilities_array
