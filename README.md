@@ -28,28 +28,6 @@ Contains the front page of the site. Uses of Formik in order to deal with all th
 ##### Viewer.js
 Shows all the data, schedule, and availabilities.
 
-# Some Samples
-
 ##### Homepage: light and dark mode
 
 <img src="/readme_img/light_mode_home.png" height="400"> &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<img src="/readme_img/dark_mode_home.png" height="400">
-
-##### Homepage with Input
-
-<img src="/readme_img/highlighted_dates.png" height="400">
-
-##### Sign In
-
-<img src="/readme_img/sign_in.png" height="100">
-
-##### Availabilities
-
-<img src="/readme_img/availabilities.png" height="400"> &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<img src="/readme_img/availabilities_close_up.png" height="400">
-
-##### Demo
-
-<img src="/readme_img/demo.png" height="400">
-
-##### Copy Link
-
-<img src="/readme_img/copy_link.png" height="400">
