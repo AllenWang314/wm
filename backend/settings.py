@@ -137,4 +137,4 @@ STATICFILES_DIRS = [
 
 STATIC_URL = "/static/"
 
-STATIC_ROOT = os.path.join(PROJECT_DIR, 'build/static')
+STATIC_ROOT = os.path.join('../build/static')
