@@ -8,9 +8,9 @@ import ByWeek from "./ByWeek.js";
 import Bounds from "./Bounds.js";
 import Timezone from "./Timezone.js";
 import { Button } from "@material-ui/core";
+import { getCookie } from "./Cookies.js"
 
-
-const API_LINK = "http://localhost:8000/api/";
+const API_LINK = process.env.BACKEND_URL || "http://localhost:8000/api/";
 const current_timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 class Splash extends Component {
@@ -27,6 +27,7 @@ class Splash extends Component {
     }
     async componentDidMount() {
         Axios.get(API_LINK + "get_slug").then((response) => {
+            console.log(response.data[0].slug)
             this.setState({ future_slug: response.data[0].slug });
         });
     }
@@ -58,7 +59,6 @@ class Splash extends Component {
                         },
                     })
                         .then((response) => {
-                            alert(JSON.stringify(values, null, 2));
                             this.props.history.push(values.slug);
                         })
                         .catch((error) => {

@@ -7,6 +7,8 @@ import { AppBar, Toolbar, Button, Tooltip, Dialog, DialogTitle, DialogContent,Di
 import { Home, Help, Close, NavigateNext, Link as LinkIcon } from '@material-ui/icons';
 import copy from "copy-to-clipboard";
 
+const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:8000";
+
 class ViewerHeader extends Component {
 	constructor(props){
 		super(props)
@@ -83,7 +85,7 @@ class ViewerHeader extends Component {
 				<Toolbar>
 					<Tooltip title="Go back to main page">
 				<Button >
-					<Link href={"http://localhost:3000"} color="inherit">
+					<Link href={FRONTEND_URL} color="inherit">
 						<Home/>
 					</Link>
 				</Button>

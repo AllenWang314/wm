@@ -70,6 +70,8 @@ def times_info(request, pkey, format = None):
 def post_event(request, format = None):
 	if request.method == 'POST':
 		serializer = DatabaseSerializer(event(), data=request.data)
+		print("data is ")
+		print(request.data)
 		if serializer.is_valid():
 			serializer.save()
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -88,6 +90,7 @@ def post_time(request, format = None):
 
 @api_view(['GET'])
 def get_slug(request, format = None):
+	print("hiii")
 	if request.method == 'GET':
 		field = [{'slug': unique_slug_gen()}]
 		serializer = SlugSerializer(field)

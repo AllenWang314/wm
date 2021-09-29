@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '4slsv1x40**md)p$l2z+01ucxte)*zumo6bu$o-uc!iz8$gp$m'
+SECRET_KEY = 'this is a super secret key'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.postgres.fields',
     'database.apps.DatabaseConfig',
     'rest_framework',
     'corsheaders',
@@ -53,17 +52,16 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ORIGIN_WHITELIST = (
-    'http://localhost:3000',
-    'http://localhost:8000'
-)
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:3000",
+]
 
 ROOT_URLCONF = 'backend.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['build'],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -85,10 +83,10 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'd6lqoiitncsquv',
-        'USER': 'rdoxrmzyghswth',
-        'PASSWORD': '5e8054c3d3974358588f3288b2961910011885ea0315b8889925c15c50554eb5',
-        'HOST': 'ec2-34-194-123-31.compute-1.amazonaws.com',
+        'NAME': 'namegoeshere',
+        'USER': 'usernamegoeshere',
+        'PASSWORD': 'somesecretpassword',
+        'HOST': 'usuallysomeipaddress.compute-1.amazonaws.com',
         'PORT': '5432'
     }
 }
@@ -130,9 +128,4 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATICFILES_DIRS = [
-  # Tell Django where to look for React's static files (css, js)
-  os.path.join(BASE_DIR, "build/static"),
-]
-
-STATIC_URL = "/static/"
+STATIC_URL = '/static/'
