@@ -23,6 +23,5 @@ def render_react(request):
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('database.urls')),
-    re_path(r"^$", render_react),
-    re_path(r"^(?:.*)/?$", render_react),
+    re_path(r"^(?!static)(?:.*)/?$", render_react),
 ]
