@@ -25,7 +25,7 @@ SECRET_KEY = '4slsv1x40**md)p$l2z+01ucxte)*zumo6bu$o-uc!iz8$gp$m'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost","whentomeetwm.herokuapp.com"]
+ALLOWED_HOSTS = ["localhost", "whentomeetwm.herokuapp.com"]
 
 
 # Application definition
@@ -132,9 +132,9 @@ USE_TZ = True
 
 STATICFILES_DIRS = [
   # Tell Django where to look for React's static files (css, js)
-  os.path.join("../build/static"),
+  os.path.join(BASE_DIR, "build/static"),
 ]
 
-STATIC_URL = "/static/"
+# STATIC_URL = "/static/"
 
 # STATIC_ROOT = os.path.join('../build/static')
