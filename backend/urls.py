@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include, re_path
 from django.shortcuts import render
+from django.conf.urls.static import static
+import backend.settings as settings
 
 def render_react(request):
     return render(request, "index.html")
@@ -23,6 +25,5 @@ def render_react(request):
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('database.urls')),
-    re_path(r"^$", render_react),
-    re_path(r"^(?:.*)/?$", render_react),
+    re_path(r"^(?!static)(?:.*)/?$", render_react),
 ]
