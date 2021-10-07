@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from .serializers import DatabaseSerializer, SlugSerializer, TimesSerializer, PasswordSerializer
 from rest_framework.parsers import JSONParser
 from django.utils.crypto import get_random_string
+import hashlib
 
 def unique_slug_gen():
 	found_unique = False
@@ -132,7 +133,8 @@ def get_availabilities(request, pkey, format = None):
 	try:
 		items = event.objects.filter(slug = pkey)
 		for name in items[0].name_array:
-			item = times.objects.get(pk = (pkey + "%" + name))
+			hash_object = hashlib.sha256((pkey + "%" + name).encode('utf-8'))
+			item = times.objects.get(pk = hash_object.hexdigest())
 			availabilities_array.append(item.times_array)
 	except event.DoesNotExist:
 		return Response(status=status.HTTP_404_NOT_FOUND)
@@ -145,7 +147,8 @@ def get_availabilities_helper(pkey):
 	try:
 		items = event.objects.filter(slug = pkey)
 		for name in items[0].name_array:
-			item = times.objects.get(pk = (pkey + "%" + name))
+			hash_object = hashlib.sha256((pkey + "%" + name).encode('utf-8'))
+			item = times.objects.get(pk = hash_object.hexdigest())
 			availabilities_array.append(item.times_array)
 	except event.DoesNotExist:
 		return Response(status=status.HTTP_404_NOT_FOUND)

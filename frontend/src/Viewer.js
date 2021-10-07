@@ -5,6 +5,7 @@ import { withRouter } from "react-router-dom";
 import SwitchZone from "./SwitchZone.js";
 import ViewerHeader from "./ViewerHeader.js";
 import { Button, TextField, Typography, CircularProgress } from "@material-ui/core";
+import { sha256 } from 'js-sha256';
 
 const API_LINK = process.env.REACT_APP_BACKEND_URL || "http://localhost:8000/api/";
 
@@ -82,9 +83,9 @@ class Viewer extends Component {
                                     "" + hash(this.state.password);
                                 const values = {
                                     snd_hash:
-                                        this.props.match.params.slug +
+                                        sha256(this.props.match.params.slug +
                                         "%" +
-                                        this.state.name,
+                                        this.state.name),
                                     password: hash_result,
                                 };
                                 Axios.post(
@@ -113,9 +114,9 @@ class Viewer extends Component {
             Axios.get(
                 API_LINK +
                     "password/" +
-                    this.props.match.params.slug +
+                    sha256(this.props.match.params.slug +
                     "%" +
-                    this.state.name
+                    this.state.name)
             ).then((rsp) => {
                 var hash = require("object-hash");
                 const hash_password = hash(this.state.password);

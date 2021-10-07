@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import TableDragSelect from "react-table-drag-select";
 import Axios from "axios";
+import { sha256 } from 'js-sha256';
 
 var moment = require('moment-timezone');
 moment().utc();
@@ -45,7 +46,7 @@ class TimeSelector extends Component {
 
     async componentDidUpdate(prevProps) {
         if (this.props.newUser !== prevProps.newUser && this.props.newUser === 1) {
-            const values = {snd_hash: (this.props.slug + "%" + this.props.name), times_array : []};
+            const values = {snd_hash: sha256(this.props.slug + "%" + this.props.name), times_array : []};
             Axios.post(`${API_LINK}post-times/`, values, {
                     headers: {
                         "Content-Type": "application/json"
@@ -53,7 +54,7 @@ class TimeSelector extends Component {
                 });
         }
         else if (this.props.newUser !== -1 && this.props.newUser !== prevProps.newUser){
-            Axios.get(`${API_LINK}times/` + this.props.slug + "%" + this.props.name).then((response) => {
+            Axios.get(`${API_LINK}times/` + sha256(this.props.slug + "%" + this.props.name)).then((response) => {
                 const prev_times = response.data.times_array;
                 const new_cells = this.state.cells;
                 for (var i = 0; i < prev_times.length; i++) {
@@ -141,9 +142,9 @@ class TimeSelector extends Component {
             }
             selected_times = selected_times.map(x => moment(x).valueOf())
 
-            Axios.get(`${API_LINK}times/` + this.props.slug + "%" + this.props.name).then((response) => {
+            Axios.get(`${API_LINK}times/` + sha256(this.props.slug + "%" + this.props.name)).then((response) => {
                 response.data.times_array = selected_times;
-                Axios.put(`${API_LINK}times/` + this.props.slug + "%" + this.props.name, response.data).then((response) => {
+                Axios.put(`${API_LINK}times/` + sha256(this.props.slug + "%" + this.props.name), response.data).then((response) => {
                     this.setState({ selected: selected_times });
                     this.props.handleAvail(selected_times);
                 });

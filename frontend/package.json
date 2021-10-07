@@ -19,6 +19,7 @@
     "grommet": "^2.11.3",
     "grommet-icons": "^4.4.0",
     "jquery": "^3.6.0",
+    "js-sha256": "^0.9.0",
     "material-ui": "^0.20.2",
     "mathjs": "^6.6.1",
     "moment": "^2.24.0",
