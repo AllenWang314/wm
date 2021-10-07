@@ -25,7 +25,7 @@ SECRET_KEY = '4slsv1x40**md)p$l2z+01ucxte)*zumo6bu$o-uc!iz8$gp$m'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "whentomeetwm.herokuapp.com"]
+ALLOWED_HOSTS = ["wm.allenwang314.com","localhost", "whentomeetwm.herokuapp.com"]
 
 
 # Application definition
