@@ -1,5 +1,5 @@
 # Backend
-Contains the Django database. The database app itself is called `Database`. Make sure to run the venv environment with `source venv/bin/activate`. 
+Contains the Django database. The database app itself is called `Database`. Make sure to run the venv environment with `source venv/bin/activate`. Try it out [here!](https://wm.allenwang314.com)
 
 ##### Models.py
 This file defines the database structure. If you edit this, you need to run `python manage.py makemigrations database` and then `python manage.py migrate` to propagate the changes. 
@@ -29,5 +29,7 @@ Contains the front page of the site. Uses of Formik in order to deal with all th
 Shows all the data, schedule, and availabilities.
 
 ##### Homepage: light and dark mode
+
+The app is deployed at [https://wm.allenwang314.com](https://wm.allenwang314.com).
 
 <img src="/readme_img/light_mode_home.png" height="400"> &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<img src="/readme_img/dark_mode_home.png" height="400">
