@@ -103,7 +103,7 @@ class Splash extends Component {
                             placeholder="At the earliest"
                             value={props.values.earliest}
                             onChange={(event) =>
-                                props.setFieldValue("earliest", event)
+                                props.setFieldValue("earliest", event.target.value)
                             }
                         />
                         </div>
@@ -117,7 +117,7 @@ class Splash extends Component {
                             value={props.values.latest}
                             placeholder="At the latest"
                             onChange={(event) =>
-                                props.setFieldValue("latest", event)
+                                props.setFieldValue("latest", event.target.value)
                             }
                         />
                         </div>
