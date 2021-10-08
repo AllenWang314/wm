@@ -32,4 +32,4 @@ Shows all the data, schedule, and availabilities.
 
 The app is deployed at [https://wm.allenwang314.com](https://wm.allenwang314.com).
 
-<img src="/readme_img/light_mode_home.png" height="400"> &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<img src="/readme_img/dark_mode_home.png" height="400">
+<img src="samples/light_mode_home.png" height="400"> &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<img src="samples/dark_mode_home.png" height="400">
