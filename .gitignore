@@ -3,5 +3,6 @@ node_modules/
 backend/settings.py
 __pycache__
 */__pycache__
-venv
+env
 settings
+build/
