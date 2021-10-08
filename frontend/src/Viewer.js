@@ -81,6 +81,7 @@ class Viewer extends Component {
                                 const hash_result =
                                     "" + hash(this.state.password);
                                 const values = {
+                                    // TODO: fix to use sha256
                                     snd_hash:
                                         this.props.match.params.slug +
                                         "%" +
@@ -110,6 +111,7 @@ class Viewer extends Component {
                 );
             });
         } else {
+            // TODO: fix to use sha256
             Axios.get(
                 API_LINK +
                     "password/" +
