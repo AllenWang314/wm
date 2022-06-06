@@ -6,7 +6,7 @@ import SwitchZone from "./SwitchZone.js";
 import ViewerHeader from "./ViewerHeader.js";
 import { Button, TextField, Typography, CircularProgress } from "@material-ui/core";
 
-const API_LINK = "http://localhost:8000/api/";
+const API_LINK = process.env.REACT_APP_BACKEND_URL ?? "http://localhost:8000/api/";
 
 class Viewer extends Component {
     constructor(props) {

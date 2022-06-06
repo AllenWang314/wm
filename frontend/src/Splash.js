@@ -10,7 +10,7 @@ import Timezone from "./Timezone.js";
 import { Button } from "@material-ui/core";
 import { getCookie } from "./Cookies.js"
 
-const API_LINK = process.env.REACT_APP_BACKEND_URL || "http://localhost:8000/api/";
+const API_LINK = process.env.REACT_APP_BACKEND_URL ?? "http://localhost:8000/api/";
 const current_timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 class Splash extends Component {
