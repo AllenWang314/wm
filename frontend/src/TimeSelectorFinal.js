@@ -5,7 +5,7 @@ import Axios from "axios";
 var moment = require('moment-timezone');
 moment().utc();
 
-const API_LINK = process.env.BACKEND_URL || "http://localhost:8000/api/";
+const API_LINK = process.env.REACT_APP_BACKEND_URL || "http://localhost:8000/api/";
 
 function genFalseArray(length, width) {
     const rows = []

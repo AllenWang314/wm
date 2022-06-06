@@ -7,7 +7,7 @@ import { AppBar, Toolbar, Button, Tooltip, Dialog, DialogTitle, DialogContent,Di
 import { Home, Help, Close, NavigateNext, Link as LinkIcon } from '@material-ui/icons';
 import copy from "copy-to-clipboard";
 
-const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:8000";
+const FRONTEND_URL = process.env.REACT_APP_FRONTEND_URL || "http://localhost:8000";
 
 class ViewerHeader extends Component {
 	constructor(props){
