@@ -84,7 +84,7 @@ class Viewer extends Component {
                                     // TODO: fix to use sha256
                                     snd_hash:
                                         this.props.match.params.slug +
-                                        "%" +
+                                        "_" +
                                         this.state.name,
                                     password: hash_result,
                                 };
@@ -116,7 +116,7 @@ class Viewer extends Component {
                 API_LINK +
                     "password/" +
                     this.props.match.params.slug +
-                    "%" +
+                    "_" +
                     this.state.name
             ).then((rsp) => {
                 var hash = require("object-hash");

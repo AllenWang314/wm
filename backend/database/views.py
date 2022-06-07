@@ -132,7 +132,7 @@ def get_availabilities(request, pkey, format = None):
 	try:
 		items = event.objects.filter(slug = pkey)
 		for name in items[0].name_array:
-			item = times.objects.get(pk = (pkey + "%" + name)) # TODO: fix to use sha256
+			item = times.objects.get(pk = (pkey + "_" + name)) # TODO: fix to use sha256
 			availabilities_array.append(item.times_array)
 	except event.DoesNotExist:
 		return Response(status=status.HTTP_404_NOT_FOUND)
@@ -145,7 +145,7 @@ def get_availabilities_helper(pkey):
 	try:
 		items = event.objects.filter(slug = pkey)
 		for name in items[0].name_array:
-			item = times.objects.get(pk = (pkey + "%" + name)) # TODO: fix to use sha256
+			item = times.objects.get(pk = (pkey + "_" + name)) # TODO: fix to use sha256
 			availabilities_array.append(item.times_array)
 	except event.DoesNotExist:
 		return Response(status=status.HTTP_404_NOT_FOUND)

@@ -46,7 +46,7 @@ class TimeSelector extends Component {
     async componentDidUpdate(prevProps) {
         if (this.props.newUser !== prevProps.newUser && this.props.newUser === 1) {
             // TODO: fix to use sha256
-            const values = {snd_hash: (this.props.slug + "%" + this.props.name), times_array : []};
+            const values = {snd_hash: (this.props.slug + "_" + this.props.name), times_array : []};
             Axios.post(`${API_LINK}post-times/`, values, {
                     headers: {
                         "Content-Type": "application/json"
@@ -55,7 +55,7 @@ class TimeSelector extends Component {
         }
         else if (this.props.newUser !== -1 && this.props.newUser !== prevProps.newUser){
             // TODO: fix to use sha256
-            Axios.get(`${API_LINK}times/` + this.props.slug + "%" + this.props.name).then((response) => {
+            Axios.get(`${API_LINK}times/` + this.props.slug + "_" + this.props.name).then((response) => {
                 const prev_times = response.data.times_array;
                 const new_cells = this.state.cells;
                 for (var i = 0; i < prev_times.length; i++) {
@@ -143,10 +143,10 @@ class TimeSelector extends Component {
             }
             selected_times = selected_times.map(x => moment(x).valueOf())
             // TODO: fix to use sha256
-            Axios.get(`${API_LINK}times/` + this.props.slug + "%" + this.props.name).then((response) => {
+            Axios.get(`${API_LINK}times/` + this.props.slug + "_" + this.props.name).then((response) => {
                 response.data.times_array = selected_times;
                 // TODO: fix to use sha256
-                Axios.put(`${API_LINK}times/` + this.props.slug + "%" + this.props.name, response.data).then((response) => {
+                Axios.put(`${API_LINK}times/` + this.props.slug + "_" + this.props.name, response.data).then((response) => {
                     this.setState({ selected: selected_times });
                     this.props.handleAvail(selected_times);
                 });
